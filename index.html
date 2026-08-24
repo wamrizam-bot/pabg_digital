@@ -98,8 +98,11 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
+        
+        /* Teks Terma & Syarat (Justify / Rata Kiri Kanan) */
         .disclaimer-box {
-            text-align: left;
+            text-align: justify;
+            text-justify: inter-word;
             font-size: 13px;
             color: #444;
             background: #f9f9f9;
@@ -129,7 +132,7 @@
         }
         .footer-info {
             font-size: 11px;
-            color: #777;
+            color: #555;
             border-top: 1px solid #eee;
             padding-top: 10px;
             line-height: 1.4;
@@ -192,7 +195,8 @@
                 <button class="lang-btn" onclick="changeLang('th')">ไทย</button>
             </div>
 
-            <div class="modal-subtitle">PABG DIGITAL - TSF Tasyafinco</div>
+            <!-- Line Kuning: Diubah kepada PABG Digital - Padang Besar Go Digital -->
+            <div class="modal-subtitle" id="lineSubText">PABG Digital - Padang Besar Go Digital</div>
             
             <div class="disclaimer-box" id="disclaimerText">
                 PABG DIGITAL adalah platform direktori yang mempromosikan pelancongan dan perkhidmatan di Padang Besar, diselia di bawah naungan TSF Tasyafinco.<br><br>
@@ -203,10 +207,10 @@
             <!-- Butang Masuk -->
             <button id="enterBtnText" class="enter-btn" onclick="enterWebsite()">Saya Setuju & Teruskan</button>
 
-            <!-- Maklumat Di Bawah Butang -->
+            <!-- Bahagian Bawah (Bulatan Purple): Diubah kepada maklumat pengurusan & telefon -->
             <div class="footer-info" id="footerInfoText">
-                <strong>PABG DIGITAL - PADANG BESAR DIGITAL ONLINE</strong><br>
-                Diurus oleh TSF Tasyafinco - Sebarang pertanyaan sila hubungi +60145945953
+                Diurus oleh <strong>TSF TASYAFINCO</strong><br>
+                Sebarang pertanyaan sila hubungi <strong>+60145945953</strong>
             </div>
         </div>
     </div>
@@ -248,6 +252,7 @@
             event.target.classList.add('active');
 
             const title = document.getElementById('modalTitle');
+            const lineSub = document.getElementById('lineSubText');
             const disclaimer = document.getElementById('disclaimerText');
             const btn = document.getElementById('enterBtnText');
             const footer = document.getElementById('footerInfoText');
@@ -260,9 +265,10 @@
 
             if(lang === 'bm') {
                 title.innerText = "Terma & Syarat Penggunaan";
+                lineSub.innerText = "PABG Digital - Padang Besar Go Digital";
                 disclaimer.innerHTML = "PABG DIGITAL adalah platform direktori yang mempromosikan pelancongan dan perkhidmatan di Padang Besar, diselia di bawah naungan TSF Tasyafinco.<br><br>Direktori ini adalah percuma sepenuhnya kepada semua pengguna untuk mendapatkan maklumat perkhidmatan berkaitan, tanpa mengenakan sebarang caj atau mengambil sebarang komisen transaksi.<br><br>Dengan meneruskan, anda bersetuju membenarkan nombor telefon anda direkodkan serta dikongsikan kepada vendor pilihan bagi tujuan komunikasi dan tempahan.";
                 btn.innerText = "Saya Setuju & Teruskan";
-                footer.innerHTML = "<strong>PABG DIGITAL - PADANG BESAR DIGITAL ONLINE</strong><br>Diurus oleh TSF Tasyafinco - Sebarang pertanyaan sila hubungi +60145945953";
+                footer.innerHTML = "Diurus oleh <strong>TSF TASYAFINCO</strong><br>Sebarang pertanyaan sila hubungi <strong>+60145945953</strong>";
                 
                 srvTaxi.innerText = "Teksi Tempatan";
                 srvHotel.innerText = "Homestay & Hotel";
@@ -272,9 +278,10 @@
 
             } else if(lang === 'en') {
                 title.innerText = "Terms & Conditions of Use";
+                lineSub.innerText = "PABG Digital - Padang Besar Go Digital";
                 disclaimer.innerHTML = "PABG DIGITAL is a directory platform promoting tourism and services in Padang Besar, supervised under TSF Tasyafinco.<br><br>This directory is completely free for all users to obtain related service information, without charging any fees or taking any transaction commissions.<br><br>By proceeding, you agree to allow your phone number to be recorded and shared with selected vendors for communication and booking purposes.";
                 btn.innerText = "I Agree & Continue";
-                footer.innerHTML = "<strong>PABG DIGITAL - PADANG BESAR DIGITAL ONLINE</strong><br>Managed by TSF Tasyafinco - Any inquiries please contact +60145945953";
+                footer.innerHTML = "Managed by <strong>TSF TASYAFINCO</strong><br>Any inquiries please contact <strong>+60145945953</strong>";
                 
                 srvTaxi.innerText = "Local Taxi";
                 srvHotel.innerText = "Homestay & Hotel";
@@ -284,9 +291,10 @@
 
             } else if(lang === 'th') {
                 title.innerText = "ข้อกำหนดและเงื่อนไขการใช้งาน";
+                lineSub.innerText = "PABG Digital - Padang Besar Go Digital";
                 disclaimer.innerHTML = "PABG DIGITAL เป็นแพลตฟอร์มไดเรกทอรีที่ส่งเสริมการท่องเที่ยวและบริการในปาดังเบซาร์ ภายใต้การดูแลของ TSF Tasyafinco<br><br>ไดเรกทอรีนี้ให้บริการฟรีสำหรับผู้ใช้ทุกคนในการรับข้อมูลบริการที่เกี่ยวข้อง โดยไม่มีการเรียกเก็บค่าธรรมเนียมหรือคอมมิชชันใดๆ<br><br>การดำเนินการต่อถือว่าคุณยินยอมให้บันทึกและแบ่งปันหมายเลขโทรศัพท์ของคุณกับผู้ให้บริการที่คุณเลือกเพื่อการติดต่อและการจอง";
                 btn.innerText = "ฉันยอมรับและดำเนินการต่อ";
-                footer.innerHTML = "<strong>PABG DIGITAL - PADANG BESAR DIGITAL ONLINE</strong><br>บริหารจัดการโดย TSF Tasyafinco - สอบถามข้อมูลเพิ่มเติมโทร +60145945953";
+                footer.innerHTML = "บริหารจัดการโดย <strong>TSF TASYAFINCO</strong><br>สอบถามข้อมูลเพิ่มเติมโทร <strong>+60145945953</strong>";
                 
                 srvTaxi.innerText = "แท็กซี่ท้องถิ่น";
                 srvHotel.innerText = "โฮมสเตย์และโรงแรม";
@@ -297,7 +305,6 @@
         }
 
         function enterWebsite() {
-            // Tutup modal pop-up dan paparkan isi kandungan utama tanpa simpan memori
             document.getElementById('welcomeModal').style.display = 'none';
             document.getElementById('main-content').style.display = 'block';
         }
