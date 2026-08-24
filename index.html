@@ -297,16 +297,9 @@
         }
 
         function enterWebsite() {
+            // Tutup modal pop-up dan paparkan isi kandungan utama tanpa simpan memori
             document.getElementById('welcomeModal').style.display = 'none';
             document.getElementById('main-content').style.display = 'block';
-            localStorage.setItem('pabg_agreed', 'true');
-        }
-
-        window.onload = function() {
-            if(localStorage.getItem('pabg_agreed') === 'true') {
-                document.getElementById('welcomeModal').style.display = 'none';
-                document.getElementById('main-content').style.display = 'block';
-            }
         }
     </script>
 </body>
