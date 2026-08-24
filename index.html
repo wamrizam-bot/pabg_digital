@@ -39,15 +39,61 @@
             text-align: center;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
-        .modal-box h2 {
+        
+        /* Gaya Logo Teks Korporat Eksklusif */
+        .brand-logo {
+            font-size: 26px;
+            font-weight: 900;
+            letter-spacing: 1px;
             color: #1a2b4c;
             margin-bottom: 5px;
-            font-size: 20px;
         }
-        .modal-subtitle {
-            font-size: 12px;
-            color: #666;
+        .brand-logo span {
+            color: #ff7a00;
+        }
+        .brand-sub {
+            font-size: 13px;
+            font-weight: bold;
+            color: #c59b27;
+            letter-spacing: 3px;
             margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .modal-box h2 {
+            color: #1a2b4c;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        /* Pilihan Bahasa */
+        .lang-options {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        .lang-btn {
+            flex: 1;
+            padding: 8px;
+            border: 2px solid #1a2b4c;
+            background: #fff;
+            color: #1a2b4c;
+            font-weight: bold;
+            font-size: 13px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .lang-btn.active, .lang-btn:hover {
+            background: #1a2b4c;
+            color: #fff;
+        }
+
+        .modal-subtitle {
+            font-size: 11px;
+            color: #666;
+            margin-bottom: 12px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -60,7 +106,7 @@
             padding: 15px;
             border-radius: 8px;
             margin-bottom: 15px;
-            max-height: 180px;
+            max-height: 150px;
             overflow-y: auto;
             border: 1px solid #eee;
             line-height: 1.5;
@@ -102,10 +148,6 @@
             border-bottom: 2px solid #eee;
             margin-bottom: 20px;
         }
-        .header h1 {
-            color: #1a2b4c;
-            font-size: 24px;
-        }
         .services-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -134,25 +176,35 @@
 </head>
 <body>
 
-    <!-- MODAL POPUP TERMA & SYARAT -->
+    <!-- MODAL POPUP TERMA & PILIHAN BAHASA -->
     <div id="welcomeModal" class="modal-overlay">
         <div class="modal-box">
-            <h2>Terma & Syarat Penggunaan</h2>
-            <div class="modal-subtitle">PABG DIGITAL - TSF Tasyafinco</div>
+            <!-- Paparan Logo Korporat Teks -->
+            <div class="brand-logo">PAB<span>G</span></div>
+            <div class="brand-sub">DIGITAL</div>
             
-            <div class="disclaimer-box">
-                <p>PABG DIGITAL adalah platform direktori yang mempromosikan pelancongan dan perkhidmatan di Padang Besar, diselia di bawah naungan TSF Tasyafinco.</p>
-                <br>
-                <p>Direktori ini adalah percuma sepenuhnya kepada semua pengguna untuk mendapatkan maklumat perkhidmatan berkaitan, tanpa mengenakan sebarang caj atau mengambil sebarang komisen transaksi.</p>
-                <br>
-                <p>Dengan meneruskan, anda bersetuju membenarkan nombor telefon anda direkodkan serta dikongsikan kepada vendor pilihan bagi tujuan komunikasi dan tempahan.</p>
+            <h2 id="modalTitle">Terma & Syarat Penggunaan</h2>
+            
+            <!-- Pilihan Bahasa -->
+            <div class="lang-options">
+                <button class="lang-btn active" onclick="changeLang('bm')">BM</button>
+                <button class="lang-btn" onclick="changeLang('en')">ENG</button>
+                <button class="lang-btn" onclick="changeLang('th')">ไทย</button>
             </div>
 
-            <!-- Butang Masuk Terus Setuju -->
-            <button class="enter-btn" onclick="enterWebsite()">Saya Setuju & Teruskan</button>
+            <div class="modal-subtitle">PABG DIGITAL - TSF Tasyafinco</div>
+            
+            <div class="disclaimer-box" id="disclaimerText">
+                PABG DIGITAL adalah platform direktori yang mempromosikan pelancongan dan perkhidmatan di Padang Besar, diselia di bawah naungan TSF Tasyafinco.<br><br>
+                Direktori ini adalah percuma sepenuhnya kepada semua pengguna untuk mendapatkan maklumat perkhidmatan berkaitan, tanpa mengenakan sebarang caj atau mengambil sebarang komisen transaksi.<br><br>
+                Dengan meneruskan, anda bersetuju membenarkan nombor telefon anda direkodkan serta dikongsikan kepada vendor pilihan bagi tujuan komunikasi dan tempahan.
+            </div>
+
+            <!-- Butang Masuk -->
+            <button id="enterBtnText" class="enter-btn" onclick="enterWebsite()">Saya Setuju & Teruskan</button>
 
             <!-- Maklumat Di Bawah Butang -->
-            <div class="footer-info">
+            <div class="footer-info" id="footerInfoText">
                 <strong>PABG DIGITAL - PADANG BESAR DIGITAL ONLINE</strong><br>
                 Diurus oleh TSF Tasyafinco - Sebarang pertanyaan sila hubungi +60145945953
             </div>
@@ -162,31 +214,88 @@
     <!-- LAMAN UTAMA WEBSITE -->
     <div id="main-content">
         <div class="header">
-            <h1>PABG DIGITAL</h1>
-            <p style="font-size: 13px; color: #666;">Pusat Perkhidmatan Pelancongan & Sempadan Padang Besar</p>
+            <div class="brand-logo">PAB<span>G</span></div>
+            <div class="brand-sub">DIGITAL</div>
+            <p id="mainSubtitle" style="font-size: 13px; color: #666; margin-top: 5px;">Pusat Perkhidmatan Pelancongan & Sempadan Padang Besar</p>
         </div>
 
         <div class="services-grid">
             <div class="service-card" onclick="alert('Buka senarai Teksi')">
                 <span style="font-size: 30px;">🚖</span>
-                <h3>Teksi Tempatan</h3>
+                <h3 id="srvTaxi">Teksi Tempatan</h3>
             </div>
             <div class="service-card" onclick="alert('Buka senarai Homestay')">
                 <span style="font-size: 30px;">🏠</span>
-                <h3>Homestay & Hotel</h3>
+                <h3 id="srvHotel">Homestay & Hotel</h3>
             </div>
             <div class="service-card" onclick="alert('Buka senarai Kereta Sewa')">
                 <span style="font-size: 30px;">🚗</span>
-                <h3>Kereta Sewa</h3>
+                <h3 id="srvCar">Kereta Sewa</h3>
             </div>
             <div class="service-card" onclick="alert('Buka senarai Pemandu Pelancong')">
                 <span style="font-size: 30px;">🧭</span>
-                <h3>Pemandu Pelancong</h3>
+                <h3 id="srvGuide">Pemandu Pelancong</h3>
             </div>
         </div>
     </div>
 
     <script>
+        let currentLang = 'bm';
+
+        function changeLang(lang) {
+            currentLang = lang;
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const title = document.getElementById('modalTitle');
+            const disclaimer = document.getElementById('disclaimerText');
+            const btn = document.getElementById('enterBtnText');
+            const footer = document.getElementById('footerInfoText');
+
+            const srvTaxi = document.getElementById('srvTaxi');
+            const srvHotel = document.getElementById('srvHotel');
+            const srvCar = document.getElementById('srvCar');
+            const srvGuide = document.getElementById('srvGuide');
+            const mainSub = document.getElementById('mainSubtitle');
+
+            if(lang === 'bm') {
+                title.innerText = "Terma & Syarat Penggunaan";
+                disclaimer.innerHTML = "PABG DIGITAL adalah platform direktori yang mempromosikan pelancongan dan perkhidmatan di Padang Besar, diselia di bawah naungan TSF Tasyafinco.<br><br>Direktori ini adalah percuma sepenuhnya kepada semua pengguna untuk mendapatkan maklumat perkhidmatan berkaitan, tanpa mengenakan sebarang caj atau mengambil sebarang komisen transaksi.<br><br>Dengan meneruskan, anda bersetuju membenarkan nombor telefon anda direkodkan serta dikongsikan kepada vendor pilihan bagi tujuan komunikasi dan tempahan.";
+                btn.innerText = "Saya Setuju & Teruskan";
+                footer.innerHTML = "<strong>PABG DIGITAL - PADANG BESAR DIGITAL ONLINE</strong><br>Diurus oleh TSF Tasyafinco - Sebarang pertanyaan sila hubungi +60145945953";
+                
+                srvTaxi.innerText = "Teksi Tempatan";
+                srvHotel.innerText = "Homestay & Hotel";
+                srvCar.innerText = "Kereta Sewa";
+                srvGuide.innerText = "Pemandu Pelancong";
+                mainSub.innerText = "Pusat Perkhidmatan Pelancongan & Sempadan Padang Besar";
+
+            } else if(lang === 'en') {
+                title.innerText = "Terms & Conditions of Use";
+                disclaimer.innerHTML = "PABG DIGITAL is a directory platform promoting tourism and services in Padang Besar, supervised under TSF Tasyafinco.<br><br>This directory is completely free for all users to obtain related service information, without charging any fees or taking any transaction commissions.<br><br>By proceeding, you agree to allow your phone number to be recorded and shared with selected vendors for communication and booking purposes.";
+                btn.innerText = "I Agree & Continue";
+                footer.innerHTML = "<strong>PABG DIGITAL - PADANG BESAR DIGITAL ONLINE</strong><br>Managed by TSF Tasyafinco - Any inquiries please contact +60145945953";
+                
+                srvTaxi.innerText = "Local Taxi";
+                srvHotel.innerText = "Homestay & Hotel";
+                srvCar.innerText = "Car Rental";
+                srvGuide.innerText = "Tour Guide";
+                mainSub.innerText = "Padang Besar Tourism & Border Services Center";
+
+            } else if(lang === 'th') {
+                title.innerText = "ข้อกำหนดและเงื่อนไขการใช้งาน";
+                disclaimer.innerHTML = "PABG DIGITAL เป็นแพลตฟอร์มไดเรกทอรีที่ส่งเสริมการท่องเที่ยวและบริการในปาดังเบซาร์ ภายใต้การดูแลของ TSF Tasyafinco<br><br>ไดเรกทอรีนี้ให้บริการฟรีสำหรับผู้ใช้ทุกคนในการรับข้อมูลบริการที่เกี่ยวข้อง โดยไม่มีการเรียกเก็บค่าธรรมเนียมหรือคอมมิชชันใดๆ<br><br>การดำเนินการต่อถือว่าคุณยินยอมให้บันทึกและแบ่งปันหมายเลขโทรศัพท์ของคุณกับผู้ให้บริการที่คุณเลือกเพื่อการติดต่อและการจอง";
+                btn.innerText = "ฉันยอมรับและดำเนินการต่อ";
+                footer.innerHTML = "<strong>PABG DIGITAL - PADANG BESAR DIGITAL ONLINE</strong><br>บริหารจัดการโดย TSF Tasyafinco - สอบถามข้อมูลเพิ่มเติมโทร +60145945953";
+                
+                srvTaxi.innerText = "แท็กซี่ท้องถิ่น";
+                srvHotel.innerText = "โฮมสเตย์และโรงแรม";
+                srvCar.innerText = "รถเช่า";
+                srvGuide.innerText = "มัคคุเทศก์";
+                mainSub.innerText = "ศูนย์บริการท่องเที่ยวและชายแดนปาดังเบซาร์";
+            }
+        }
+
         function enterWebsite() {
             document.getElementById('welcomeModal').style.display = 'none';
             document.getElementById('main-content').style.display = 'block';
