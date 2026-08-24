@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PABG Digital - Padang Besar Gateway</title>
+    <style>
+        /* Gaya Asas & Moden */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #f4f7f6;
+            color: #333;
+        }
+
+        /* Modal Disclaimer & Pilihan Bahasa (Paparan Mula) */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+        .modal-box {
+            background: #ffffff;
+            width: 100%;
+            max-width: 420px;
+            padding: 30px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .modal-box h2 {
+            color: #1a2b4c;
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+        .modal-box p {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        .lang-options {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .lang-btn {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #1a2b4c;
+            background: #fff;
+            color: #1a2b4c;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .lang-btn.active, .lang-btn:hover {
+            background: #1a2b4c;
+            color: #fff;
+        }
+        .disclaimer-box {
+            text-align: left;
+            font-size: 12px;
+            color: #555;
+            background: #f9f9f9;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            max-height: 100px;
+            overflow-y: auto;
+        }
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .enter-btn {
+            width: 100%;
+            padding: 14px;
+            background: #cccccc;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: not-allowed;
+            transition: 0.3s;
+        }
+        .enter-btn.enabled {
+            background: #28a745;
+            cursor: pointer;
+        }
+        .enter-btn.enabled:hover {
+            background: #218838;
+        }
+
+        /* Kandungan Utama Website (Disorokkan sebelum setuju) */
+        #main-content {
+            display: none;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 2px solid #eee;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            color: #1a2b4c;
+            font-size: 24px;
+        }
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        .service-card {
+            background: #ffffff;
+            padding: 25px 15px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: transform 0.2s;
+            border: 1px solid #eee;
+        }
+        .service-card:hover {
+            transform: translateY(-5px);
+            border-color: #1a2b4c;
+        }
+        .service-card h3 {
+            font-size: 16px;
+            color: #1a2b4c;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MODAL DISCLAIMER & BAHASA -->
+    <div id="welcomeModal" class="modal-overlay">
+        <div class="modal-box">
+            <h2>PABG DIGITAL</h2>
+            <p>Sila pilih bahasa / Please select language / กรุณาเลือกภาษา</p>
+            
+            <div class="lang-options">
+                <button class="lang-btn active" onclick="selectLang('bm')">BM</button>
+                <button class="lang-btn" onclick="selectLang('en')">ENG</button>
+                <button class="lang-btn" onclick="selectLang('th')">ไทย</button>
+            </div>
+
+            <div class="disclaimer-box" id="disclaimerText">
+                <strong>Terma & Syarat:</strong> PABG Digital adalah platform direktori penghubung perkhidmatan komuniti di Padang Besar. Segala urus niaga dan keselamatan adalah di bawah tanggungjawab pengguna dan penyedia servis.
+            </div>
+
+            <div class="checkbox-container">
+                <input type="checkbox" id="agreeCheck" onclick="toggleEnterButton()">
+                <label for="agreeCheck">Saya bersetuju dengan terma & syarat.</label>
+            </div>
+
+            <button id="enterBtn" class="enter-btn" disabled onclick="enterWebsite()">Masuk / Enter</button>
+        </div>
+    </div>
+
+    <!-- LAMAN UTAMA WEBSITE -->
+    <div id="main-content">
+        <div class="header">
+            <h1>PABG DIGITAL</h1>
+            <p style="font-size: 13px; color: #666;">Pusat Perkhidmatan Pelancongan & Sempadan Padang Besar</p>
+        </div>
+
+        <div class="services-grid">
+            <div class="service-card" onclick="alert('Buka senarai Teksi')">
+                <span style="font-size: 30px;">🚖</span>
+                <h3>Teksi Tempatan</h3>
+            </div>
+            <div class="service-card" onclick="alert('Buka senarai Homestay')">
+                <span style="font-size: 30px;">🏠</span>
+                <h3>Homestay & Hotel</h3>
+            </div>
+            <div class="service-card" onclick="alert('Buka senarai Kereta Sewa')">
+                <span style="font-size: 30px;">🚗</span>
+                <h3>Kereta Sewa</h3>
+            </div>
+            <div class="service-card" onclick="alert('Buka senarai Pemandu Pelancong')">
+                <span style="font-size: 30px;">🧭</span>
+                <h3>Pemandu Pelancong</h3>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Logik Pilihan Bahasa & Terma
+        let currentLang = 'bm';
+
+        function selectLang(lang) {
+            currentLang = lang;
+            // Tukar gaya butang aktif
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Tukar teks disclaimer mengikut bahasa
+            const disc = document.getElementById('disclaimerText');
+            if(lang === 'bm') {
+                disc.innerHTML = "<strong>Terma & Syarat:</strong> PABG Digital adalah platform direktori penghubung perkhidmatan komuniti di Padang Besar. Segala urus niaga adalah di bawah tanggungjawab bersama.";
+            } else if(lang === 'en') {
+                disc.innerHTML = "<strong>Terms & Conditions:</strong> PABG Digital is a community service directory platform in Padang Besar. All transactions are under mutual responsibility.";
+            } else if(lang === 'th') {
+                disc.innerHTML = "<strong>เงื่อนไขและข้อกำหนด:</strong> PABG Digital เป็นแพลตฟอร์มไดเรกทอรีบริการชุมชนในปาดังเบซาร์";
+            }
+        }
+
+        function toggleEnterButton() {
+            const checkbox = document.getElementById('agreeCheck');
+            const btn = document.getElementById('enterBtn');
+            if(checkbox.checked) {
+                btn.removeAttribute('disabled');
+                btn.classList.add('enabled');
+            } else {
+                btn.setAttribute('disabled', 'true');
+                btn.classList.remove('enabled');
+            }
+        }
+
+        function enterWebsite() {
+            // Sembunyikan modal dan buka paparan utama
+            document.getElementById('welcomeModal').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+            
+            // Simpan status dalam pelayar supaya tak perlu keluar modal banyak kali
+            localStorage.setItem('pabg_agreed', 'true');
+        }
+
+        // Semak jika pengguna sudah pernah setuju sebelum ini
+        window.onload = function() {
+            if(localStorage.getItem('pabg_agreed') === 'true') {
+                document.getElementById('welcomeModal').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>
