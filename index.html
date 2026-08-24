@@ -195,19 +195,19 @@
                 <button class="lang-btn" onclick="changeLang('th')">ไทย</button>
             </div>
 
-            <!-- Line Kuning: Diubah kepada PABG Digital - Padang Besar Go Digital -->
+            <!-- Line Kuning -->
             <div class="modal-subtitle" id="lineSubText">PABG Digital - Padang Besar Go Digital</div>
             
             <div class="disclaimer-box" id="disclaimerText">
-                PABG DIGITAL adalah platform direktori yang mempromosikan pelancongan dan perkhidmatan di Padang Besar, diselia di bawah naungan TSF Tasyafinco.<br><br>
-                Direktori ini adalah percuma sepenuhnya kepada semua pengguna untuk mendapatkan maklumat perkhidmatan berkaitan, tanpa mengenakan sebarang caj atau mengambil sebarang komisen transaksi.<br><br>
+                PABG DIGITAL adalah platform direktori yang mempromosikan pelancongan dan perkhidmatan di PADANG BESAR, PERLIS, diselia oleh TSF Tasyafinco.<br><br>
+                Direktori ini adalah PERCUMA sepenuhnya kepada semua pengguna untuk mendapatkan maklumat perkhidmatan berkaitan, tanpa mengenakan sebarang caj atau mengambil sebarang komisen transaksi.<br><br>
                 Dengan meneruskan, anda bersetuju membenarkan nombor telefon anda direkodkan serta dikongsikan kepada vendor pilihan bagi tujuan komunikasi dan tempahan.
             </div>
 
             <!-- Butang Masuk -->
             <button id="enterBtnText" class="enter-btn" onclick="enterWebsite()">Saya Setuju & Teruskan</button>
 
-            <!-- Bahagian Bawah (Bulatan Purple): Diubah kepada maklumat pengurusan & telefon -->
+            <!-- Bahagian Bawah -->
             <div class="footer-info" id="footerInfoText">
                 Diurus oleh <strong>TSF TASYAFINCO</strong><br>
                 Sebarang pertanyaan sila hubungi <strong>+60145945953</strong>
@@ -236,9 +236,9 @@
                 <span style="font-size: 30px;">🚗</span>
                 <h3 id="srvCar">Kereta Sewa</h3>
             </div>
-            <div class="service-card" onclick="alert('Buka senarai Pemandu Pelancong')">
+            <div class="service-card" onclick="alert('Buka senarai Pemandu Sewa')">
                 <span style="font-size: 30px;">🧭</span>
-                <h3 id="srvGuide">Pemandu Pelancong</h3>
+                <h3 id="srvGuide">Pemandu Sewa</h3>
             </div>
         </div>
     </div>
@@ -266,40 +266,40 @@
             if(lang === 'bm') {
                 title.innerText = "Terma & Syarat Penggunaan";
                 lineSub.innerText = "PABG Digital - Padang Besar Go Digital";
-                disclaimer.innerHTML = "PABG DIGITAL adalah platform direktori yang mempromosikan pelancongan dan perkhidmatan di Padang Besar, diselia di bawah naungan TSF Tasyafinco.<br><br>Direktori ini adalah percuma sepenuhnya kepada semua pengguna untuk mendapatkan maklumat perkhidmatan berkaitan, tanpa mengenakan sebarang caj atau mengambil sebarang komisen transaksi.<br><br>Dengan meneruskan, anda bersetuju membenarkan nombor telefon anda direkodkan serta dikongsikan kepada vendor pilihan bagi tujuan komunikasi dan tempahan.";
+                disclaimer.innerHTML = "PABG DIGITAL adalah platform direktori yang mempromosikan pelancongan dan perkhidmatan di PADANG BESAR, PERLIS, diselia oleh TSF Tasyafinco.<br><br>Direktori ini adalah PERCUMA sepenuhnya kepada semua pengguna untuk mendapatkan maklumat perkhidmatan berkaitan, tanpa mengenakan sebarang caj atau mengambil sebarang komisen transaksi.<br><br>Dengan meneruskan, anda bersetuju membenarkan nombor telefon anda direkodkan serta dikongsikan kepada vendor pilihan bagi tujuan komunikasi dan tempahan.";
                 btn.innerText = "Saya Setuju & Teruskan";
                 footer.innerHTML = "Diurus oleh <strong>TSF TASYAFINCO</strong><br>Sebarang pertanyaan sila hubungi <strong>+60145945953</strong>";
                 
                 srvTaxi.innerText = "Teksi Tempatan";
                 srvHotel.innerText = "Homestay & Hotel";
                 srvCar.innerText = "Kereta Sewa";
-                srvGuide.innerText = "Pemandu Pelancong";
+                srvGuide.innerText = "Pemandu Sewa";
                 mainSub.innerText = "Pusat Perkhidmatan Pelancongan & Sempadan Padang Besar";
 
             } else if(lang === 'en') {
                 title.innerText = "Terms & Conditions of Use";
                 lineSub.innerText = "PABG Digital - Padang Besar Go Digital";
-                disclaimer.innerHTML = "PABG DIGITAL is a directory platform promoting tourism and services in Padang Besar, supervised under TSF Tasyafinco.<br><br>This directory is completely free for all users to obtain related service information, without charging any fees or taking any transaction commissions.<br><br>By proceeding, you agree to allow your phone number to be recorded and shared with selected vendors for communication and booking purposes.";
+                disclaimer.innerHTML = "PABG DIGITAL is a directory platform promoting tourism and services in PADANG BESAR, PERLIS, supervised by TSF Tasyafinco.<br><br>This directory is COMPLETELY FREE for all users to obtain related service information, without charging any fees or taking any transaction commissions.<br><br>By proceeding, you agree to allow your phone number to be recorded and shared with selected vendors for communication and booking purposes.";
                 btn.innerText = "I Agree & Continue";
                 footer.innerHTML = "Managed by <strong>TSF TASYAFINCO</strong><br>Any inquiries please contact <strong>+60145945953</strong>";
                 
                 srvTaxi.innerText = "Local Taxi";
                 srvHotel.innerText = "Homestay & Hotel";
                 srvCar.innerText = "Car Rental";
-                srvGuide.innerText = "Tour Guide";
+                srvGuide.innerText = "Rental Driver";
                 mainSub.innerText = "Padang Besar Tourism & Border Services Center";
 
             } else if(lang === 'th') {
                 title.innerText = "ข้อกำหนดและเงื่อนไขการใช้งาน";
                 lineSub.innerText = "PABG Digital - Padang Besar Go Digital";
-                disclaimer.innerHTML = "PABG DIGITAL เป็นแพลตฟอร์มไดเรกทอรีที่ส่งเสริมการท่องเที่ยวและบริการในปาดังเบซาร์ ภายใต้การดูแลของ TSF Tasyafinco<br><br>ไดเรกทอรีนี้ให้บริการฟรีสำหรับผู้ใช้ทุกคนในการรับข้อมูลบริการที่เกี่ยวข้อง โดยไม่มีการเรียกเก็บค่าธรรมเนียมหรือคอมมิชชันใดๆ<br><br>การดำเนินการต่อถือว่าคุณยินยอมให้บันทึกและแบ่งปันหมายเลขโทรศัพท์ของคุณกับผู้ให้บริการที่คุณเลือกเพื่อการติดต่อและการจอง";
+                disclaimer.innerHTML = "PABG DIGITAL เป็นแพลตฟอร์มไดเรกทอรีที่ส่งเสริมการท่องเที่ยวและบริการในปาดังเบซาร์ และเปอร์리스 ภายใต้การดูแลของ TSF Tasyafinco<br><br>ไดเรกทอรีนี้ให้บริการฟรีทั้งหมดสำหรับผู้ใช้ทุกคนในการรับข้อมูลบริการที่เกี่ยวข้อง โดยไม่มีการเรียกเก็บค่าธรรมเนียมหรือคอมมิชชันใดๆ<br><br>การดำเนินการต่อถือว่าคุณยินยอมให้บันทึกและแบ่งปันหมายเลขโทรศัพท์ของคุณกับผู้ให้บริการที่คุณเลือกเพื่อการติดต่อและการจอง";
                 btn.innerText = "ฉันยอมรับและดำเนินการต่อ";
                 footer.innerHTML = "บริหารจัดการโดย <strong>TSF TASYAFINCO</strong><br>สอบถามข้อมูลเพิ่มเติมโทร <strong>+60145945953</strong>";
                 
                 srvTaxi.innerText = "แท็กซี่ท้องถิ่น";
                 srvHotel.innerText = "โฮมสเตย์และโรงแรม";
                 srvCar.innerText = "รถเช่า";
-                srvGuide.innerText = "มัคคุเทศก์";
+                srvGuide.innerText = "พนักงานขับรถเช่า";
                 mainSub.innerText = "ศูนย์บริการท่องเที่ยวและชายแดนปาดังเบซาร์";
             }
         }
