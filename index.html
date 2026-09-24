@@ -1,313 +1,133 @@
 <!DOCTYPE html>
-<html lang="ms">
+<html lang="ms" data-theme="light">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PABG Digital - Padang Besar Gateway</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>PABG Digital - Padang Besar</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
+        :root {
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --accent-taxi: #f59e0b;
+            --accent-vendor: #8b5cf6;
+            --border-color: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --radius: 16px;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --border-color: #334155;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        body {
-            background-color: #f4f7f6;
-            color: #333;
+            font-family: 'Nunito', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* Modal Popup & Terma */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 1000;
-            padding: 20px;
-        }
-        .modal-box {
-            background: #ffffff;
-            width: 100%;
-            max-width: 440px;
-            padding: 25px;
-            border-radius: 16px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-        
-        /* Gaya Logo Teks Korporat Eksklusif */
-        .brand-logo {
-            font-size: 26px;
-            font-weight: 900;
-            letter-spacing: 1px;
-            color: #1a2b4c;
-            margin-bottom: 5px;
-        }
-        .brand-logo span {
-            color: #ff7a00;
-        }
-        .brand-sub {
-            font-size: 13px;
-            font-weight: bold;
-            color: #c59b27;
-            letter-spacing: 3px;
-            margin-bottom: 15px;
-            text-transform: uppercase;
+            min-height: 100vh;
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
         }
 
-        .modal-box h2 {
-            color: #1a2b4c;
-            margin-bottom: 10px;
-            font-size: 18px;
-        }
-        
-        /* Pilihan Bahasa */
-        .lang-options {
+        .app-container {
+            width: 100%;
+            max-width: 480px;
+            height: 100vh;
+            max-height: 900px;
+            background-color: var(--card-bg);
+            box-shadow: var(--shadow);
             display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 15px;
-        }
-        .lang-btn {
-            flex: 1;
-            padding: 8px;
-            border: 2px solid #1a2b4c;
-            background: #fff;
-            color: #1a2b4c;
-            font-weight: bold;
-            font-size: 13px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .lang-btn.active, .lang-btn:hover {
-            background: #1a2b4c;
-            color: #fff;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
         }
 
-        .modal-subtitle {
-            font-size: 11px;
-            color: #666;
-            margin-bottom: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        /* Teks Terma & Syarat (Justify / Rata Kiri Kanan) */
-        .disclaimer-box {
-            text-align: justify;
-            text-justify: inter-word;
-            font-size: 13px;
-            color: #444;
-            background: #f9f9f9;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            max-height: 150px;
-            overflow-y: auto;
-            border: 1px solid #eee;
-            line-height: 1.5;
-        }
-        .enter-btn {
-            width: 100%;
-            padding: 14px;
-            background: #00875a;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-            margin-bottom: 15px;
-        }
-        .enter-btn:hover {
-            background: #006644;
-        }
-        .footer-info {
-            font-size: 11px;
-            color: #555;
-            border-top: 1px solid #eee;
-            padding-top: 10px;
-            line-height: 1.4;
+        @media (min-width: 481px) {
+            .app-container {
+                height: 85vh;
+                border-radius: 24px;
+                border: 1px solid var(--border-color);
+            }
         }
 
-        /* Kandungan Utama Website */
-        #main-content {
+        .screen {
             display: none;
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
+            flex-direction: column;
+            height: 100%;
+            padding: 24px;
+            overflow-y: auto;
         }
-        .header {
-            text-align: center;
-            padding: 20px 0;
-            border-bottom: 2px solid #eee;
-            margin-bottom: 20px;
+
+        .screen.active {
+            display: flex;
         }
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
+
+        h1, h2, h3 {
+            font-family: 'Baloo 2', cursive;
         }
-        .service-card {
-            background: #ffffff;
-            padding: 25px 15px;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            cursor: pointer;
-            transition: transform 0.2s;
-            border: 1px solid #eee;
-        }
-        .service-card:hover {
-            transform: translateY(-5px);
-            border-color: #1a2b4c;
-        }
-        .service-card h3 {
+
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: var(--radius);
             font-size: 16px;
-            color: #1a2b4c;
-            margin-top: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            text-align: center;
+            width: 100%;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-taxi {
+            background-color: var(--accent-taxi);
+            color: #000;
+        }
+
+        .btn-vendor {
+            background-color: var(--accent-vendor);
         }
     </style>
 </head>
 <body>
-
-    <!-- MODAL POPUP TERMA & PILIHAN BAHASA -->
-    <div id="welcomeModal" class="modal-overlay">
-        <div class="modal-box">
-            <!-- Paparan Logo Korporat Teks -->
-            <div class="brand-logo">PAB<span>G</span></div>
-            <div class="brand-sub">DIGITAL</div>
-            
-            <h2 id="modalTitle">Terma & Syarat Penggunaan</h2>
-            
-            <!-- Pilihan Bahasa -->
-            <div class="lang-options">
-                <button class="lang-btn active" onclick="changeLang('bm')">BM</button>
-                <button class="lang-btn" onclick="changeLang('en')">ENG</button>
-                <button class="lang-btn" onclick="changeLang('th')">ไทย</button>
-            </div>
-
-            <!-- Line Kuning -->
-            <div class="modal-subtitle" id="lineSubText">PABG Digital - Padang Besar Go Digital</div>
-            
-            <div class="disclaimer-box" id="disclaimerText">
-                PABG DIGITAL adalah platform direktori yang mempromosikan pelancongan dan perkhidmatan di PADANG BESAR, PERLIS, diselia oleh TSF Tasyafinco.<br><br>
-                Direktori ini adalah PERCUMA sepenuhnya kepada semua pengguna untuk mendapatkan maklumat perkhidmatan berkaitan, tanpa mengenakan sebarang caj atau mengambil sebarang komisen transaksi.<br><br>
-                Dengan meneruskan, anda bersetuju membenarkan nombor telefon anda direkodkan serta dikongsikan kepada vendor pilihan bagi tujuan komunikasi dan tempahan.
-            </div>
-
-            <!-- Butang Masuk -->
-            <button id="enterBtnText" class="enter-btn" onclick="enterWebsite()">Saya Setuju & Teruskan</button>
-
-            <!-- Bahagian Bawah -->
-            <div class="footer-info" id="footerInfoText">
-                Diurus oleh <strong>TSF TASYAFINCO</strong><br>
-                Sebarang pertanyaan sila hubungi <strong>+60145945953</strong>
+    <div class="app-container">
+        <!-- Skrin Mula / Utama -->
+        <div id="screen-start" class="screen active">
+            <h1 style="font-size: 32px; text-align: center; margin-top: 40px; color: var(--primary);">PABG Digital</h1>
+            <p style="text-align: center; color: var(--text-muted); margin-bottom: 40px;">Direktori Tempatan Padang Besar, Perlis</p>
+            <div style="margin: auto 0; display: flex; flex-direction: column; gap: 16px;">
+                <button class="btn btn-taxi" onclick="alert('Mod Pelawat Dipilih')">Masuk Sebagai Pelawat</button>
+                <button class="btn btn-vendor" onclick="alert('Mod Vendor Dipilih')">Masuk Sebagai Vendor</button>
             </div>
         </div>
     </div>
-
-    <!-- LAMAN UTAMA WEBSITE -->
-    <div id="main-content">
-        <div class="header">
-            <div class="brand-logo">PAB<span>G</span></div>
-            <div class="brand-sub">DIGITAL</div>
-            <p id="mainSubtitle" style="font-size: 13px; color: #666; margin-top: 5px;">Pusat Perkhidmatan Pelancongan & Sempadan Padang Besar</p>
-        </div>
-
-        <div class="services-grid">
-            <div class="service-card" onclick="alert('Buka senarai Teksi')">
-                <span style="font-size: 30px;">🚖</span>
-                <h3 id="srvTaxi">Teksi Tempatan</h3>
-            </div>
-            <div class="service-card" onclick="alert('Buka senarai Homestay')">
-                <span style="font-size: 30px;">🏠</span>
-                <h3 id="srvHotel">Homestay & Hotel</h3>
-            </div>
-            <div class="service-card" onclick="alert('Buka senarai Kereta Sewa')">
-                <span style="font-size: 30px;">🚗</span>
-                <h3 id="srvCar">Kereta Sewa</h3>
-            </div>
-            <div class="service-card" onclick="alert('Buka senarai Pemandu Sewa')">
-                <span style="font-size: 30px;">🧭</span>
-                <h3 id="srvGuide">Pemandu Sewa</h3>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        let currentLang = 'bm';
-
-        function changeLang(lang) {
-            currentLang = lang;
-            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-
-            const title = document.getElementById('modalTitle');
-            const lineSub = document.getElementById('lineSubText');
-            const disclaimer = document.getElementById('disclaimerText');
-            const btn = document.getElementById('enterBtnText');
-            const footer = document.getElementById('footerInfoText');
-
-            const srvTaxi = document.getElementById('srvTaxi');
-            const srvHotel = document.getElementById('srvHotel');
-            const srvCar = document.getElementById('srvCar');
-            const srvGuide = document.getElementById('srvGuide');
-            const mainSub = document.getElementById('mainSubtitle');
-
-            if(lang === 'bm') {
-                title.innerText = "Terma & Syarat Penggunaan";
-                lineSub.innerText = "PABG Digital - Padang Besar Go Digital";
-                disclaimer.innerHTML = "PABG DIGITAL adalah platform direktori yang mempromosikan pelancongan dan perkhidmatan di PADANG BESAR, PERLIS, diselia oleh TSF Tasyafinco.<br><br>Direktori ini adalah PERCUMA sepenuhnya kepada semua pengguna untuk mendapatkan maklumat perkhidmatan berkaitan, tanpa mengenakan sebarang caj atau mengambil sebarang komisen transaksi.<br><br>Dengan meneruskan, anda bersetuju membenarkan nombor telefon anda direkodkan serta dikongsikan kepada vendor pilihan bagi tujuan komunikasi dan tempahan.";
-                btn.innerText = "Saya Setuju & Teruskan";
-                footer.innerHTML = "Diurus oleh <strong>TSF TASYAFINCO</strong><br>Sebarang pertanyaan sila hubungi <strong>+60145945953</strong>";
-                
-                srvTaxi.innerText = "Teksi Tempatan";
-                srvHotel.innerText = "Homestay & Hotel";
-                srvCar.innerText = "Kereta Sewa";
-                srvGuide.innerText = "Pemandu Sewa";
-                mainSub.innerText = "Pusat Perkhidmatan Pelancongan & Sempadan Padang Besar";
-
-            } else if(lang === 'en') {
-                title.innerText = "Terms & Conditions of Use";
-                lineSub.innerText = "PABG Digital - Padang Besar Go Digital";
-                disclaimer.innerHTML = "PABG DIGITAL is a directory platform promoting tourism and services in PADANG BESAR, PERLIS, supervised by TSF Tasyafinco.<br><br>This directory is COMPLETELY FREE for all users to obtain related service information, without charging any fees or taking any transaction commissions.<br><br>By proceeding, you agree to allow your phone number to be recorded and shared with selected vendors for communication and booking purposes.";
-                btn.innerText = "I Agree & Continue";
-                footer.innerHTML = "Managed by <strong>TSF TASYAFINCO</strong><br>Any inquiries please contact <strong>+60145945953</strong>";
-                
-                srvTaxi.innerText = "Local Taxi";
-                srvHotel.innerText = "Homestay & Hotel";
-                srvCar.innerText = "Car Rental";
-                srvGuide.innerText = "Rental Driver";
-                mainSub.innerText = "Padang Besar Tourism & Border Services Center";
-
-            } else if(lang === 'th') {
-                title.innerText = "ข้อกำหนดและเงื่อนไขการใช้งาน";
-                lineSub.innerText = "PABG Digital - Padang Besar Go Digital";
-                disclaimer.innerHTML = "PABG DIGITAL เป็นแพลตฟอร์มไดเรกทอรีที่ส่งเสริมการท่องเที่ยวและบริการในปาดังเบซาร์ และเปอร์리스 ภายใต้การดูแลของ TSF Tasyafinco<br><br>ไดเรกทอรีนี้ให้บริการฟรีทั้งหมดสำหรับผู้ใช้ทุกคนในการรับข้อมูลบริการที่เกี่ยวข้อง โดยไม่มีการเรียกเก็บค่าธรรมเนียมหรือคอมมิชชันใดๆ<br><br>การดำเนินการต่อถือว่าคุณยินยอมให้บันทึกและแบ่งปันหมายเลขโทรศัพท์ของคุณกับผู้ให้บริการที่คุณเลือกเพื่อการติดต่อและการจอง";
-                btn.innerText = "ฉันยอมรับและดำเนินการต่อ";
-                footer.innerHTML = "บริหารจัดการโดย <strong>TSF TASYAFINCO</strong><br>สอบถามข้อมูลเพิ่มเติมโทร <strong>+60145945953</strong>";
-                
-                srvTaxi.innerText = "แท็กซี่ท้องถิ่น";
-                srvHotel.innerText = "โฮมสเตย์และโรงแรม";
-                srvCar.innerText = "รถเช่า";
-                srvGuide.innerText = "พนักงานขับรถเช่า";
-                mainSub.innerText = "ศูนย์บริการท่องเที่ยวและชายแดนปาดังเบซาร์";
-            }
-        }
-
-        function enterWebsite() {
-            document.getElementById('welcomeModal').style.display = 'none';
-            document.getElementById('main-content').style.display = 'block';
-        }
-    </script>
 </body>
 </html>
