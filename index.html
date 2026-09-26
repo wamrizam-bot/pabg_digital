@@ -448,20 +448,32 @@ const CATCOLOR = {taxi:'#412402', home:'#04342C', car:'#4A1B0C', driver:'#26215C
 let leafletMap = null, markerLayer = null;
 function initMap(){
   if(leafletMap) return;
-  leafletMap = L.map('leaflet-map', {zoomControl:false, attributionControl:false}).setView([6.4667, 100.3050], 12);
+  const zoneBounds = L.latLngBounds([6.40, 100.10], [6.78, 100.36]);
+  leafletMap = L.map('leaflet-map', {
+    zoomControl:false, attributionControl:false,
+    maxBounds: zoneBounds, maxBoundsViscosity: 1.0, minZoom: 11, maxZoom: 17
+  }).setView([6.4667, 100.3050], 13);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom:18}).addTo(leafletMap);
   markerLayer = L.layerGroup().addTo(leafletMap);
 }
 function updateMapMarkers(items){
   initMap();
   markerLayer.clearLayers();
+  const pts = [];
   items.forEach(v=>{
     if(v.lat == null || v.lng == null) return;
     const color = CATCOLOR[v.category] || '#333';
     L.circleMarker([v.lat, v.lng], {radius:9, color:'#fff', weight:2, fillColor:color, fillOpacity:1})
       .bindPopup(v.name).addTo(markerLayer);
+    pts.push([v.lat, v.lng]);
   });
-  setTimeout(()=>{ if(leafletMap) leafletMap.invalidateSize(); }, 200);
+  setTimeout(()=>{
+    if(!leafletMap) return;
+    leafletMap.invalidateSize();
+    if(pts.length === 1){ leafletMap.setView(pts[0], 15); }
+    else if(pts.length > 1){ leafletMap.fitBounds(pts, {padding:[24,24], maxZoom:15}); }
+    else { leafletMap.setView([6.4667, 100.3050], 13); }
+  }, 200);
 }
 async function geocodeAddress(address){
   try{
