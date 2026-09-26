@@ -114,6 +114,8 @@ input:checked + .slider::before{transform:translateX(32px)}
 .status-word{margin-top:14px;font-weight:800;font-family:var(--font-head);font-size:15px}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 </head>
 <body>
 
@@ -188,16 +190,8 @@ input:checked + .slider::before{transform:translateX(32px)}
   <div id="cat-disabled-msg" style="display:none;background:var(--surface-2);border-radius:20px;padding:28px 18px;text-align:center;color:var(--muted);font-size:13.5px;line-height:1.6;margin-bottom:16px"></div>
   <div id="cat-active-area">
   <div class="map-wrap">
-    <svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice">
-      <rect width="320" height="180" fill="#EADFC9"/>
-      <path d="M0 130 Q80 100 160 125 T320 110 V180 H0 Z" fill="#DCCDA9"/>
-      <path d="M40 0 L60 180 M280 0 L260 180" stroke="#cbb98f" stroke-width="10" opacity=".5"/>
-      <circle id="pin1" cx="150" cy="95" r="7" fill="var(--taxi-ink)"/>
-      <circle id="pin2" cx="210" cy="70" r="7" fill="var(--home-ink)"/>
-      <circle id="pin3" cx="110" cy="60" r="7" fill="var(--car-ink)"/>
-      <circle id="pin4" cx="180" cy="120" r="7" fill="var(--driver-ink)"/>
-    </svg>
-    <div class="map-label">Zon DUN Titi Tinggi</div>
+    <div id="leaflet-map" style="width:100%;height:100%"></div>
+    <div class="map-label" style="z-index:1000">Zon DUN Titi Tinggi</div>
   </div>
 
   <div class="list-title" id="t-list-title">Sedia berkhidmat sekarang</div>
@@ -413,6 +407,7 @@ async function renderList(){
   wrap.innerHTML = '<div class="empty-note">...</div>';
   const { data, error } = await sb.from('vendors').select('*').eq('category', currentCat).eq('is_suspended', false).eq('is_on', true).eq('is_admin', false);
   const items = shuffle(data || []);
+  updateMapMarkers(items);
   if(items.length===0){ wrap.innerHTML = `<div class="empty-note">${t.empty}</div>`; return; }
   wrap.innerHTML = items.map(v=>`
     <div class="vendor-card">
@@ -447,6 +442,36 @@ async function confirmCall(){
   });
 }
 applyLang();
+
+/* ---- real map ---- */
+const CATCOLOR = {taxi:'#412402', home:'#04342C', car:'#4A1B0C', driver:'#26215C'};
+let leafletMap = null, markerLayer = null;
+function initMap(){
+  if(leafletMap) return;
+  leafletMap = L.map('leaflet-map', {zoomControl:false, attributionControl:false}).setView([6.4667, 100.3050], 12);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom:18}).addTo(leafletMap);
+  markerLayer = L.layerGroup().addTo(leafletMap);
+}
+function updateMapMarkers(items){
+  initMap();
+  markerLayer.clearLayers();
+  items.forEach(v=>{
+    if(v.lat == null || v.lng == null) return;
+    const color = CATCOLOR[v.category] || '#333';
+    L.circleMarker([v.lat, v.lng], {radius:9, color:'#fff', weight:2, fillColor:color, fillOpacity:1})
+      .bindPopup(v.name).addTo(markerLayer);
+  });
+  setTimeout(()=>{ if(leafletMap) leafletMap.invalidateSize(); }, 200);
+}
+async function geocodeAddress(address){
+  try{
+    const q = encodeURIComponent(address + ', Padang Besar, Perlis, Malaysia');
+    const res = await fetch(`https://nominatim.openstreetmap.org/search?q=${q}&format=json&limit=1`);
+    const arr = await res.json();
+    if(arr && arr[0]) return {lat: parseFloat(arr[0].lat), lng: parseFloat(arr[0].lon)};
+  }catch(e){}
+  return null;
+}
 
 /* ---- login ---- */
 async function vendorLogin(){
@@ -576,11 +601,17 @@ async function confirmAddVendor(){
   const phone = document.getElementById('av-email').value.trim();
   if(!name || !phone){ alert('Sila isi nama dan ID log masuk.'); return; }
   const cat = document.getElementById('av-cat').value;
+  const address = document.getElementById('av-address').value;
+  let coords = {lat:null, lng:null};
+  if((cat==='home'||cat==='car') && address){
+    const g = await geocodeAddress(address);
+    if(g){ coords = g; }
+  }
   await sb.from('vendors').insert({
     category: cat, name, phone, login_password: pass,
     description: document.getElementById('av-desc').value,
-    address: document.getElementById('av-address').value,
-    is_on: false, is_suspended: false
+    address: address, lat: coords.lat, lng: coords.lng,
+    is_on: (cat==='home'||cat==='car') ? true : false, is_suspended: false
   });
   closeAddVendor(); adminCat = cat;
   document.querySelectorAll('#admin-cat-row .cat-btn').forEach(x=>x.classList.toggle('sel', x.dataset.cat===adminCat));
