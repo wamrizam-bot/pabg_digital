@@ -141,6 +141,7 @@ input:checked + .slider::before{transform:translateX(32px)}
       <span class="small" id="t-vendor-sub">Log masuk untuk urus status perkhidmatan anda</span>
     </button>
   </div>
+  <div id="t-supervised-line" style="text-align:center;font-size:11px;color:var(--muted);margin-top:16px">Diselia oleh TSF Tasyafinco</div>
 </div>
 
 <!-- SCREEN 2: vendor login (placeholder for now) -->
@@ -163,7 +164,10 @@ input:checked + .slider::before{transform:translateX(32px)}
 <div class="screen" id="screen-dashboard">
   <div class="dash-header">
     <span style="display:flex;align-items:center;gap:8px"><img src="data:image/png;base64,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" style="width:26px;height:26px;border-radius:7px" alt=""><span class="word-pabg">PABG Digital</span></span>
-    <button class="back-link" style="padding:0" onclick="goTo('screen-start')">Tukar &larr;</button>
+    <span style="display:flex;gap:14px;align-items:center">
+      <button class="back-link" style="padding:0" onclick="openProfile()">&#128100; Profil</button>
+      <button class="back-link" style="padding:0" onclick="goTo('screen-start')">Tukar &larr;</button>
+    </span>
   </div>
 
   <div class="cat-row" id="cat-row">
@@ -185,7 +189,8 @@ input:checked + .slider::before{transform:translateX(32px)}
     </button>
   </div>
 
-  <div id="cat-desc" style="text-align:center;font-size:12.5px;color:var(--muted);line-height:1.5;padding:0 4px;margin-bottom:16px"></div>
+  <div id="cat-desc" style="text-align:center;font-size:12.5px;color:var(--muted);line-height:1.5;padding:0 4px;margin-bottom:8px"></div>
+  <div id="dist-note" style="display:none;text-align:center;font-size:11.5px;color:var(--orange-deep);margin-bottom:14px"></div>
 
   <div id="cat-disabled-msg" style="display:none;background:var(--surface-2);border-radius:20px;padding:28px 18px;text-align:center;color:var(--muted);font-size:13.5px;line-height:1.6;margin-bottom:16px"></div>
   <div id="cat-active-area">
@@ -203,29 +208,41 @@ input:checked + .slider::before{transform:translateX(32px)}
   </div>
 </div>
 
+<!-- SCREEN: visitor profile -->
+<div class="screen" id="screen-profile">
+  <button class="back-link" onclick="goTo('screen-dashboard')">&larr; Kembali</button>
+  <h2 style="color:var(--navy);margin-bottom:10px">Profil Saya</h2>
+  <p style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.6">Maklumat ini digunakan supaya vendor dapat menghubungi anda semula. Isi sekali sahaja &mdash; tak perlu diisi lagi setiap kali nak hubungi vendor lain.</p>
+  <div class="form-row"><label>Panggilan</label>
+    <select id="pf-salut"><option>Encik</option><option>Puan</option><option>Cik</option></select>
+  </div>
+  <div class="form-row"><label>Nama</label><input id="pf-name" placeholder="Nama anda"></div>
+  <div class="form-row"><label>Nombor Telefon</label><input id="pf-phone" type="tel" placeholder="01xxxxxxxx"></div>
+  <button class="agree-btn" onclick="reviewProfile()">Kemaskini</button>
+</div>
+
+<!-- profile confirm popup -->
+<div class="overlay" id="profile-confirm-overlay">
+  <div class="sheet">
+    <h2 style="font-size:18px;margin-bottom:10px">Sahkan maklumat anda</h2>
+    <div style="background:var(--surface-2);border-radius:14px;padding:14px;margin-bottom:16px;font-size:14px">
+      <div id="profile-review-line1" style="margin-bottom:4px;font-weight:700"></div>
+      <div id="profile-review-line2"></div>
+    </div>
+    <button class="back-link" style="padding:0 0 12px" onclick="closeProfileConfirm()">&larr; Kembali edit</button>
+    <button class="agree-btn" onclick="saveProfile()">Sahkan</button>
+  </div>
+</div>
+
 <!-- call popup -->
 <div class="overlay" id="call-overlay">
   <div class="sheet">
     <button class="back-link" style="padding-bottom:6px" onclick="closeCall()">&times; Tutup</button>
     <h2 id="call-vendor-name">Hubungi Vendor</h2>
-    <p id="call-instruction" style="font-size:13px;color:var(--muted);margin:-8px 0 14px"></p>
-    <div id="call-form">
-      <div class="form-row">
-        <label id="t-form-salut">Panggilan</label>
-        <select id="f-salut"><option>Encik</option><option>Puan</option><option>Cik</option></select>
-      </div>
-      <div class="form-row"><label id="t-form-name">Nama</label><input type="text" id="f-name" placeholder="Nama anda"></div>
-      <div class="form-row"><label id="t-form-num">Nombor Telefon</label><input type="tel" id="f-num" placeholder="01xxxxxxxx"></div>
-      <button class="agree-btn" onclick="reviewCall()" id="t-form-confirm">Sahkan</button>
-    </div>
-    <div id="call-review" style="display:none">
-      <p id="t-review-title" style="font-size:13.5px;font-weight:700;margin-bottom:10px">Sahkan nama dan no telefon yang anda masukkan:</p>
-      <div style="background:var(--surface-2);border-radius:14px;padding:14px;margin-bottom:14px;font-size:14px">
-        <div id="review-line1" style="margin-bottom:4px"></div>
-        <div id="review-line2"></div>
-      </div>
-      <button class="back-link" style="padding:0 0 12px" onclick="backToForm()" id="t-review-back">&larr; Kembali edit</button>
-      <button class="agree-btn" onclick="confirmCall()">Sahkan</button>
+    <div id="call-need-profile" style="display:none">
+      <p style="font-size:13.5px;line-height:1.6;margin-bottom:16px">Sila kemaskini maklumat anda (nama &amp; no telefon) untuk tujuan dihubungi oleh vendor.</p>
+      <button class="agree-btn" onclick="goUpdateProfileFromCall()">Kemaskini</button>
+      <button class="back-link" style="width:100%;text-align:center;margin-top:10px;padding:0" onclick="closeCall()">Batal</button>
     </div>
     <div class="confirm-box" id="confirm-box"></div>
   </div>
@@ -262,18 +279,34 @@ input:checked + .slider::before{transform:translateX(32px)}
 
 <!-- SCREEN: vendor dashboard -->
 <div class="screen" id="screen-vendor-dash">
-  <button class="back-link" onclick="goTo('screen-start')">&larr; Log keluar</button>
   <h2 style="color:var(--navy);margin-bottom:16px">Dashboard Peniaga</h2>
   <div class="toggle-card" id="vd-card">
     <div class="vname" id="vd-name">Teksi Pak Man</div>
     <div class="vcat" id="vd-cat">Teksi</div>
     <label class="switch">
-      <input type="checkbox" id="vd-toggle" checked onchange="vdToggle()">
+      <input type="checkbox" id="vd-toggle" onchange="vdPendingToggle()">
       <span class="slider"></span>
     </label>
-    <div class="status-word" id="vd-status-word">AKTIF &mdash; kelihatan di peta pelawat</div>
+    <div id="vd-gps-badge" style="margin-top:12px;font-size:12px;font-weight:700"></div>
+    <div class="status-word" id="vd-status-word">AKTIF</div>
+    <button class="agree-btn" style="margin-top:16px" onclick="vdConfirmUpdate()">Kemaskini</button>
   </div>
-  <p style="font-size:12.5px;color:var(--muted);text-align:center">Kategori Teksi/Pemandu Sewa guna suis Aktif/Tidak Aktif. Homestay/Kereta Sewa guna suis Kekosongan/Penuh.</p>
+  <p style="font-size:12.5px;color:var(--muted);text-align:center;margin-bottom:18px">Kategori Teksi/Pemandu Sewa guna suis Aktif/Tidak Aktif. Homestay/Kereta Sewa guna suis Kekosongan/Penuh.</p>
+
+  <div class="list-title">Tarikh Penting</div>
+  <div id="vd-expiry-list" style="margin-bottom:18px"></div>
+
+  <div class="list-title">Dokumen Saya</div>
+  <div id="vd-doc-list" style="margin-bottom:20px"></div>
+
+  <button class="back-link" onclick="goTo('screen-start')">&larr; Log Keluar</button>
+</div>
+
+<!-- SCREEN: vendor document viewer -->
+<div class="screen" id="screen-vendor-doc-view">
+  <button class="back-link" onclick="goTo('screen-vendor-dash')">&larr; Kembali</button>
+  <h2 id="vd-doc-title" style="color:var(--navy);margin-bottom:16px">Dokumen</h2>
+  <div id="vd-doc-content" style="text-align:center"></div>
 </div>
 
 <!-- add vendor popup -->
@@ -328,25 +361,41 @@ input:checked + .slider::before{transform:translateX(32px)}
 
 <script>
 const TXT = {
-  bm:{visitorT:"Saya Pelawat",visitorS:"Cari teksi, homestay, kereta sewa & pemandu sewa berdekatan",vendorT:"Saya Peniaga",vendorS:"Log masuk untuk urus status perkhidmatan anda",catTaxi:"Teksi",catHome:"Homestay",catCar:"Kereta Sewa",catDriver:"Pemandu Sewa",catDesc:{taxi:"Perkhidmatan teksi tempatan untuk pergerakan dalam kawasan dan luar kawasan Padang Besar, sehingga sempadan Thailand sahaja.",home:"Perkhidmatan homestay & hotel untuk penginapan disekitar Padang Besar.",car:"Perkhidmatan menyewa kereta/motorsikal untuk pergerakan di dalam/luar Padang Besar.",driver:"Perkhidmatan kenderaan bersama pemandu peribadi untuk melancong dalam/luar Padang Besar sehingga ke Thailand."},listTitle:"Sedia berkhidmat sekarang",empty:"Tiada vendor aktif dalam kategori ini sekarang.",footer:"PABG DIGITAL adalah platform direktori yang mempromosikan pelancongan dan perkhidmatan di Padang Besar, Perlis, diselia oleh <b>TSF Tasyafinco</b>. Direktori ini PERCUMA sepenuhnya, tanpa caj atau komisen. Sebarang pertanyaan: <b>+60145945953</b>.",dTitle:"Terma & Syarat Penggunaan",dBody:"PABG DIGITAL adalah platform direktori yang mempromosikan pelancongan dan perkhidmatan di PADANG BESAR, PERLIS, diselia oleh TSF Tasyafinco. Direktori ini PERCUMA sepenuhnya kepada semua pengguna, tanpa sebarang caj atau komisen transaksi. Dengan meneruskan, anda bersetuju nombor telefon anda direkodkan dan dikongsikan kepada vendor pilihan untuk tujuan komunikasi.",dAgree:"Saya Setuju & Teruskan",formSalut:"Panggilan",formName:"Nama",formNum:"Nombor Telefon",formConfirm:"Sahkan",salutOpts:["Encik","Puan","Cik"],confirmMsg:n=>`Tekan butang di bawah untuk terus hubungi ${selectedVendorName}:`,confirmMsgFallback:n=>`Nombor vendor: <b>${n}</b><br>Sila catat/salin nombor ini secara manual untuk hubungi perkhidmatan tersebut.`,callInstruction:n=>`Untuk menghubungi ${n}, sila masukkan nama dan no telefon anda:`,fillBoth:"Sila isi nama dan nombor telefon."},
-  en:{visitorT:"I'm a Visitor",visitorS:"Find taxis, homestays, car rental & hired drivers nearby",vendorT:"I'm a Vendor",vendorS:"Log in to manage your service status",catTaxi:"Taxi",catHome:"Homestay",catCar:"Car Rental",catDriver:"Hired Driver",catDesc:{taxi:"Local taxi service for travel within and beyond Padang Besar, up to the Thailand border only.",home:"Homestay & hotel accommodation service around Padang Besar.",car:"Car/motorcycle rental service for travel within/beyond Padang Besar.",driver:"Personal driver with vehicle service for touring within/beyond Padang Besar, up to Thailand."},listTitle:"Available now",empty:"No active vendor in this category right now.",footer:"PABG DIGITAL is a directory platform promoting tourism and services in Padang Besar, Perlis, supervised by <b>TSF Tasyafinco</b>. This directory is entirely FREE, with no charges or commission. Enquiries: <b>+60145945953</b>.",dTitle:"Terms & Conditions of Use",dBody:"PABG DIGITAL is a directory platform promoting tourism and services in PADANG BESAR, PERLIS, supervised by TSF Tasyafinco. This directory is entirely FREE for all users, with no charges or transaction commission. By continuing, you agree that your phone number will be recorded and shared with your chosen vendor for communication purposes.",dAgree:"I Agree & Continue",formSalut:"Title",formName:"Name",formNum:"Phone Number",formConfirm:"Confirm",salutOpts:["Mr","Mrs","Ms"],confirmMsg:n=>`Tap a button below to contact ${selectedVendorName} directly:`,confirmMsgFallback:n=>`Vendor number: <b>${n}</b><br>Please note/copy this number manually to contact this service.`,callInstruction:n=>`To contact ${n}, please enter your name and phone number:`,fillBoth:"Please fill in your name and phone number."},
-  th:{visitorT:"ฉันเป็นนักท่องเที่ยว",visitorS:"ค้นหาแท็กซี่ โฮมสเตย์ รถเช่า และคนขับรถเช่าใกล้เคียง",vendorT:"ฉันเป็นผู้ให้บริการ",vendorS:"เข้าสู่ระบบเพื่อจัดการสถานะบริการของคุณ",catTaxi:"แท็กซี่",catHome:"โฮมสเตย์",catCar:"รถเช่า",catDriver:"คนขับรถเช่า",catDesc:{taxi:"บริการแท็กซี่ท้องถิ่นสำหรับเดินทางภายในและนอกเขตปาดังเบซาร์ ไปจนถึงชายแดนไทยเท่านั้น",home:"บริการโฮมสเตย์และโรงแรมสำหรับพักในบริเวณปาดังเบซาร์",car:"บริการเช่ารถ/มอเตอร์ไซค์สำหรับเดินทางภายใน/นอกปาดังเบซาร์",driver:"บริการรถพร้อมคนขับส่วนตัวสำหรับท่องเที่ยวภายใน/นอกปาดังเบซาร์ ไปจนถึงประเทศไทย"},listTitle:"พร้อมให้บริการตอนนี้",empty:"ไม่มีผู้ให้บริการในหมวดนี้ตอนนี้",footer:"PABG DIGITAL เป็นแพลตฟอร์มไดเรกทอรีที่ส่งเสริมการท่องเที่ยวและบริการใน Padang Besar, Perlis ดูแลโดย <b>TSF Tasyafinco</b> ไดเรกทอรีนี้ฟรีทั้งหมด ไม่มีค่าธรรมเนียมหรือค่าคอมมิชชั่น สอบถาม: <b>+60145945953</b>.",dTitle:"ข้อกำหนดและเงื่อนไขการใช้งาน",dBody:"PABG DIGITAL เป็นแพลตฟอร์มไดเรกทอรีที่ส่งเสริมการท่องเที่ยวและบริการใน PADANG BESAR, PERLIS ดูแลโดย TSF Tasyafinco ไดเรกทอรีนี้ฟรีทั้งหมดสำหรับผู้ใช้ทุกคน ไม่มีค่าธรรมเนียมหรือค่าคอมมิชชั่นการทำธุรกรรม การดำเนินการต่อแสดงว่าคุณยินยอมให้บันทึกหมายเลขโทรศัพท์ของคุณและแบ่งปันกับผู้ให้บริการที่คุณเลือกเพื่อการสื่อสาร",dAgree:"ฉันยอมรับและดำเนินการต่อ",formSalut:"คำนำหน้า",formName:"ชื่อ",formNum:"หมายเลขโทรศัพท์",formConfirm:"ยืนยัน",salutOpts:["คุณ","นาง","นางสาว"],confirmMsg:n=>`คัดลอกหมายเลข ${n} แล้วเพื่อติดต่อบริการนี้ กรุณาวางในแอปโทรศัพท์/WhatsApp ของคุณ`,confirmMsgFallback:n=>`หมายเลขผู้ให้บริการ: <b>${n}</b><br>กรุณาจดหรือคัดลอกหมายเลขนี้ด้วยตนเองเพื่อติดต่อบริการนี้`,callInstruction:n=>`หากต้องการติดต่อ ${n} กรุณากรอกชื่อและหมายเลขโทรศัพท์ของคุณ:`,fillBoth:"กรุณากรอกชื่อและหมายเลขโทรศัพท์"}
+  bm:{visitorT:"Saya Pelawat",visitorS:"Cari teksi, homestay, kereta sewa & pemandu sewa berdekatan",vendorT:"Saya Peniaga",vendorS:"Log masuk untuk urus status perkhidmatan anda",catTaxi:"Teksi",catHome:"Homestay",catCar:"Kereta Sewa",catDriver:"Pemandu Sewa",catDesc:{taxi:"Perkhidmatan teksi tempatan untuk pergerakan dalam kawasan dan luar kawasan Padang Besar, sehingga sempadan Thailand sahaja.",home:"Perkhidmatan homestay & hotel untuk penginapan disekitar Padang Besar.",car:"Perkhidmatan menyewa kereta/motorsikal untuk pergerakan di dalam/luar Padang Besar.",driver:"Perkhidmatan kenderaan bersama pemandu peribadi untuk melancong dalam/luar Padang Besar sehingga ke Thailand."},listTitle:"Sedia berkhidmat sekarang",empty:"Tiada vendor aktif dalam kategori ini sekarang.",footer:"Direktori ini diselia oleh <b>TSF TASYAFINCO</b>. Untuk sebarang pertanyaan, sila hubungi: <b>+60145945953</b>.",distNote:"Sila hidupkan GPS untuk mengetahui jarak anggaran ke vendor.",supervisedLine:"Diselia oleh TSF Tasyafinco",dTitle:"Terma & Syarat Penggunaan",dBody:"PABG DIGITAL ialah platform direktori yang mempromosikan pelancongan dan perkhidmatan di Padang Besar, Perlis. Direktori ini adalah percuma sepenuhnya kepada semua pengguna tanpa sebarang caj atau komisen transaksi. Dengan meneruskan penggunaan, anda bersetuju agar nombor telefon anda direkodkan dan dikongsikan kepada vendor pilihan bagi tujuan urusan komunikasi.",dAgree:"Saya Setuju & Teruskan",formSalut:"Panggilan",formName:"Nama",formNum:"Nombor Telefon",formConfirm:"Sahkan",salutOpts:["Encik","Puan","Cik"],confirmMsg:n=>`Tekan butang di bawah untuk terus hubungi ${selectedVendorName}:`,confirmMsgFallback:n=>`Nombor vendor: <b>${n}</b><br>Sila catat/salin nombor ini secara manual untuk hubungi perkhidmatan tersebut.`,callInstruction:n=>`Untuk menghubungi ${n}, sila masukkan nama dan no telefon anda:`,fillBoth:"Sila isi nama dan nombor telefon.",formNote:"Maklumat ini digunakan untuk merekod penggunaan perkhidmatan dan dikongsi dengan vendor pilihan anda untuk tujuan komunikasi sahaja."},
+  en:{visitorT:"I'm a Visitor",visitorS:"Find taxis, homestays, car rental & hired drivers nearby",vendorT:"I'm a Vendor",vendorS:"Log in to manage your service status",catTaxi:"Taxi",catHome:"Homestay",catCar:"Car Rental",catDriver:"Hired Driver",catDesc:{taxi:"Local taxi service for travel within and beyond Padang Besar, up to the Thailand border only.",home:"Homestay & hotel accommodation service around Padang Besar.",car:"Car/motorcycle rental service for travel within/beyond Padang Besar.",driver:"Personal driver with vehicle service for touring within/beyond Padang Besar, up to Thailand."},listTitle:"Available now",empty:"No active vendor in this category right now.",footer:"This directory is supervised by <b>TSF TASYAFINCO</b>. For enquiries, please contact: <b>+60145945953</b>.",distNote:"Turn on GPS to see estimated distance to vendors.",supervisedLine:"Supervised by TSF Tasyafinco",dTitle:"Terms & Conditions of Use",dBody:"PABG DIGITAL is a directory platform promoting tourism and services in Padang Besar, Perlis. This directory is entirely free for all users, with no charges or transaction commission. By continuing to use it, you agree that your phone number will be recorded and shared with your chosen vendor for communication purposes.",dAgree:"I Agree & Continue",formSalut:"Title",formName:"Name",formNum:"Phone Number",formConfirm:"Confirm",salutOpts:["Mr","Mrs","Ms"],confirmMsg:n=>`Tap a button below to contact ${selectedVendorName} directly:`,confirmMsgFallback:n=>`Vendor number: <b>${n}</b><br>Please note/copy this number manually to contact this service.`,callInstruction:n=>`To contact ${n}, please enter your name and phone number:`,fillBoth:"Please fill in your name and phone number.",formNote:"This information is used to record service usage and is shared only with your chosen vendor for communication purposes."},
+  th:{visitorT:"ฉันเป็นนักท่องเที่ยว",visitorS:"ค้นหาแท็กซี่ โฮมสเตย์ รถเช่า และคนขับรถเช่าใกล้เคียง",vendorT:"ฉันเป็นผู้ให้บริการ",vendorS:"เข้าสู่ระบบเพื่อจัดการสถานะบริการของคุณ",catTaxi:"แท็กซี่",catHome:"โฮมสเตย์",catCar:"รถเช่า",catDriver:"คนขับรถเช่า",catDesc:{taxi:"บริการแท็กซี่ท้องถิ่นสำหรับเดินทางภายในและนอกเขตปาดังเบซาร์ ไปจนถึงชายแดนไทยเท่านั้น",home:"บริการโฮมสเตย์และโรงแรมสำหรับพักในบริเวณปาดังเบซาร์",car:"บริการเช่ารถ/มอเตอร์ไซค์สำหรับเดินทางภายใน/นอกปาดังเบซาร์",driver:"บริการรถพร้อมคนขับส่วนตัวสำหรับท่องเที่ยวภายใน/นอกปาดังเบซาร์ ไปจนถึงประเทศไทย"},listTitle:"พร้อมให้บริการตอนนี้",empty:"ไม่มีผู้ให้บริการในหมวดนี้ตอนนี้",footer:"ไดเรกทอรีนี้ดูแลโดย <b>TSF TASYAFINCO</b> สอบถามเพิ่มเติม: <b>+60145945953</b>.",distNote:"เปิด GPS เพื่อดูระยะทางโดยประมาณไปยังผู้ให้บริการ",supervisedLine:"ดูแลโดย TSF Tasyafinco",dTitle:"ข้อกำหนดและเงื่อนไขการใช้งาน",dBody:"PABG DIGITAL เป็นแพลตฟอร์มไดเรกทอรีที่ส่งเสริมการท่องเที่ยวและบริการใน Padang Besar, Perlis ไดเรกทอรีนี้ฟรีทั้งหมดสำหรับผู้ใช้ทุกคน ไม่มีค่าธรรมเนียมหรือค่าคอมมิชชั่นการทำธุรกรรม การใช้งานต่อไปแสดงว่าคุณยินยอมให้บันทึกหมายเลขโทรศัพท์ของคุณและแบ่งปันกับผู้ให้บริการที่คุณเลือกเพื่อการติดต่อสื่อสาร",dAgree:"ฉันยอมรับและดำเนินการต่อ",formSalut:"คำนำหน้า",formName:"ชื่อ",formNum:"หมายเลขโทรศัพท์",formConfirm:"ยืนยัน",salutOpts:["คุณ","นาง","นางสาว"],confirmMsg:n=>`คัดลอกหมายเลข ${n} แล้วเพื่อติดต่อบริการนี้ กรุณาวางในแอปโทรศัพท์/WhatsApp ของคุณ`,confirmMsgFallback:n=>`หมายเลขผู้ให้บริการ: <b>${n}</b><br>กรุณาจดหรือคัดลอกหมายเลขนี้ด้วยตนเองเพื่อติดต่อบริการนี้`,callInstruction:n=>`หากต้องการติดต่อ ${n} กรุณากรอกชื่อและหมายเลขโทรศัพท์ของคุณ:`,fillBoth:"กรุณากรอกชื่อและหมายเลขโทรศัพท์",formNote:"ข้อมูลนี้ใช้เพื่อบันทึกการใช้บริการ และแบ่งปันกับผู้ให้บริการที่คุณเลือกเพื่อการติดต่อสื่อสารเท่านั้น"}
 };
 let lang = 'bm', pendingRole = null;
 const sb = supabase.createClient('https://vcecousefrduvaezfzsj.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZjZWNvdXNlZnJkdXZhZXpmenNqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAyMTg3ODgsImV4cCI6MjEwNTc5NDc4OH0.tw2ISVzCC-mGq0NJKtDxnN8b-oapBFcIjDwaI2Sftbw');
 const CATLABEL = {taxi:'Teksi',home:'Homestay',car:'Kereta Sewa',driver:'Pemandu Sewa'};
 const DOCS = {
-  common: [{id:'doc-ic', label:'Salinan IC', req:true}, {id:'doc-ssm', label:'SSM (jika berdaftar)', req:false}],
-  taxi: [{id:'doc-lesen', label:'Lesen Memandu', req:true}, {id:'doc-psv', label:'Lesen PSV', req:true}, {id:'doc-geran', label:'Geran Kenderaan', req:true}, {id:'doc-insurans', label:'Insurans Kenderaan', req:true}],
-  driver: [{id:'doc-lesen', label:'Lesen Memandu', req:true}, {id:'doc-psv', label:'Lesen PSV', req:true}, {id:'doc-geran', label:'Geran Kenderaan', req:true}, {id:'doc-insurans', label:'Insurans Kenderaan', req:true}],
-  car: [{id:'doc-geran', label:'Geran Kenderaan', req:true}, {id:'doc-insurans', label:'Insurans Kenderaan', req:true}],
-  home: [{id:'doc-homestay', label:'Pendaftaran Homestay (jika ada)', req:false}]
+  common: [{id:'doc-ic', col:'ic', label:'Salinan IC', req:true},
+           {id:'doc-ssm', col:'ssm', label:'SSM (jika berdaftar)', req:false, expiryCol:'doc_ssm_expiry', expiryLabel:'Tarikh Luput SSM'}],
+  taxi: [{id:'doc-lesen', col:'license', label:'Lesen Memandu', req:true, expiryCol:'doc_license_expiry', expiryLabel:'Tarikh Luput Lesen Memandu'},
+         {id:'doc-psv', col:'psv', label:'Lesen PSV', req:true, expiryCol:'doc_psv_expiry', expiryLabel:'Tarikh Luput Lesen PSV'},
+         {id:'doc-geran', col:'geran', label:'Geran Kenderaan', req:true, expiryCol:'doc_roadtax_expiry', expiryLabel:'Tarikh Luput Cukai Jalan'},
+         {id:'doc-insurans', col:'insurans', label:'Insurans Kenderaan', req:true, expiryCol:'doc_insurans_expiry', expiryLabel:'Tarikh Luput Insurans'}],
+  driver: [{id:'doc-lesen', col:'license', label:'Lesen Memandu', req:true, expiryCol:'doc_license_expiry', expiryLabel:'Tarikh Luput Lesen Memandu'},
+           {id:'doc-psv', col:'psv', label:'Lesen PSV', req:true, expiryCol:'doc_psv_expiry', expiryLabel:'Tarikh Luput Lesen PSV'},
+           {id:'doc-geran', col:'geran', label:'Geran Kenderaan', req:true, expiryCol:'doc_roadtax_expiry', expiryLabel:'Tarikh Luput Cukai Jalan'},
+           {id:'doc-insurans', col:'insurans', label:'Insurans Kenderaan', req:true, expiryCol:'doc_insurans_expiry', expiryLabel:'Tarikh Luput Insurans'}],
+  car: [{id:'doc-geran', col:'geran', label:'Geran Kenderaan', req:true, expiryCol:'doc_roadtax_expiry', expiryLabel:'Tarikh Luput Cukai Jalan'},
+        {id:'doc-insurans', col:'insurans', label:'Insurans Kenderaan', req:true, expiryCol:'doc_insurans_expiry', expiryLabel:'Tarikh Luput Insurans'}],
+  home: [{id:'doc-homestay', col:'homestay_reg', label:'Pendaftaran Homestay (jika ada)', req:false}]
 };
 function renderDocFields(cat){
   const rows = [...DOCS.common, ...(DOCS[cat]||[])];
   document.getElementById('av-docs').innerHTML = rows.map(d => `
     <div class="form-row"><label>${d.label}${d.req?'':' (opsyenal)'}</label><input type="file" id="${d.id}" accept="image/*,.pdf"></div>
-  `).join('') + `<p style="font-size:11px;color:var(--muted);margin:-6px 0 14px">Fail akan disimpan selamat, hanya boleh diakses admin, bila sistem storan disambung.</p>`;
+    ${d.expiryCol ? `<div class="form-row"><label>${d.expiryLabel}</label><input type="date" id="exp-${d.col}"></div>` : ''}
+  `).join('') + `<p style="font-size:11px;color:var(--muted);margin:-6px 0 14px">Fail disimpan selamat dalam storan peribadi, hanya admin/vendor berkenaan boleh akses.</p>`;
+}
+async function uploadVendorDoc(file, phone, col){
+  if(!file) return null;
+  const path = `${phone}/${col}-${Date.now()}-${file.name}`;
+  const {data, error} = await sb.storage.from('vendor-documents').upload(path, file, {upsert:true});
+  if(error){ console.error(error); return null; }
+  return data.path;
 }
 let adminCat = 'taxi', vdVendor = null;
 let currentCat = 'taxi', selectedVendor = null;
@@ -371,14 +420,12 @@ function applyLang(){
   document.getElementById('d-title').textContent = t.dTitle;
   document.getElementById('d-body').textContent = t.dBody;
   document.getElementById('d-agree').textContent = t.dAgree;
-  document.getElementById('t-form-salut').textContent = t.formSalut;
-  document.getElementById('t-form-name').textContent = t.formName;
-  document.getElementById('t-form-num').textContent = t.formNum;
-  document.getElementById('t-form-confirm').textContent = t.formConfirm;
-  const sel = document.getElementById('f-salut');
-  sel.innerHTML = t.salutOpts.map(o=>`<option>${o}</option>`).join('');
   const cd = document.getElementById('cat-desc');
   if(cd) cd.textContent = t.catDesc[currentCat];
+  const dn = document.getElementById('dist-note');
+  if(dn) dn.textContent = t.distNote;
+  const sl = document.getElementById('t-supervised-line');
+  if(sl) sl.textContent = t.supervisedLine;
 }
 function goTo(id){ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); document.getElementById(id).classList.add('active'); window.scrollTo(0,0); }
 function togglePw(id, btn){
@@ -406,6 +453,22 @@ document.getElementById('cat-row').addEventListener('click', e=>{
   renderList();
 });
 function shuffle(arr){ const a=[...arr]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+let visitorPos = null, visitorGpsAsked = false;
+function haversineKm(lat1,lng1,lat2,lng2){
+  const R=6371, toRad=x=>x*Math.PI/180;
+  const dLat=toRad(lat2-lat1), dLng=toRad(lng2-lng1);
+  const a=Math.sin(dLat/2)**2+Math.cos(toRad(lat1))*Math.cos(toRad(lat2))*Math.sin(dLng/2)**2;
+  return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+}
+function tryGetVisitorLocation(){
+  if(visitorGpsAsked || !navigator.geolocation) return;
+  visitorGpsAsked = true;
+  navigator.geolocation.getCurrentPosition(
+    pos => { visitorPos = {lat:pos.coords.latitude, lng:pos.coords.longitude}; renderList(); },
+    () => {},
+    {timeout:8000}
+  );
+}
 async function renderList(){
   const t = TXT[lang];
   const cs = await sb.from('category_status').select('*').eq('category', currentCat).maybeSingle();
@@ -419,52 +482,96 @@ async function renderList(){
   }
   disabledMsg.style.display = 'none';
   activeArea.style.display = 'block';
+  const isMovingCat = (currentCat === 'taxi' || currentCat === 'driver');
+  const distNote = document.getElementById('dist-note');
+  if(isMovingCat){
+    distNote.style.display = visitorPos ? 'none' : 'block';
+    if(!visitorPos) tryGetVisitorLocation();
+  } else {
+    distNote.style.display = 'none';
+  }
   const wrap = document.getElementById('vendor-list');
   wrap.innerHTML = '<div class="empty-note">...</div>';
   const { data, error } = await sb.from('vendors').select('*').eq('category', currentCat).eq('is_suspended', false).eq('is_on', true).eq('is_admin', false);
   const items = shuffle(data || []);
   updateMapMarkers(items);
   if(items.length===0){ wrap.innerHTML = `<div class="empty-note">${t.empty}</div>`; return; }
-  wrap.innerHTML = items.map(v=>`
+  wrap.innerHTML = items.map(v=>{
+    let distHtml = '';
+    if(isMovingCat && visitorPos && v.lat != null && v.lng != null){
+      const km = haversineKm(visitorPos.lat, visitorPos.lng, v.lat, v.lng);
+      distHtml = ` &middot; ~${km.toFixed(1)} km (anggaran)`;
+    }
+    return `
     <div class="vendor-card">
-      <div><div class="name">${v.name}</div><div class="status on">${t.listTitle}</div></div>
+      <div><div class="name">${v.name}</div><div class="status on">${t.listTitle}${distHtml}</div></div>
       <button class="call-btn" onclick='openCall(${JSON.stringify(v.name)},${JSON.stringify(v.phone)},${JSON.stringify(v.id)})'>
         <svg viewBox="0 0 24 24"><path d="M6.6 10.8a15.7 15.7 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11 11 0 0 0 3.4.55 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11 11 0 0 0 .55 3.4 1 1 0 0 1-.25 1z"/></svg>
       </button>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 let selectedVendorId = null;
 let selectedVendorName = '';
+
+/* ---- device id & visitor profile ---- */
+function getDeviceId(){
+  let id = localStorage.getItem('pabg_device_id');
+  if(!id){ id = 'd_' + Math.random().toString(36).slice(2) + Date.now().toString(36); localStorage.setItem('pabg_device_id', id); }
+  return id;
+}
+const deviceId = getDeviceId();
+let myProfile = null;
+async function loadProfile(){
+  try{
+    const {data} = await sb.from('visitor_profiles').select('*').eq('device_id', deviceId).maybeSingle();
+    myProfile = data || null;
+  }catch(e){ myProfile = null; }
+}
+function isProfileComplete(){ return !!(myProfile && myProfile.name && myProfile.phone); }
+function openProfile(){
+  document.getElementById('pf-salut').value = (myProfile && myProfile.salutation) || 'Encik';
+  document.getElementById('pf-name').value = (myProfile && myProfile.name) || '';
+  document.getElementById('pf-phone').value = (myProfile && myProfile.phone) || '';
+  goTo('screen-profile');
+}
+function reviewProfile(){
+  const name = document.getElementById('pf-name').value.trim();
+  const phone = document.getElementById('pf-phone').value.trim();
+  if(!name || !phone){ alert('Sila isi nama dan nombor telefon.'); return; }
+  document.getElementById('profile-review-line1').textContent = document.getElementById('pf-salut').value + ' ' + name;
+  document.getElementById('profile-review-line2').textContent = phone;
+  document.getElementById('profile-confirm-overlay').classList.add('active');
+}
+function closeProfileConfirm(){ document.getElementById('profile-confirm-overlay').classList.remove('active'); }
+async function saveProfile(){
+  const salutation = document.getElementById('pf-salut').value;
+  const name = document.getElementById('pf-name').value.trim();
+  const phone = document.getElementById('pf-phone').value.trim();
+  await sb.from('visitor_profiles').upsert({device_id: deviceId, salutation, name, phone, updated_at: new Date().toISOString()});
+  myProfile = {salutation, name, phone};
+  closeProfileConfirm();
+  goTo('screen-dashboard');
+}
+function goUpdateProfileFromCall(){ closeCall(); openProfile(); }
+
+/* ---- call popup (uses saved profile) ---- */
 function openCall(name, phone, vendorId){
   selectedVendor = phone; selectedVendorId = vendorId; selectedVendorName = name;
   document.getElementById('call-vendor-name').textContent = name;
-  document.getElementById('call-instruction').textContent = TXT[lang].callInstruction(name);
-  document.getElementById('call-form').style.display='block';
-  document.getElementById('call-review').style.display='none';
   document.getElementById('confirm-box').style.display='none';
-  document.getElementById('f-name').value=''; document.getElementById('f-num').value='';
+  document.getElementById('call-need-profile').style.display='none';
   document.getElementById('call-overlay').classList.add('active');
+  if(!isProfileComplete()){
+    document.getElementById('call-need-profile').style.display='block';
+  } else {
+    showCallActions();
+  }
 }
 function closeCall(){ document.getElementById('call-overlay').classList.remove('active'); }
-function reviewCall(){
-  const name = document.getElementById('f-name').value.trim();
-  const num = document.getElementById('f-num').value.trim();
-  if(!name || !num){ alert(TXT[lang].fillBoth); return; }
-  document.getElementById('review-line1').textContent = document.getElementById('f-salut').value + ' ' + name;
-  document.getElementById('review-line2').textContent = num;
-  document.getElementById('call-form').style.display='none';
-  document.getElementById('call-review').style.display='block';
-}
-function backToForm(){
-  document.getElementById('call-review').style.display='none';
-  document.getElementById('call-form').style.display='block';
-}
 async function copyToClipboard(text){
   try{
-    if(navigator.clipboard && window.isSecureContext){
-      await navigator.clipboard.writeText(text);
-      return true;
-    }
+    if(navigator.clipboard && window.isSecureContext){ await navigator.clipboard.writeText(text); return true; }
   }catch(e){}
   try{
     const ta = document.createElement('textarea');
@@ -475,13 +582,11 @@ async function copyToClipboard(text){
     return ok;
   }catch(e){ return false; }
 }
-async function confirmCall(){
-  const t = TXT[lang];
-  document.getElementById('call-review').style.display='none';
+async function showCallActions(){
   const box = document.getElementById('confirm-box');
   box.style.display='block';
   const waNum = selectedVendor.replace(/^0/,'60').replace(/\D/g,'');
-  box.innerHTML = `<div style="margin-bottom:12px">${t.confirmMsg(selectedVendor)}</div>
+  box.innerHTML = `<div style="margin-bottom:12px">Tekan butang di bawah untuk terus hubungi ${selectedVendorName}:</div>
     <div style="display:flex;gap:10px">
       <a href="tel:${selectedVendor}" style="flex:1;background:var(--orange-deep);color:#fff;border-radius:14px;padding:12px;text-align:center;text-decoration:none;font-weight:700;font-family:var(--font-head)">📞 Panggil</a>
       <a href="https://wa.me/${waNum}" target="_blank" style="flex:1;background:#25D366;color:#fff;border-radius:14px;padding:12px;text-align:center;text-decoration:none;font-weight:700;font-family:var(--font-head)">💬 WhatsApp</a>
@@ -489,12 +594,13 @@ async function confirmCall(){
   copyToClipboard(selectedVendor);
   await sb.from('visitor_enquiries').insert({
     vendor_id: selectedVendorId,
-    salutation: document.getElementById('f-salut').value,
-    visitor_name: document.getElementById('f-name').value,
-    visitor_phone: document.getElementById('f-num').value
+    salutation: myProfile.salutation,
+    visitor_name: myProfile.name,
+    visitor_phone: myProfile.phone
   });
 }
 applyLang();
+loadProfile();
 
 /* ---- real map ---- */
 const CATCOLOR = {taxi:'#412402', home:'#04342C', car:'#4A1B0C', driver:'#26215C'};
@@ -551,46 +657,106 @@ async function vendorLogin(){
 }
 
 /* ---- vendor dashboard ---- */
+const DOC_META = [
+  {key:'ic', label:'IC'},
+  {key:'ssm', label:'SSM', expiryKey:'doc_ssm_expiry'},
+  {key:'license', label:'Lesen Memandu', expiryKey:'doc_license_expiry'},
+  {key:'psv', label:'Lesen PSV', expiryKey:'doc_psv_expiry'},
+  {key:'insurans', label:'Insurans Kenderaan', expiryKey:'doc_insurans_expiry'},
+  {key:'geran', label:'Geran Kenderaan', expiryKey:'doc_roadtax_expiry', expiryLabel:'Cukai Jalan'},
+  {key:'homestay_reg', label:'Pendaftaran Homestay'}
+];
+let vdGpsOk = false, vdLat = null, vdLng = null;
 function renderVendorDash(){
   const isOpenFull = (vdVendor.category === 'home' || vdVendor.category === 'car');
   document.getElementById('vd-name').textContent = vdVendor.name;
   document.getElementById('vd-cat').textContent = CATLABEL[vdVendor.category];
   document.getElementById('vd-toggle').checked = vdVendor.is_on;
-  updateVdWord(isOpenFull);
+  updateVdWord(isOpenFull, false);
+  checkVendorGps(isOpenFull);
+  renderExpiryList();
+  renderDocList();
 }
-function updateVdWord(isOpenFull){
+function updateVdWord(isOpenFull, pending){
   const on = document.getElementById('vd-toggle').checked;
   const word = document.getElementById('vd-status-word');
-  if(isOpenFull){ word.textContent = on ? 'ADA KEKOSONGAN' : 'PENUH'; }
-  else { word.textContent = on ? 'AKTIF — kelihatan di peta pelawat' : 'TIDAK AKTIF'; }
+  let txt;
+  if(isOpenFull){ txt = on ? 'ADA KEKOSONGAN' : 'PENUH'; }
+  else { txt = on ? 'AKTIF — kelihatan di peta pelawat' : 'TIDAK AKTIF'; }
+  word.textContent = pending ? txt + ' (belum disahkan — tekan Kemaskini)' : txt;
 }
-async function vdToggle(){
+function vdPendingToggle(){
   const isOpenFull = (vdVendor.category === 'home' || vdVendor.category === 'car');
-  const turningOn = document.getElementById('vd-toggle').checked;
-  if(!isOpenFull && turningOn){
-    const word = document.getElementById('vd-status-word');
-    word.textContent = 'Mengesahkan lokasi…';
-    if(!navigator.geolocation){
-      alert('Peranti ini tidak menyokong lokasi. Sila guna telefon lain.');
-      document.getElementById('vd-toggle').checked = false; updateVdWord(isOpenFull); return;
-    }
-    navigator.geolocation.getCurrentPosition(
-      async pos => {
-        vdVendor.lat = pos.coords.latitude; vdVendor.lng = pos.coords.longitude; vdVendor.is_on = true;
-        await sb.from('vendors').update({is_on:true, lat:vdVendor.lat, lng:vdVendor.lng}).eq('id', vdVendor.id);
-        updateVdWord(isOpenFull);
-      },
-      () => {
-        alert('Lokasi tidak disahkan. Sila benarkan akses lokasi untuk aktifkan status.');
-        document.getElementById('vd-toggle').checked = false;
-        vdVendor.is_on = false; updateVdWord(isOpenFull);
-      }
-    );
+  updateVdWord(isOpenFull, true);
+}
+function checkVendorGps(isOpenFull){
+  const badge = document.getElementById('vd-gps-badge');
+  if(!navigator.geolocation){
+    badge.textContent = '📍 Tidak Terhubung dengan GPS'; badge.style.color = 'var(--muted)';
+    vdGpsOk = false; document.getElementById('vd-toggle').disabled = !isOpenFull;
     return;
   }
-  vdVendor.is_on = turningOn;
-  await sb.from('vendors').update({is_on:turningOn}).eq('id', vdVendor.id);
-  updateVdWord(isOpenFull);
+  navigator.geolocation.getCurrentPosition(
+    pos => {
+      vdGpsOk = true; vdLat = pos.coords.latitude; vdLng = pos.coords.longitude;
+      badge.textContent = '📍 Terhubung dengan GPS'; badge.style.color = '#4C9A6A';
+      document.getElementById('vd-toggle').disabled = false;
+    },
+    () => {
+      vdGpsOk = false;
+      badge.textContent = '📍 Tidak Terhubung dengan GPS'; badge.style.color = 'var(--muted)';
+      document.getElementById('vd-toggle').disabled = !isOpenFull;
+    },
+    {timeout:8000}
+  );
+}
+async function vdConfirmUpdate(){
+  const isOpenFull = (vdVendor.category === 'home' || vdVendor.category === 'car');
+  const on = document.getElementById('vd-toggle').checked;
+  if(!isOpenFull && on && !vdGpsOk){
+    alert('Lokasi tidak disahkan. Sila benarkan akses lokasi untuk aktifkan status.');
+    document.getElementById('vd-toggle').checked = false;
+    updateVdWord(isOpenFull, false);
+    return;
+  }
+  const update = { is_on: on };
+  if(!isOpenFull && on){ update.lat = vdLat; update.lng = vdLng; }
+  await sb.from('vendors').update(update).eq('id', vdVendor.id);
+  vdVendor.is_on = on;
+  updateVdWord(isOpenFull, false);
+  alert('Kemaskini berjaya.');
+}
+function renderExpiryList(){
+  const wrap = document.getElementById('vd-expiry-list');
+  const today = new Date().toISOString().slice(0,10);
+  const rows = DOC_META.filter(d => d.expiryKey && vdVendor[d.expiryKey]);
+  if(rows.length === 0){ wrap.innerHTML = '<div class="empty-note">Tiada tarikh direkodkan.</div>'; return; }
+  wrap.innerHTML = rows.map(d=>{
+    const val = vdVendor[d.expiryKey];
+    const expired = val < today;
+    const label = d.expiryLabel || d.label;
+    return `<div class="admin-row"><div class="name" style="font-size:13px">${label}</div><div class="status ${expired?'suspend':'live'}">${expired?'TAMAT TEMPOH':'Sah sehingga'} ${val}</div></div>`;
+  }).join('');
+}
+function renderDocList(){
+  const wrap = document.getElementById('vd-doc-list');
+  const rows = DOC_META.filter(d => vdVendor['doc_'+d.key+'_url']);
+  if(rows.length === 0){ wrap.innerHTML = '<div class="empty-note">Tiada dokumen dimuat naik lagi.</div>'; return; }
+  wrap.innerHTML = rows.map(d=>`<div class="admin-row"><div class="name" style="font-size:13px">${d.label}</div><button class="pill-btn pill-resume" onclick="viewVendorDoc('${d.key}','${d.label.replace(/'/g,"")}')">Lihat</button></div>`).join('');
+}
+async function viewVendorDoc(key, label){
+  document.getElementById('vd-doc-title').textContent = label;
+  const content = document.getElementById('vd-doc-content');
+  content.innerHTML = 'Memuatkan...';
+  goTo('screen-vendor-doc-view');
+  const path = vdVendor['doc_'+key+'_url'];
+  try{
+    const {data} = await sb.storage.from('vendor-documents').createSignedUrl(path, 300);
+    if(data && data.signedUrl){
+      if(/\.pdf$/i.test(path)) content.innerHTML = `<a class="agree-btn" style="display:inline-block" href="${data.signedUrl}" target="_blank">Buka PDF</a>`;
+      else content.innerHTML = `<img src="${data.signedUrl}" style="max-width:100%;border-radius:12px">`;
+    } else { content.innerHTML = 'Fail tidak dijumpai.'; }
+  }catch(e){ content.innerHTML = 'Ralat memuatkan fail.'; }
 }
 
 /* ---- admin dashboard ---- */
@@ -613,9 +779,20 @@ async function renderAdmin(){
   const { data } = await sb.from('vendors').select('*').eq('category', adminCat).eq('is_admin', false).order('created_at');
   const items = data || [];
   if(items.length === 0){ wrap.innerHTML = '<div class="empty-note">Tiada vendor dalam kategori ini lagi.</div>'; return; }
+  const todayStr = new Date().toISOString().slice(0,10);
+  const expiryMap = [['doc_license_expiry','Lesen'],['doc_psv_expiry','PSV'],['doc_insurans_expiry','Insurans'],['doc_ssm_expiry','SSM'],['doc_roadtax_expiry','Cukai Jalan']];
+  for(const v of items){
+    const expired = expiryMap.filter(([k]) => v[k] && v[k] < todayStr).map(([,l]) => l);
+    v._expiredLabels = expired;
+    if(expired.length && !v.is_suspended){
+      await sb.from('vendors').update({is_suspended:true}).eq('id', v.id);
+      v.is_suspended = true;
+    }
+  }
   wrap.innerHTML = items.map(v=>{
     const statusClass = v.is_suspended ? 'suspend' : (v.is_on ? 'live' : 'off');
-    const statusText = v.is_suspended ? 'Disuspend' : (v.is_on ? 'Aktif' : 'Tidak aktif');
+    let statusText = v.is_suspended ? 'Disuspend' : (v.is_on ? 'Aktif' : 'Tidak aktif');
+    if(v._expiredLabels && v._expiredLabels.length){ statusText += ` — Tamat: ${v._expiredLabels.join(', ')}`; }
     return `<div class="admin-row">
       <div><div class="name">${v.name}</div><div class="status ${statusClass}">${statusText} &middot; ${v.phone}</div></div>
       <div class="admin-actions">
@@ -705,12 +882,29 @@ async function confirmAddVendor(){
   if((cat==='home'||cat==='car') && (avPinLat==null || avPinLng==null)){
     alert('Sila tekan di peta untuk letak pin lokasi vendor dahulu.'); return;
   }
-  await sb.from('vendors').insert({
+  const confirmBtn = document.querySelector('#add-vendor-overlay .agree-btn');
+  confirmBtn.textContent = 'Memuat naik...'; confirmBtn.disabled = true;
+  const rows = [...DOCS.common, ...(DOCS[cat]||[])];
+  const record = {
     category: cat, name, phone, login_password: pass,
     description: document.getElementById('av-desc').value,
     address: address, lat: avPinLat, lng: avPinLng,
     is_on: (cat==='home'||cat==='car') ? true : false, is_suspended: false
-  });
+  };
+  for(const d of rows){
+    const fileInput = document.getElementById(d.id);
+    const file = fileInput && fileInput.files[0];
+    if(file){
+      const path = await uploadVendorDoc(file, phone, d.col);
+      if(path) record['doc_'+d.col+'_url'] = path;
+    }
+    if(d.expiryCol){
+      const dateVal = document.getElementById('exp-'+d.col).value;
+      if(dateVal) record[d.expiryCol] = dateVal;
+    }
+  }
+  await sb.from('vendors').insert(record);
+  confirmBtn.textContent = 'Sahkan'; confirmBtn.disabled = false;
   closeAddVendor(); adminCat = cat;
   document.querySelectorAll('#admin-cat-row .cat-btn').forEach(x=>x.classList.toggle('sel', x.dataset.cat===adminCat));
   renderAdmin();
