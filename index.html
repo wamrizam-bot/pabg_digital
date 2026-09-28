@@ -194,11 +194,6 @@ input:checked + .slider::before{transform:translateX(32px)}
 
   <div id="cat-disabled-msg" style="display:none;background:var(--surface-2);border-radius:20px;padding:28px 18px;text-align:center;color:var(--muted);font-size:13.5px;line-height:1.6;margin-bottom:16px"></div>
   <div id="cat-active-area">
-  <div class="map-wrap">
-    <div id="leaflet-map" style="width:100%;height:100%"></div>
-    <div class="map-label" style="z-index:1000">Zon DUN Titi Tinggi</div>
-  </div>
-
   <div class="list-title" id="t-list-title">Sedia berkhidmat sekarang</div>
   <div id="vendor-list"></div>
   </div>
@@ -212,7 +207,7 @@ input:checked + .slider::before{transform:translateX(32px)}
 <div class="screen" id="screen-profile">
   <button class="back-link" onclick="goTo('screen-dashboard')">&larr; Kembali</button>
   <h2 style="color:var(--navy);margin-bottom:10px">Profil Saya</h2>
-  <p style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.6">Maklumat ini digunakan supaya vendor dapat menghubungi anda semula. Isi sekali sahaja &mdash; tak perlu diisi lagi setiap kali nak hubungi vendor lain.</p>
+  <p style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.6">Maklumat ini digunakan supaya vendor dapat menghubungi anda semula.</p>
   <div class="form-row"><label>Panggilan</label>
     <select id="pf-salut"><option>Encik</option><option>Puan</option><option>Cik</option></select>
   </div>
@@ -313,7 +308,7 @@ input:checked + .slider::before{transform:translateX(32px)}
 <div class="overlay" id="add-vendor-overlay">
   <div class="sheet">
     <button class="back-link" onclick="closeAddVendor()">&times; Tutup</button>
-    <h2 style="color:var(--navy);margin-bottom:14px">Tambah Vendor Baru</h2>
+    <h2 id="av-popup-title" style="color:var(--navy);margin-bottom:14px">Tambah Vendor Baru</h2>
     <div class="form-row"><label>Kategori</label>
       <select id="av-cat" onchange="toggleAddrRow()">
         <option value="taxi">Teksi</option><option value="home">Homestay</option>
@@ -321,7 +316,6 @@ input:checked + .slider::before{transform:translateX(32px)}
       </select>
     </div>
     <div class="form-row"><label>Nama Vendor</label><input id="av-name" placeholder="Contoh: Teksi Pak Man"></div>
-    <div class="form-row"><label>Nombor Telefon</label><input id="av-phone" type="tel" placeholder="01xxxxxxxx"></div>
     <div class="form-row" id="av-address-row" style="display:none">
       <label>Alamat / Lokasi</label><input id="av-address" placeholder="Cth: Jalan Utama, Kaki Bukit">
       <div style="font-size:11px;color:var(--muted);margin:6px 0 4px">Tampal link Google Maps (jika ada), atau tekan terus di peta bawah:</div>
@@ -332,7 +326,7 @@ input:checked + .slider::before{transform:translateX(32px)}
     <div class="form-row"><label>Deskripsi Ringkas</label><input id="av-desc" placeholder="Cth: Servis 24 jam, area Kaki Bukit"></div>
     <div id="av-docs"></div>
     <div class="form-row"><label>ID Log Masuk (No. Telefon Vendor)</label><input id="av-email" placeholder="Untuk vendor log masuk"></div>
-    <div class="form-row"><label>Kata Laluan</label>
+    <div class="form-row"><label id="av-pass-label">Kata Laluan</label>
       <div style="position:relative"><input id="av-pass" type="password" style="padding-right:44px">
         <button type="button" onclick="togglePw('av-pass',this)" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--muted);font-size:12px;font-weight:700">Lihat</button></div>
     </div>
@@ -361,9 +355,9 @@ input:checked + .slider::before{transform:translateX(32px)}
 
 <script>
 const TXT = {
-  bm:{visitorT:"Saya Pelawat",visitorS:"Cari teksi, homestay, kereta sewa & pemandu sewa berdekatan",vendorT:"Saya Peniaga",vendorS:"Log masuk untuk urus status perkhidmatan anda",catTaxi:"Teksi",catHome:"Homestay",catCar:"Kereta Sewa",catDriver:"Pemandu Sewa",catDesc:{taxi:"Perkhidmatan teksi tempatan untuk pergerakan dalam kawasan dan luar kawasan Padang Besar, sehingga sempadan Thailand sahaja.",home:"Perkhidmatan homestay & hotel untuk penginapan disekitar Padang Besar.",car:"Perkhidmatan menyewa kereta/motorsikal untuk pergerakan di dalam/luar Padang Besar.",driver:"Perkhidmatan kenderaan bersama pemandu peribadi untuk melancong dalam/luar Padang Besar sehingga ke Thailand."},listTitle:"Sedia berkhidmat sekarang",empty:"Tiada vendor aktif dalam kategori ini sekarang.",footer:"Direktori ini diselia oleh <b>TSF TASYAFINCO</b>. Untuk sebarang pertanyaan, sila hubungi: <b>+60145945953</b>.",distNote:"Sila hidupkan GPS untuk mengetahui jarak anggaran ke vendor.",supervisedLine:"Diselia oleh TSF Tasyafinco",dTitle:"Terma & Syarat Penggunaan",dBody:"PABG DIGITAL ialah platform direktori yang mempromosikan pelancongan dan perkhidmatan di Padang Besar, Perlis. Direktori ini adalah percuma sepenuhnya kepada semua pengguna tanpa sebarang caj atau komisen transaksi. Dengan meneruskan penggunaan, anda bersetuju agar nombor telefon anda direkodkan dan dikongsikan kepada vendor pilihan bagi tujuan urusan komunikasi.",dAgree:"Saya Setuju & Teruskan",formSalut:"Panggilan",formName:"Nama",formNum:"Nombor Telefon",formConfirm:"Sahkan",salutOpts:["Encik","Puan","Cik"],confirmMsg:n=>`Tekan butang di bawah untuk terus hubungi ${selectedVendorName}:`,confirmMsgFallback:n=>`Nombor vendor: <b>${n}</b><br>Sila catat/salin nombor ini secara manual untuk hubungi perkhidmatan tersebut.`,callInstruction:n=>`Untuk menghubungi ${n}, sila masukkan nama dan no telefon anda:`,fillBoth:"Sila isi nama dan nombor telefon.",formNote:"Maklumat ini digunakan untuk merekod penggunaan perkhidmatan dan dikongsi dengan vendor pilihan anda untuk tujuan komunikasi sahaja."},
-  en:{visitorT:"I'm a Visitor",visitorS:"Find taxis, homestays, car rental & hired drivers nearby",vendorT:"I'm a Vendor",vendorS:"Log in to manage your service status",catTaxi:"Taxi",catHome:"Homestay",catCar:"Car Rental",catDriver:"Hired Driver",catDesc:{taxi:"Local taxi service for travel within and beyond Padang Besar, up to the Thailand border only.",home:"Homestay & hotel accommodation service around Padang Besar.",car:"Car/motorcycle rental service for travel within/beyond Padang Besar.",driver:"Personal driver with vehicle service for touring within/beyond Padang Besar, up to Thailand."},listTitle:"Available now",empty:"No active vendor in this category right now.",footer:"This directory is supervised by <b>TSF TASYAFINCO</b>. For enquiries, please contact: <b>+60145945953</b>.",distNote:"Turn on GPS to see estimated distance to vendors.",supervisedLine:"Supervised by TSF Tasyafinco",dTitle:"Terms & Conditions of Use",dBody:"PABG DIGITAL is a directory platform promoting tourism and services in Padang Besar, Perlis. This directory is entirely free for all users, with no charges or transaction commission. By continuing to use it, you agree that your phone number will be recorded and shared with your chosen vendor for communication purposes.",dAgree:"I Agree & Continue",formSalut:"Title",formName:"Name",formNum:"Phone Number",formConfirm:"Confirm",salutOpts:["Mr","Mrs","Ms"],confirmMsg:n=>`Tap a button below to contact ${selectedVendorName} directly:`,confirmMsgFallback:n=>`Vendor number: <b>${n}</b><br>Please note/copy this number manually to contact this service.`,callInstruction:n=>`To contact ${n}, please enter your name and phone number:`,fillBoth:"Please fill in your name and phone number.",formNote:"This information is used to record service usage and is shared only with your chosen vendor for communication purposes."},
-  th:{visitorT:"ฉันเป็นนักท่องเที่ยว",visitorS:"ค้นหาแท็กซี่ โฮมสเตย์ รถเช่า และคนขับรถเช่าใกล้เคียง",vendorT:"ฉันเป็นผู้ให้บริการ",vendorS:"เข้าสู่ระบบเพื่อจัดการสถานะบริการของคุณ",catTaxi:"แท็กซี่",catHome:"โฮมสเตย์",catCar:"รถเช่า",catDriver:"คนขับรถเช่า",catDesc:{taxi:"บริการแท็กซี่ท้องถิ่นสำหรับเดินทางภายในและนอกเขตปาดังเบซาร์ ไปจนถึงชายแดนไทยเท่านั้น",home:"บริการโฮมสเตย์และโรงแรมสำหรับพักในบริเวณปาดังเบซาร์",car:"บริการเช่ารถ/มอเตอร์ไซค์สำหรับเดินทางภายใน/นอกปาดังเบซาร์",driver:"บริการรถพร้อมคนขับส่วนตัวสำหรับท่องเที่ยวภายใน/นอกปาดังเบซาร์ ไปจนถึงประเทศไทย"},listTitle:"พร้อมให้บริการตอนนี้",empty:"ไม่มีผู้ให้บริการในหมวดนี้ตอนนี้",footer:"ไดเรกทอรีนี้ดูแลโดย <b>TSF TASYAFINCO</b> สอบถามเพิ่มเติม: <b>+60145945953</b>.",distNote:"เปิด GPS เพื่อดูระยะทางโดยประมาณไปยังผู้ให้บริการ",supervisedLine:"ดูแลโดย TSF Tasyafinco",dTitle:"ข้อกำหนดและเงื่อนไขการใช้งาน",dBody:"PABG DIGITAL เป็นแพลตฟอร์มไดเรกทอรีที่ส่งเสริมการท่องเที่ยวและบริการใน Padang Besar, Perlis ไดเรกทอรีนี้ฟรีทั้งหมดสำหรับผู้ใช้ทุกคน ไม่มีค่าธรรมเนียมหรือค่าคอมมิชชั่นการทำธุรกรรม การใช้งานต่อไปแสดงว่าคุณยินยอมให้บันทึกหมายเลขโทรศัพท์ของคุณและแบ่งปันกับผู้ให้บริการที่คุณเลือกเพื่อการติดต่อสื่อสาร",dAgree:"ฉันยอมรับและดำเนินการต่อ",formSalut:"คำนำหน้า",formName:"ชื่อ",formNum:"หมายเลขโทรศัพท์",formConfirm:"ยืนยัน",salutOpts:["คุณ","นาง","นางสาว"],confirmMsg:n=>`คัดลอกหมายเลข ${n} แล้วเพื่อติดต่อบริการนี้ กรุณาวางในแอปโทรศัพท์/WhatsApp ของคุณ`,confirmMsgFallback:n=>`หมายเลขผู้ให้บริการ: <b>${n}</b><br>กรุณาจดหรือคัดลอกหมายเลขนี้ด้วยตนเองเพื่อติดต่อบริการนี้`,callInstruction:n=>`หากต้องการติดต่อ ${n} กรุณากรอกชื่อและหมายเลขโทรศัพท์ของคุณ:`,fillBoth:"กรุณากรอกชื่อและหมายเลขโทรศัพท์",formNote:"ข้อมูลนี้ใช้เพื่อบันทึกการใช้บริการ และแบ่งปันกับผู้ให้บริการที่คุณเลือกเพื่อการติดต่อสื่อสารเท่านั้น"}
+  bm:{visitorT:"Saya Pelawat",visitorS:"Cari teksi, homestay, kereta sewa & pemandu sewa berdekatan",vendorT:"Saya Peniaga",vendorS:"Log masuk untuk urus status perkhidmatan anda",catTaxi:"Teksi",catHome:"Homestay",catCar:"Kereta Sewa",catDriver:"Pemandu Sewa",catDesc:{taxi:"Perkhidmatan teksi tempatan untuk pergerakan dalam kawasan dan luar kawasan Padang Besar, sehingga sempadan Thailand sahaja.",home:"Perkhidmatan homestay & hotel untuk penginapan disekitar Padang Besar.",car:"Perkhidmatan menyewa kereta/motorsikal untuk pergerakan di dalam/luar Padang Besar.",driver:"Perkhidmatan kenderaan bersama pemandu peribadi untuk melancong dalam/luar Padang Besar sehingga ke Thailand."},listTitle:"Sedia berkhidmat sekarang",empty:"Tiada vendor aktif dalam kategori ini sekarang.",footer:"Diselia oleh TSF TASYAFINCO.<br>Untuk sebarang pertanyaan, sila hubungi +60145945953",distNote:"Sila hidupkan GPS untuk mengetahui jarak anggaran ke vendor.",supervisedLine:"Diselia oleh TSF TASYAFINCO.<br>Untuk sebarang pertanyaan, sila hubungi +60145945953",dTitle:"Terma & Syarat Penggunaan",dBody:"PABG DIGITAL ialah platform direktori yang mempromosikan pelancongan dan perkhidmatan di Padang Besar, Perlis. Direktori ini adalah percuma sepenuhnya kepada semua pengguna tanpa sebarang caj atau komisen transaksi. Dengan meneruskan penggunaan, anda bersetuju agar nombor telefon anda direkodkan dan dikongsikan kepada vendor pilihan bagi tujuan urusan komunikasi.",dAgree:"Saya Setuju & Teruskan",formSalut:"Panggilan",formName:"Nama",formNum:"Nombor Telefon",formConfirm:"Sahkan",salutOpts:["Encik","Puan","Cik"],confirmMsg:n=>`Tekan butang di bawah untuk terus hubungi ${selectedVendorName}:`,confirmMsgFallback:n=>`Nombor vendor: <b>${n}</b><br>Sila catat/salin nombor ini secara manual untuk hubungi perkhidmatan tersebut.`,callInstruction:n=>`Untuk menghubungi ${n}, sila masukkan nama dan no telefon anda:`,fillBoth:"Sila isi nama dan nombor telefon.",formNote:"Maklumat ini digunakan untuk merekod penggunaan perkhidmatan dan dikongsi dengan vendor pilihan anda untuk tujuan komunikasi sahaja."},
+  en:{visitorT:"I'm a Visitor",visitorS:"Find taxis, homestays, car rental & hired drivers nearby",vendorT:"I'm a Vendor",vendorS:"Log in to manage your service status",catTaxi:"Taxi",catHome:"Homestay",catCar:"Car Rental",catDriver:"Hired Driver",catDesc:{taxi:"Local taxi service for travel within and beyond Padang Besar, up to the Thailand border only.",home:"Homestay & hotel accommodation service around Padang Besar.",car:"Car/motorcycle rental service for travel within/beyond Padang Besar.",driver:"Personal driver with vehicle service for touring within/beyond Padang Besar, up to Thailand."},listTitle:"Available now",empty:"No active vendor in this category right now.",footer:"Supervised by TSF TASYAFINCO.<br>For enquiries, please contact +60145945953",distNote:"Turn on GPS to see estimated distance to vendors.",supervisedLine:"Supervised by TSF TASYAFINCO.<br>For enquiries, please contact +60145945953",dTitle:"Terms & Conditions of Use",dBody:"PABG DIGITAL is a directory platform promoting tourism and services in Padang Besar, Perlis. This directory is entirely free for all users, with no charges or transaction commission. By continuing to use it, you agree that your phone number will be recorded and shared with your chosen vendor for communication purposes.",dAgree:"I Agree & Continue",formSalut:"Title",formName:"Name",formNum:"Phone Number",formConfirm:"Confirm",salutOpts:["Mr","Mrs","Ms"],confirmMsg:n=>`Tap a button below to contact ${selectedVendorName} directly:`,confirmMsgFallback:n=>`Vendor number: <b>${n}</b><br>Please note/copy this number manually to contact this service.`,callInstruction:n=>`To contact ${n}, please enter your name and phone number:`,fillBoth:"Please fill in your name and phone number.",formNote:"This information is used to record service usage and is shared only with your chosen vendor for communication purposes."},
+  th:{visitorT:"ฉันเป็นนักท่องเที่ยว",visitorS:"ค้นหาแท็กซี่ โฮมสเตย์ รถเช่า และคนขับรถเช่าใกล้เคียง",vendorT:"ฉันเป็นผู้ให้บริการ",vendorS:"เข้าสู่ระบบเพื่อจัดการสถานะบริการของคุณ",catTaxi:"แท็กซี่",catHome:"โฮมสเตย์",catCar:"รถเช่า",catDriver:"คนขับรถเช่า",catDesc:{taxi:"บริการแท็กซี่ท้องถิ่นสำหรับเดินทางภายในและนอกเขตปาดังเบซาร์ ไปจนถึงชายแดนไทยเท่านั้น",home:"บริการโฮมสเตย์และโรงแรมสำหรับพักในบริเวณปาดังเบซาร์",car:"บริการเช่ารถ/มอเตอร์ไซค์สำหรับเดินทางภายใน/นอกปาดังเบซาร์",driver:"บริการรถพร้อมคนขับส่วนตัวสำหรับท่องเที่ยวภายใน/นอกปาดังเบซาร์ ไปจนถึงประเทศไทย"},listTitle:"พร้อมให้บริการตอนนี้",empty:"ไม่มีผู้ให้บริการในหมวดนี้ตอนนี้",footer:"ดูแลโดย TSF TASYAFINCO<br>สอบถามเพิ่มเติม +60145945953",distNote:"เปิด GPS เพื่อดูระยะทางโดยประมาณไปยังผู้ให้บริการ",supervisedLine:"ดูแลโดย TSF TASYAFINCO<br>สอบถามเพิ่มเติม +60145945953",dTitle:"ข้อกำหนดและเงื่อนไขการใช้งาน",dBody:"PABG DIGITAL เป็นแพลตฟอร์มไดเรกทอรีที่ส่งเสริมการท่องเที่ยวและบริการใน Padang Besar, Perlis ไดเรกทอรีนี้ฟรีทั้งหมดสำหรับผู้ใช้ทุกคน ไม่มีค่าธรรมเนียมหรือค่าคอมมิชชั่นการทำธุรกรรม การใช้งานต่อไปแสดงว่าคุณยินยอมให้บันทึกหมายเลขโทรศัพท์ของคุณและแบ่งปันกับผู้ให้บริการที่คุณเลือกเพื่อการติดต่อสื่อสาร",dAgree:"ฉันยอมรับและดำเนินการต่อ",formSalut:"คำนำหน้า",formName:"ชื่อ",formNum:"หมายเลขโทรศัพท์",formConfirm:"ยืนยัน",salutOpts:["คุณ","นาง","นางสาว"],confirmMsg:n=>`คัดลอกหมายเลข ${n} แล้วเพื่อติดต่อบริการนี้ กรุณาวางในแอปโทรศัพท์/WhatsApp ของคุณ`,confirmMsgFallback:n=>`หมายเลขผู้ให้บริการ: <b>${n}</b><br>กรุณาจดหรือคัดลอกหมายเลขนี้ด้วยตนเองเพื่อติดต่อบริการนี้`,callInstruction:n=>`หากต้องการติดต่อ ${n} กรุณากรอกชื่อและหมายเลขโทรศัพท์ของคุณ:`,fillBoth:"กรุณากรอกชื่อและหมายเลขโทรศัพท์",formNote:"ข้อมูลนี้ใช้เพื่อบันทึกการใช้บริการ และแบ่งปันกับผู้ให้บริการที่คุณเลือกเพื่อการติดต่อสื่อสารเท่านั้น"}
 };
 let lang = 'bm', pendingRole = null;
 const sb = supabase.createClient('https://vcecousefrduvaezfzsj.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZjZWNvdXNlZnJkdXZhZXpmenNqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAyMTg3ODgsImV4cCI6MjEwNTc5NDc4OH0.tw2ISVzCC-mGq0NJKtDxnN8b-oapBFcIjDwaI2Sftbw');
@@ -425,7 +419,7 @@ function applyLang(){
   const dn = document.getElementById('dist-note');
   if(dn) dn.textContent = t.distNote;
   const sl = document.getElementById('t-supervised-line');
-  if(sl) sl.textContent = t.supervisedLine;
+  if(sl) sl.innerHTML = t.supervisedLine;
 }
 function goTo(id){ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); document.getElementById(id).classList.add('active'); window.scrollTo(0,0); }
 function togglePw(id, btn){
@@ -494,7 +488,6 @@ async function renderList(){
   wrap.innerHTML = '<div class="empty-note">...</div>';
   const { data, error } = await sb.from('vendors').select('*').eq('category', currentCat).eq('is_suspended', false).eq('is_on', true).eq('is_admin', false);
   const items = shuffle(data || []);
-  updateMapMarkers(items);
   if(items.length===0){ wrap.innerHTML = `<div class="empty-note">${t.empty}</div>`; return; }
   wrap.innerHTML = items.map(v=>{
     let distHtml = '';
@@ -601,48 +594,6 @@ async function showCallActions(){
 }
 applyLang();
 loadProfile();
-
-/* ---- real map ---- */
-const CATCOLOR = {taxi:'#412402', home:'#04342C', car:'#4A1B0C', driver:'#26215C'};
-let leafletMap = null, markerLayer = null;
-function initMap(){
-  if(leafletMap) return;
-  const zoneBounds = L.latLngBounds([6.40, 100.10], [6.78, 100.36]);
-  leafletMap = L.map('leaflet-map', {
-    zoomControl:false, attributionControl:false,
-    maxBounds: zoneBounds, maxBoundsViscosity: 1.0, minZoom: 11, maxZoom: 17
-  }).setView([6.4667, 100.3050], 13);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom:18}).addTo(leafletMap);
-  markerLayer = L.layerGroup().addTo(leafletMap);
-}
-function updateMapMarkers(items){
-  initMap();
-  markerLayer.clearLayers();
-  const pts = [];
-  items.forEach(v=>{
-    if(v.lat == null || v.lng == null) return;
-    const color = CATCOLOR[v.category] || '#333';
-    L.circleMarker([v.lat, v.lng], {radius:9, color:'#fff', weight:2, fillColor:color, fillOpacity:1})
-      .bindPopup(v.name).addTo(markerLayer);
-    pts.push([v.lat, v.lng]);
-  });
-  setTimeout(()=>{
-    if(!leafletMap) return;
-    leafletMap.invalidateSize();
-    if(pts.length === 1){ leafletMap.setView(pts[0], 15); }
-    else if(pts.length > 1){ leafletMap.fitBounds(pts, {padding:[24,24], maxZoom:15}); }
-    else { leafletMap.setView([6.4667, 100.3050], 13); }
-  }, 200);
-}
-async function geocodeAddress(address){
-  try{
-    const q = encodeURIComponent(address + ', Padang Besar, Perlis, Malaysia');
-    const res = await fetch(`https://nominatim.openstreetmap.org/search?q=${q}&format=json&limit=1`);
-    const arr = await res.json();
-    if(arr && arr[0]) return {lat: parseFloat(arr[0].lat), lng: parseFloat(arr[0].lon)};
-  }catch(e){}
-  return null;
-}
 
 /* ---- login ---- */
 async function vendorLogin(){
@@ -795,7 +746,8 @@ async function renderAdmin(){
     if(v._expiredLabels && v._expiredLabels.length){ statusText += ` — Tamat: ${v._expiredLabels.join(', ')}`; }
     return `<div class="admin-row">
       <div><div class="name">${v.name}</div><div class="status ${statusClass}">${statusText} &middot; ${v.phone}</div></div>
-      <div class="admin-actions">
+      <div class="admin-actions" style="flex-wrap:wrap;justify-content:flex-end">
+        <button class="pill-btn pill-resume" onclick="openEditVendor('${v.id}')">Edit</button>
         ${v.is_suspended
           ? `<button class="pill-btn pill-resume" onclick="adminResume('${v.id}')">Aktifkan</button>`
           : `<button class="pill-btn pill-suspend" onclick="adminSuspend('${v.id}')">Suspend</button>`}
@@ -859,20 +811,53 @@ function toggleAddrRow(){
     setTimeout(()=>avPinMap.invalidateSize(), 150);
   }
 }
+let editingVendorId = null;
 function openAddVendor(){
+  editingVendorId = null;
+  document.getElementById('av-popup-title').textContent = 'Tambah Vendor Baru';
+  document.getElementById('av-pass-label').textContent = 'Kata Laluan';
   document.getElementById('av-cat').value = adminCat; toggleAddrRow();
-  ['av-name','av-phone','av-address','av-desc','av-email','av-pass','av-pass2','av-gmaps-link'].forEach(id=>document.getElementById(id).value='');
+  ['av-name','av-address','av-desc','av-email','av-pass','av-pass2','av-gmaps-link'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('av-error').style.display='none';
   avPinLat = null; avPinLng = null;
   if(avPinMarker && avPinMap){ avPinMap.removeLayer(avPinMarker); avPinMarker = null; }
   document.getElementById('av-pin-status').textContent = 'Belum letak pin.';
   document.getElementById('add-vendor-overlay').classList.add('active');
 }
+async function openEditVendor(id){
+  const { data: v } = await sb.from('vendors').select('*').eq('id', id).maybeSingle();
+  if(!v){ alert('Vendor tidak dijumpai.'); return; }
+  editingVendorId = id;
+  document.getElementById('av-popup-title').textContent = 'Edit Vendor';
+  document.getElementById('av-pass-label').textContent = 'Kata Laluan (biar kosong jika tak nak tukar)';
+  document.getElementById('av-cat').value = v.category; toggleAddrRow();
+  document.getElementById('av-name').value = v.name || '';
+  document.getElementById('av-email').value = v.phone || '';
+  document.getElementById('av-desc').value = v.description || '';
+  document.getElementById('av-address').value = v.address || '';
+  document.getElementById('av-pass').value = ''; document.getElementById('av-pass2').value = '';
+  document.getElementById('av-gmaps-link').value = '';
+  document.getElementById('av-error').style.display='none';
+  avPinLat = v.lat; avPinLng = v.lng;
+  if(v.category==='home'||v.category==='car'){
+    initAvPinMap();
+    setTimeout(()=>{
+      avPinMap.invalidateSize();
+      if(v.lat!=null && v.lng!=null) setAvPin(v.lat, v.lng, false);
+    }, 150);
+  }
+  const rows = [...DOCS.common, ...(DOCS[v.category]||[])];
+  for(const d of rows){
+    if(d.expiryCol && v[d.expiryCol]){ const el = document.getElementById('exp-'+d.col); if(el) el.value = v[d.expiryCol]; }
+  }
+  document.getElementById('add-vendor-overlay').classList.add('active');
+}
 function closeAddVendor(){ document.getElementById('add-vendor-overlay').classList.remove('active'); }
 async function confirmAddVendor(){
   const pass = document.getElementById('av-pass').value, pass2 = document.getElementById('av-pass2').value;
   const err = document.getElementById('av-error');
-  if(pass !== pass2 || !pass){ err.style.display='block'; return; }
+  const isEdit = !!editingVendorId;
+  if(pass !== pass2 || (!isEdit && !pass)){ err.style.display='block'; return; }
   err.style.display='none';
   const name = document.getElementById('av-name').value.trim();
   const phone = document.getElementById('av-email').value.trim();
@@ -886,11 +871,12 @@ async function confirmAddVendor(){
   confirmBtn.textContent = 'Memuat naik...'; confirmBtn.disabled = true;
   const rows = [...DOCS.common, ...(DOCS[cat]||[])];
   const record = {
-    category: cat, name, phone, login_password: pass,
+    category: cat, name, phone,
     description: document.getElementById('av-desc').value,
-    address: address, lat: avPinLat, lng: avPinLng,
-    is_on: (cat==='home'||cat==='car') ? true : false, is_suspended: false
+    address: address, lat: avPinLat, lng: avPinLng
   };
+  if(pass) record.login_password = pass;
+  if(!isEdit){ record.is_on = (cat==='home'||cat==='car') ? true : false; record.is_suspended = false; }
   for(const d of rows){
     const fileInput = document.getElementById(d.id);
     const file = fileInput && fileInput.files[0];
@@ -903,7 +889,13 @@ async function confirmAddVendor(){
       if(dateVal) record[d.expiryCol] = dateVal;
     }
   }
-  await sb.from('vendors').insert(record);
+  if(isEdit){
+    // clear expiry dates that admin emptied; keep existing files unless new one uploaded
+    await sb.from('vendors').update(record).eq('id', editingVendorId);
+  } else {
+    await sb.from('vendors').insert(record);
+  }
+  editingVendorId = null;
   confirmBtn.textContent = 'Sahkan'; confirmBtn.disabled = false;
   closeAddVendor(); adminCat = cat;
   document.querySelectorAll('#admin-cat-row .cat-btn').forEach(x=>x.classList.toggle('sel', x.dataset.cat===adminCat));
