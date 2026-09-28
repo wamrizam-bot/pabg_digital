@@ -190,7 +190,7 @@ input:checked + .slider::before{transform:translateX(32px)}
   </div>
 
   <div id="cat-desc" style="text-align:center;font-size:12.5px;color:var(--muted);line-height:1.5;padding:0 4px;margin-bottom:8px"></div>
-  <div id="dist-note" style="display:none;text-align:center;font-size:11.5px;color:var(--orange-deep);margin-bottom:14px"></div>
+  <div id="dist-note" style="display:none;text-align:center;font-size:11.5px;margin-bottom:14px"><button id="dist-btn" type="button" onclick="tryGetVisitorLocation()" style="background:none;border:none;color:var(--orange-deep);font:inherit;text-decoration:underline;cursor:pointer;padding:0"></button></div>
 
   <div id="cat-disabled-msg" style="display:none;background:var(--surface-2);border-radius:20px;padding:28px 18px;text-align:center;color:var(--muted);font-size:13.5px;line-height:1.6;margin-bottom:16px"></div>
   <div id="cat-active-area">
@@ -245,7 +245,7 @@ input:checked + .slider::before{transform:translateX(32px)}
 
 <!-- SCREEN: admin -->
 <div class="screen" id="screen-admin">
-  <button class="back-link" onclick="goTo('screen-start')">&larr; Log keluar</button>
+  <button class="back-link" onclick="logout()">&larr; Log Keluar</button>
   <h2 style="color:var(--navy);margin-bottom:14px">Admin &mdash; Urus Vendor</h2>
   <div class="cat-row" id="admin-cat-row">
     <button class="cat-btn cat-taxi sel" data-cat="taxi"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 6.4l-1.4-3.6A2 2 0 0 0 15.6 1.6H8.4a2 2 0 0 0-1.9 1.2L5.1 6.4A2.8 2.8 0 0 0 3 9.1V17a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-.8h8v.8a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2V9.1a2.8 2.8 0 0 0-2.1-2.7zM8.2 4h7.6l1 2.6H7.2zM7 14.5A1.5 1.5 0 1 1 7 11.5a1.5 1.5 0 0 1 0 3zm10 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/></svg><span>Teksi</span></button>
@@ -282,7 +282,7 @@ input:checked + .slider::before{transform:translateX(32px)}
       <input type="checkbox" id="vd-toggle" onchange="vdPendingToggle()">
       <span class="slider"></span>
     </label>
-    <div id="vd-gps-badge" style="margin-top:12px;font-size:12px;font-weight:700"></div>
+    <div id="vd-gps-badge" onclick="checkVendorGps(vdIsOpenFull())" style="margin-top:12px;font-size:12px;font-weight:700;cursor:pointer"></div>
     <div class="status-word" id="vd-status-word">AKTIF</div>
     <button class="agree-btn" style="margin-top:16px" onclick="vdConfirmUpdate()">Kemaskini</button>
   </div>
@@ -294,7 +294,7 @@ input:checked + .slider::before{transform:translateX(32px)}
   <div class="list-title">Dokumen Saya</div>
   <div id="vd-doc-list" style="margin-bottom:20px"></div>
 
-  <button class="back-link" onclick="goTo('screen-start')">&larr; Log Keluar</button>
+  <button class="back-link" onclick="logout()">&larr; Log Keluar</button>
 </div>
 
 <!-- SCREEN: vendor document viewer -->
@@ -316,6 +316,7 @@ input:checked + .slider::before{transform:translateX(32px)}
       </select>
     </div>
     <div class="form-row"><label>Nama Vendor</label><input id="av-name" placeholder="Contoh: Teksi Pak Man"></div>
+    <div class="form-row"><label>Nombor Telefon (untuk dihubungi)</label><input id="av-contact" type="tel" placeholder="01xxxxxxxx"></div>
     <div class="form-row" id="av-address-row" style="display:none">
       <label>Alamat / Lokasi</label><input id="av-address" placeholder="Cth: Jalan Utama, Kaki Bukit">
       <div style="font-size:11px;color:var(--muted);margin:6px 0 4px">Tampal link Google Maps (jika ada), atau tekan terus di peta bawah:</div>
@@ -325,7 +326,7 @@ input:checked + .slider::before{transform:translateX(32px)}
     </div>
     <div class="form-row"><label>Deskripsi Ringkas</label><input id="av-desc" placeholder="Cth: Servis 24 jam, area Kaki Bukit"></div>
     <div id="av-docs"></div>
-    <div class="form-row"><label>ID Log Masuk (No. Telefon Vendor)</label><input id="av-email" placeholder="Untuk vendor log masuk"></div>
+    <div class="form-row"><label>ID Log Masuk</label><input id="av-email" placeholder="Untuk vendor log masuk (nama atau no. telefon)"></div>
     <div class="form-row"><label id="av-pass-label">Kata Laluan</label>
       <div style="position:relative"><input id="av-pass" type="password" style="padding-right:44px">
         <button type="button" onclick="togglePw('av-pass',this)" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--muted);font-size:12px;font-weight:700">Lihat</button></div>
@@ -355,9 +356,9 @@ input:checked + .slider::before{transform:translateX(32px)}
 
 <script>
 const TXT = {
-  bm:{visitorT:"Saya Pelawat",visitorS:"Cari teksi, homestay, kereta sewa & pemandu sewa berdekatan",vendorT:"Saya Peniaga",vendorS:"Log masuk untuk urus status perkhidmatan anda",catTaxi:"Teksi",catHome:"Homestay",catCar:"Kereta Sewa",catDriver:"Pemandu Sewa",catDesc:{taxi:"Perkhidmatan teksi tempatan untuk pergerakan dalam kawasan dan luar kawasan Padang Besar, sehingga sempadan Thailand sahaja.",home:"Perkhidmatan homestay & hotel untuk penginapan disekitar Padang Besar.",car:"Perkhidmatan menyewa kereta/motorsikal untuk pergerakan di dalam/luar Padang Besar.",driver:"Perkhidmatan kenderaan bersama pemandu peribadi untuk melancong dalam/luar Padang Besar sehingga ke Thailand."},listTitle:"Sedia berkhidmat sekarang",empty:"Tiada vendor aktif dalam kategori ini sekarang.",footer:"Diselia oleh TSF TASYAFINCO.<br>Untuk sebarang pertanyaan, sila hubungi +60145945953",distNote:"Sila hidupkan GPS untuk mengetahui jarak anggaran ke vendor.",supervisedLine:"Diselia oleh TSF TASYAFINCO.<br>Untuk sebarang pertanyaan, sila hubungi +60145945953",dTitle:"Terma & Syarat Penggunaan",dBody:"PABG DIGITAL ialah platform direktori yang mempromosikan pelancongan dan perkhidmatan di Padang Besar, Perlis. Direktori ini adalah percuma sepenuhnya kepada semua pengguna tanpa sebarang caj atau komisen transaksi. Dengan meneruskan penggunaan, anda bersetuju agar nombor telefon anda direkodkan dan dikongsikan kepada vendor pilihan bagi tujuan urusan komunikasi.",dAgree:"Saya Setuju & Teruskan",formSalut:"Panggilan",formName:"Nama",formNum:"Nombor Telefon",formConfirm:"Sahkan",salutOpts:["Encik","Puan","Cik"],confirmMsg:n=>`Tekan butang di bawah untuk terus hubungi ${selectedVendorName}:`,confirmMsgFallback:n=>`Nombor vendor: <b>${n}</b><br>Sila catat/salin nombor ini secara manual untuk hubungi perkhidmatan tersebut.`,callInstruction:n=>`Untuk menghubungi ${n}, sila masukkan nama dan no telefon anda:`,fillBoth:"Sila isi nama dan nombor telefon.",formNote:"Maklumat ini digunakan untuk merekod penggunaan perkhidmatan dan dikongsi dengan vendor pilihan anda untuk tujuan komunikasi sahaja."},
-  en:{visitorT:"I'm a Visitor",visitorS:"Find taxis, homestays, car rental & hired drivers nearby",vendorT:"I'm a Vendor",vendorS:"Log in to manage your service status",catTaxi:"Taxi",catHome:"Homestay",catCar:"Car Rental",catDriver:"Hired Driver",catDesc:{taxi:"Local taxi service for travel within and beyond Padang Besar, up to the Thailand border only.",home:"Homestay & hotel accommodation service around Padang Besar.",car:"Car/motorcycle rental service for travel within/beyond Padang Besar.",driver:"Personal driver with vehicle service for touring within/beyond Padang Besar, up to Thailand."},listTitle:"Available now",empty:"No active vendor in this category right now.",footer:"Supervised by TSF TASYAFINCO.<br>For enquiries, please contact +60145945953",distNote:"Turn on GPS to see estimated distance to vendors.",supervisedLine:"Supervised by TSF TASYAFINCO.<br>For enquiries, please contact +60145945953",dTitle:"Terms & Conditions of Use",dBody:"PABG DIGITAL is a directory platform promoting tourism and services in Padang Besar, Perlis. This directory is entirely free for all users, with no charges or transaction commission. By continuing to use it, you agree that your phone number will be recorded and shared with your chosen vendor for communication purposes.",dAgree:"I Agree & Continue",formSalut:"Title",formName:"Name",formNum:"Phone Number",formConfirm:"Confirm",salutOpts:["Mr","Mrs","Ms"],confirmMsg:n=>`Tap a button below to contact ${selectedVendorName} directly:`,confirmMsgFallback:n=>`Vendor number: <b>${n}</b><br>Please note/copy this number manually to contact this service.`,callInstruction:n=>`To contact ${n}, please enter your name and phone number:`,fillBoth:"Please fill in your name and phone number.",formNote:"This information is used to record service usage and is shared only with your chosen vendor for communication purposes."},
-  th:{visitorT:"ฉันเป็นนักท่องเที่ยว",visitorS:"ค้นหาแท็กซี่ โฮมสเตย์ รถเช่า และคนขับรถเช่าใกล้เคียง",vendorT:"ฉันเป็นผู้ให้บริการ",vendorS:"เข้าสู่ระบบเพื่อจัดการสถานะบริการของคุณ",catTaxi:"แท็กซี่",catHome:"โฮมสเตย์",catCar:"รถเช่า",catDriver:"คนขับรถเช่า",catDesc:{taxi:"บริการแท็กซี่ท้องถิ่นสำหรับเดินทางภายในและนอกเขตปาดังเบซาร์ ไปจนถึงชายแดนไทยเท่านั้น",home:"บริการโฮมสเตย์และโรงแรมสำหรับพักในบริเวณปาดังเบซาร์",car:"บริการเช่ารถ/มอเตอร์ไซค์สำหรับเดินทางภายใน/นอกปาดังเบซาร์",driver:"บริการรถพร้อมคนขับส่วนตัวสำหรับท่องเที่ยวภายใน/นอกปาดังเบซาร์ ไปจนถึงประเทศไทย"},listTitle:"พร้อมให้บริการตอนนี้",empty:"ไม่มีผู้ให้บริการในหมวดนี้ตอนนี้",footer:"ดูแลโดย TSF TASYAFINCO<br>สอบถามเพิ่มเติม +60145945953",distNote:"เปิด GPS เพื่อดูระยะทางโดยประมาณไปยังผู้ให้บริการ",supervisedLine:"ดูแลโดย TSF TASYAFINCO<br>สอบถามเพิ่มเติม +60145945953",dTitle:"ข้อกำหนดและเงื่อนไขการใช้งาน",dBody:"PABG DIGITAL เป็นแพลตฟอร์มไดเรกทอรีที่ส่งเสริมการท่องเที่ยวและบริการใน Padang Besar, Perlis ไดเรกทอรีนี้ฟรีทั้งหมดสำหรับผู้ใช้ทุกคน ไม่มีค่าธรรมเนียมหรือค่าคอมมิชชั่นการทำธุรกรรม การใช้งานต่อไปแสดงว่าคุณยินยอมให้บันทึกหมายเลขโทรศัพท์ของคุณและแบ่งปันกับผู้ให้บริการที่คุณเลือกเพื่อการติดต่อสื่อสาร",dAgree:"ฉันยอมรับและดำเนินการต่อ",formSalut:"คำนำหน้า",formName:"ชื่อ",formNum:"หมายเลขโทรศัพท์",formConfirm:"ยืนยัน",salutOpts:["คุณ","นาง","นางสาว"],confirmMsg:n=>`คัดลอกหมายเลข ${n} แล้วเพื่อติดต่อบริการนี้ กรุณาวางในแอปโทรศัพท์/WhatsApp ของคุณ`,confirmMsgFallback:n=>`หมายเลขผู้ให้บริการ: <b>${n}</b><br>กรุณาจดหรือคัดลอกหมายเลขนี้ด้วยตนเองเพื่อติดต่อบริการนี้`,callInstruction:n=>`หากต้องการติดต่อ ${n} กรุณากรอกชื่อและหมายเลขโทรศัพท์ของคุณ:`,fillBoth:"กรุณากรอกชื่อและหมายเลขโทรศัพท์",formNote:"ข้อมูลนี้ใช้เพื่อบันทึกการใช้บริการ และแบ่งปันกับผู้ให้บริการที่คุณเลือกเพื่อการติดต่อสื่อสารเท่านั้น"}
+  bm:{visitorT:"Saya Pelawat",visitorS:"Cari teksi, homestay, kereta sewa & pemandu sewa berdekatan",vendorT:"Saya Peniaga",vendorS:"Log masuk untuk urus status perkhidmatan anda",catTaxi:"Teksi",catHome:"Homestay",catCar:"Kereta Sewa",catDriver:"Pemandu Sewa",catDesc:{taxi:"Perkhidmatan teksi tempatan untuk pergerakan dalam kawasan dan luar kawasan Padang Besar, sehingga sempadan Thailand sahaja.",home:"Perkhidmatan homestay & hotel untuk penginapan disekitar Padang Besar.",car:"Perkhidmatan menyewa kereta/motorsikal untuk pergerakan di dalam/luar Padang Besar.",driver:"Perkhidmatan kenderaan bersama pemandu peribadi untuk melancong dalam/luar Padang Besar sehingga ke Thailand."},listTitle:"Sedia berkhidmat sekarang",empty:"Tiada vendor aktif dalam kategori ini sekarang.",footer:"Diselia oleh TSF TASYAFINCO.<br>Untuk sebarang pertanyaan, sila hubungi +60145945953",distNote:"Tekan di sini untuk hidupkan GPS dan lihat jarak anggaran (pilih lokasi \"Tepat\").",gpsFail:"GPS tidak dapat dikesan. Tutup semua gelembung/overlay aplikasi lain (cth. chat bubble, penapis cahaya biru), pastikan GPS hidup, kemudian cuba lagi.",supervisedLine:"Diselia oleh TSF TASYAFINCO.<br>Untuk sebarang pertanyaan, sila hubungi +60145945953",dTitle:"Terma & Syarat Penggunaan",dBody:"PABG DIGITAL ialah platform direktori yang mempromosikan pelancongan dan perkhidmatan di Padang Besar, Perlis. Direktori ini adalah percuma sepenuhnya kepada semua pengguna tanpa sebarang caj atau komisen transaksi. Dengan meneruskan penggunaan, anda bersetuju agar nombor telefon anda direkodkan dan dikongsikan kepada vendor pilihan bagi tujuan urusan komunikasi.",dAgree:"Saya Setuju & Teruskan",formSalut:"Panggilan",formName:"Nama",formNum:"Nombor Telefon",formConfirm:"Sahkan",salutOpts:["Encik","Puan","Cik"],confirmMsg:n=>`Tekan butang di bawah untuk terus hubungi ${selectedVendorName}:`,confirmMsgFallback:n=>`Nombor vendor: <b>${n}</b><br>Sila catat/salin nombor ini secara manual untuk hubungi perkhidmatan tersebut.`,callInstruction:n=>`Untuk menghubungi ${n}, sila masukkan nama dan no telefon anda:`,fillBoth:"Sila isi nama dan nombor telefon.",formNote:"Maklumat ini digunakan untuk merekod penggunaan perkhidmatan dan dikongsi dengan vendor pilihan anda untuk tujuan komunikasi sahaja."},
+  en:{visitorT:"I'm a Visitor",visitorS:"Find taxis, homestays, car rental & hired drivers nearby",vendorT:"I'm a Vendor",vendorS:"Log in to manage your service status",catTaxi:"Taxi",catHome:"Homestay",catCar:"Car Rental",catDriver:"Hired Driver",catDesc:{taxi:"Local taxi service for travel within and beyond Padang Besar, up to the Thailand border only.",home:"Homestay & hotel accommodation service around Padang Besar.",car:"Car/motorcycle rental service for travel within/beyond Padang Besar.",driver:"Personal driver with vehicle service for touring within/beyond Padang Besar, up to Thailand."},listTitle:"Available now",empty:"No active vendor in this category right now.",footer:"Supervised by TSF TASYAFINCO.<br>For enquiries, please contact +60145945953",distNote:"Tap here to turn on GPS and see estimated distance (choose \"Precise\" location).",gpsFail:"GPS could not be detected. Close any bubbles/overlays from other apps (e.g. chat bubbles, blue-light filters), make sure GPS is on, then try again.",supervisedLine:"Supervised by TSF TASYAFINCO.<br>For enquiries, please contact +60145945953",dTitle:"Terms & Conditions of Use",dBody:"PABG DIGITAL is a directory platform promoting tourism and services in Padang Besar, Perlis. This directory is entirely free for all users, with no charges or transaction commission. By continuing to use it, you agree that your phone number will be recorded and shared with your chosen vendor for communication purposes.",dAgree:"I Agree & Continue",formSalut:"Title",formName:"Name",formNum:"Phone Number",formConfirm:"Confirm",salutOpts:["Mr","Mrs","Ms"],confirmMsg:n=>`Tap a button below to contact ${selectedVendorName} directly:`,confirmMsgFallback:n=>`Vendor number: <b>${n}</b><br>Please note/copy this number manually to contact this service.`,callInstruction:n=>`To contact ${n}, please enter your name and phone number:`,fillBoth:"Please fill in your name and phone number.",formNote:"This information is used to record service usage and is shared only with your chosen vendor for communication purposes."},
+  th:{visitorT:"ฉันเป็นนักท่องเที่ยว",visitorS:"ค้นหาแท็กซี่ โฮมสเตย์ รถเช่า และคนขับรถเช่าใกล้เคียง",vendorT:"ฉันเป็นผู้ให้บริการ",vendorS:"เข้าสู่ระบบเพื่อจัดการสถานะบริการของคุณ",catTaxi:"แท็กซี่",catHome:"โฮมสเตย์",catCar:"รถเช่า",catDriver:"คนขับรถเช่า",catDesc:{taxi:"บริการแท็กซี่ท้องถิ่นสำหรับเดินทางภายในและนอกเขตปาดังเบซาร์ ไปจนถึงชายแดนไทยเท่านั้น",home:"บริการโฮมสเตย์และโรงแรมสำหรับพักในบริเวณปาดังเบซาร์",car:"บริการเช่ารถ/มอเตอร์ไซค์สำหรับเดินทางภายใน/นอกปาดังเบซาร์",driver:"บริการรถพร้อมคนขับส่วนตัวสำหรับท่องเที่ยวภายใน/นอกปาดังเบซาร์ ไปจนถึงประเทศไทย"},listTitle:"พร้อมให้บริการตอนนี้",empty:"ไม่มีผู้ให้บริการในหมวดนี้ตอนนี้",footer:"ดูแลโดย TSF TASYAFINCO<br>สอบถามเพิ่มเติม +60145945953",distNote:"แตะที่นี่เพื่อเปิด GPS และดูระยะทางโดยประมาณ (เลือกตำแหน่ง \"แม่นยำ\")",gpsFail:"ไม่สามารถตรวจจับ GPS ได้ กรุณาปิดฟองแชทหรือโอเวอร์เลย์ของแอปอื่น เปิด GPS แล้วลองอีกครั้ง",supervisedLine:"ดูแลโดย TSF TASYAFINCO<br>สอบถามเพิ่มเติม +60145945953",dTitle:"ข้อกำหนดและเงื่อนไขการใช้งาน",dBody:"PABG DIGITAL เป็นแพลตฟอร์มไดเรกทอรีที่ส่งเสริมการท่องเที่ยวและบริการใน Padang Besar, Perlis ไดเรกทอรีนี้ฟรีทั้งหมดสำหรับผู้ใช้ทุกคน ไม่มีค่าธรรมเนียมหรือค่าคอมมิชชั่นการทำธุรกรรม การใช้งานต่อไปแสดงว่าคุณยินยอมให้บันทึกหมายเลขโทรศัพท์ของคุณและแบ่งปันกับผู้ให้บริการที่คุณเลือกเพื่อการติดต่อสื่อสาร",dAgree:"ฉันยอมรับและดำเนินการต่อ",formSalut:"คำนำหน้า",formName:"ชื่อ",formNum:"หมายเลขโทรศัพท์",formConfirm:"ยืนยัน",salutOpts:["คุณ","นาง","นางสาว"],confirmMsg:n=>`คัดลอกหมายเลข ${n} แล้วเพื่อติดต่อบริการนี้ กรุณาวางในแอปโทรศัพท์/WhatsApp ของคุณ`,confirmMsgFallback:n=>`หมายเลขผู้ให้บริการ: <b>${n}</b><br>กรุณาจดหรือคัดลอกหมายเลขนี้ด้วยตนเองเพื่อติดต่อบริการนี้`,callInstruction:n=>`หากต้องการติดต่อ ${n} กรุณากรอกชื่อและหมายเลขโทรศัพท์ของคุณ:`,fillBoth:"กรุณากรอกชื่อและหมายเลขโทรศัพท์",formNote:"ข้อมูลนี้ใช้เพื่อบันทึกการใช้บริการ และแบ่งปันกับผู้ให้บริการที่คุณเลือกเพื่อการติดต่อสื่อสารเท่านั้น"}
 };
 let lang = 'bm', pendingRole = null;
 const sb = supabase.createClient('https://vcecousefrduvaezfzsj.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZjZWNvdXNlZnJkdXZhZXpmenNqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAyMTg3ODgsImV4cCI6MjEwNTc5NDc4OH0.tw2ISVzCC-mGq0NJKtDxnN8b-oapBFcIjDwaI2Sftbw');
@@ -381,17 +382,21 @@ function renderDocFields(cat){
   const rows = [...DOCS.common, ...(DOCS[cat]||[])];
   document.getElementById('av-docs').innerHTML = rows.map(d => `
     <div class="form-row"><label>${d.label}${d.req?'':' (opsyenal)'}</label><input type="file" id="${d.id}" accept="image/*,.pdf"></div>
+    <div id="have-${d.col}" style="display:none;font-size:11px;color:#4C9A6A;margin:-8px 0 10px">&#10003; Fail sedia ada &mdash; pilih fail baru hanya jika nak ganti</div>
     ${d.expiryCol ? `<div class="form-row"><label>${d.expiryLabel}</label><input type="date" id="exp-${d.col}"></div>` : ''}
   `).join('') + `<p style="font-size:11px;color:var(--muted);margin:-6px 0 14px">Fail disimpan selamat dalam storan peribadi, hanya admin/vendor berkenaan boleh akses.</p>`;
 }
-async function uploadVendorDoc(file, phone, col){
+async function uploadVendorDoc(file, vendorId, col){
   if(!file) return null;
-  const path = `${phone}/${col}-${Date.now()}-${file.name}`;
-  const {data, error} = await sb.storage.from('vendor-documents').upload(path, file, {upsert:true});
-  if(error){ console.error(error); return null; }
+  const {data, error} = await sb.functions.invoke('docs', {body:{action:'upload-url', id:adminCred.id, pass:adminCred.pass, vendor_id:vendorId, col, filename:file.name}});
+  if(error || !data || !data.token){ console.error(error || data); return null; }
+  const up = await sb.storage.from('vendor-documents').uploadToSignedUrl(data.path, data.token, file);
+  if(up.error){ console.error(up.error); return null; }
   return data.path;
 }
-let adminCat = 'taxi', vdVendor = null;
+let adminCat = 'taxi', vdVendor = null, adminCred = null, vdCred = null;
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function logout(){ adminCred=null; vdCred=null; vdVendor=null; goTo('screen-start'); }
 let currentCat = 'taxi', selectedVendor = null;
 
 document.getElementById('lang-row').addEventListener('click', e=>{
@@ -416,8 +421,8 @@ function applyLang(){
   document.getElementById('d-agree').textContent = t.dAgree;
   const cd = document.getElementById('cat-desc');
   if(cd) cd.textContent = t.catDesc[currentCat];
-  const dn = document.getElementById('dist-note');
-  if(dn) dn.textContent = t.distNote;
+  const db = document.getElementById('dist-btn');
+  if(db) db.textContent = t.distNote;
   const sl = document.getElementById('t-supervised-line');
   if(sl) sl.innerHTML = t.supervisedLine;
 }
@@ -455,12 +460,11 @@ function haversineKm(lat1,lng1,lat2,lng2){
   return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
 }
 function tryGetVisitorLocation(){
-  if(visitorGpsAsked || !navigator.geolocation) return;
-  visitorGpsAsked = true;
+  if(!navigator.geolocation){ alert(TXT[lang].gpsFail); return; }
   navigator.geolocation.getCurrentPosition(
     pos => { visitorPos = {lat:pos.coords.latitude, lng:pos.coords.longitude}; renderList(); },
-    () => {},
-    {timeout:8000}
+    () => { alert(TXT[lang].gpsFail); },
+    {enableHighAccuracy:true, timeout:12000, maximumAge:60000}
   );
 }
 async function renderList(){
@@ -480,13 +484,12 @@ async function renderList(){
   const distNote = document.getElementById('dist-note');
   if(isMovingCat){
     distNote.style.display = visitorPos ? 'none' : 'block';
-    if(!visitorPos) tryGetVisitorLocation();
   } else {
     distNote.style.display = 'none';
   }
   const wrap = document.getElementById('vendor-list');
   wrap.innerHTML = '<div class="empty-note">...</div>';
-  const { data, error } = await sb.from('vendors').select('*').eq('category', currentCat).eq('is_suspended', false).eq('is_on', true).eq('is_admin', false);
+  const { data, error } = await sb.rpc('public_vendors', {p_category: currentCat});
   const items = shuffle(data || []);
   if(items.length===0){ wrap.innerHTML = `<div class="empty-note">${t.empty}</div>`; return; }
   wrap.innerHTML = items.map(v=>{
@@ -497,8 +500,8 @@ async function renderList(){
     }
     return `
     <div class="vendor-card">
-      <div><div class="name">${v.name}</div><div class="status on">${t.listTitle}${distHtml}</div></div>
-      <button class="call-btn" onclick='openCall(${JSON.stringify(v.name)},${JSON.stringify(v.phone)},${JSON.stringify(v.id)})'>
+      <div><div class="name">${esc(v.name)}</div><div class="status on">${t.listTitle}${distHtml}</div></div>
+      <button class="call-btn" aria-label="Hubungi" data-id="${esc(v.id)}" data-name="${esc(v.name)}" data-phone="${esc(v.phone)}" onclick="openCallBtn(this)">
         <svg viewBox="0 0 24 24"><path d="M6.6 10.8a15.7 15.7 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11 11 0 0 0 3.4.55 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11 11 0 0 0 .55 3.4 1 1 0 0 1-.25 1z"/></svg>
       </button>
     </div>`;
@@ -517,7 +520,7 @@ const deviceId = getDeviceId();
 let myProfile = null;
 async function loadProfile(){
   try{
-    const {data} = await sb.from('visitor_profiles').select('*').eq('device_id', deviceId).maybeSingle();
+    const {data} = await sb.rpc('get_visitor_profile', {p_device: deviceId});
     myProfile = data || null;
   }catch(e){ myProfile = null; }
 }
@@ -541,7 +544,7 @@ async function saveProfile(){
   const salutation = document.getElementById('pf-salut').value;
   const name = document.getElementById('pf-name').value.trim();
   const phone = document.getElementById('pf-phone').value.trim();
-  await sb.from('visitor_profiles').upsert({device_id: deviceId, salutation, name, phone, updated_at: new Date().toISOString()});
+  await sb.rpc('save_visitor_profile', {p_device: deviceId, p_salut: salutation, p_name: name, p_phone: phone});
   myProfile = {salutation, name, phone};
   closeProfileConfirm();
   goTo('screen-dashboard');
@@ -549,6 +552,7 @@ async function saveProfile(){
 function goUpdateProfileFromCall(){ closeCall(); openProfile(); }
 
 /* ---- call popup (uses saved profile) ---- */
+function openCallBtn(b){ openCall(b.dataset.name, b.dataset.phone, b.dataset.id); }
 function openCall(name, phone, vendorId){
   selectedVendor = phone; selectedVendorId = vendorId; selectedVendorName = name;
   document.getElementById('call-vendor-name').textContent = name;
@@ -600,10 +604,11 @@ async function vendorLogin(){
   const id = document.getElementById('v-id').value.trim();
   const pw = document.getElementById('v-pass').value;
   if(!id || !pw){ alert('Sila isi ID dan kata laluan.'); return; }
-  const { data, error } = await sb.from('vendors').select('*').eq('phone', id).eq('login_password', pw).maybeSingle();
+  const { data } = await sb.rpc('app_login', {p_id: id, p_pass: pw});
   if(!data){ alert('ID atau kata laluan salah.'); return; }
-  if(data.is_admin){ goTo('screen-admin'); renderAdmin(); return; }
-  vdVendor = data;
+  document.getElementById('v-pass').value = '';
+  if(data.role === 'admin'){ adminCred = {id, pass: pw}; goTo('screen-admin'); renderAdmin(); return; }
+  vdVendor = data.vendor; vdCred = {id, pass: pw};
   goTo('screen-vendor-dash'); renderVendorDash();
 }
 
@@ -640,25 +645,24 @@ function vdPendingToggle(){
   const isOpenFull = (vdVendor.category === 'home' || vdVendor.category === 'car');
   updateVdWord(isOpenFull, true);
 }
+function vdIsOpenFull(){ return !!vdVendor && (vdVendor.category === 'home' || vdVendor.category === 'car'); }
 function checkVendorGps(isOpenFull){
   const badge = document.getElementById('vd-gps-badge');
-  if(!navigator.geolocation){
-    badge.textContent = '📍 Tidak Terhubung dengan GPS'; badge.style.color = 'var(--muted)';
-    vdGpsOk = false; document.getElementById('vd-toggle').disabled = !isOpenFull;
-    return;
-  }
+  const off = () => {
+    vdGpsOk = false;
+    badge.textContent = '📍 Tidak Terhubung dengan GPS — tekan untuk semak semula'; badge.style.color = 'var(--muted)';
+    document.getElementById('vd-toggle').disabled = !isOpenFull;
+  };
+  if(!navigator.geolocation){ off(); return; }
+  badge.textContent = '📍 Menyemak GPS...';
   navigator.geolocation.getCurrentPosition(
     pos => {
       vdGpsOk = true; vdLat = pos.coords.latitude; vdLng = pos.coords.longitude;
       badge.textContent = '📍 Terhubung dengan GPS'; badge.style.color = '#4C9A6A';
       document.getElementById('vd-toggle').disabled = false;
     },
-    () => {
-      vdGpsOk = false;
-      badge.textContent = '📍 Tidak Terhubung dengan GPS'; badge.style.color = 'var(--muted)';
-      document.getElementById('vd-toggle').disabled = !isOpenFull;
-    },
-    {timeout:8000}
+    off,
+    {enableHighAccuracy:true, timeout:12000}
   );
 }
 async function vdConfirmUpdate(){
@@ -670,9 +674,14 @@ async function vdConfirmUpdate(){
     updateVdWord(isOpenFull, false);
     return;
   }
-  const update = { is_on: on };
-  if(!isOpenFull && on){ update.lat = vdLat; update.lng = vdLng; }
-  await sb.from('vendors').update(update).eq('id', vdVendor.id);
+  const withLoc = (!isOpenFull && on);
+  const { data: ok } = await sb.rpc('vendor_set_status', {p_id: vdCred.id, p_pass: vdCred.pass, p_is_on: on, p_lat: withLoc ? vdLat : null, p_lng: withLoc ? vdLng : null});
+  if(!ok){
+    alert('Kemaskini gagal. Akaun mungkin disuspend — sila hubungi admin.');
+    document.getElementById('vd-toggle').checked = vdVendor.is_on;
+    updateVdWord(isOpenFull, false);
+    return;
+  }
   vdVendor.is_on = on;
   updateVdWord(isOpenFull, false);
   alert('Kemaskini berjaya.');
@@ -702,10 +711,10 @@ async function viewVendorDoc(key, label){
   goTo('screen-vendor-doc-view');
   const path = vdVendor['doc_'+key+'_url'];
   try{
-    const {data} = await sb.storage.from('vendor-documents').createSignedUrl(path, 300);
-    if(data && data.signedUrl){
-      if(/\.pdf$/i.test(path)) content.innerHTML = `<a class="agree-btn" style="display:inline-block" href="${data.signedUrl}" target="_blank">Buka PDF</a>`;
-      else content.innerHTML = `<img src="${data.signedUrl}" style="max-width:100%;border-radius:12px">`;
+    const {data} = await sb.functions.invoke('docs', {body:{action:'view-url', id:vdCred.id, pass:vdCred.pass, path}});
+    if(data && data.url){
+      if(/\.pdf$/i.test(path)) content.innerHTML = `<a class="agree-btn" style="display:inline-block" href="${data.url}" target="_blank">Buka PDF</a>`;
+      else content.innerHTML = `<img src="${data.url}" style="max-width:100%;border-radius:12px">`;
     } else { content.innerHTML = 'Fail tidak dijumpai.'; }
   }catch(e){ content.innerHTML = 'Ralat memuatkan fail.'; }
 }
@@ -727,25 +736,23 @@ async function renderAdmin(){
 
   const wrap = document.getElementById('admin-vendor-list');
   wrap.innerHTML = '<div class="empty-note">...</div>';
-  const { data } = await sb.from('vendors').select('*').eq('category', adminCat).eq('is_admin', false).order('created_at');
+  const { data, error } = await sb.rpc('admin_list_vendors', {p_admin_id: adminCred.id, p_admin_pass: adminCred.pass, p_category: adminCat});
+  if(error){ wrap.innerHTML = '<div class="empty-note">Gagal memuatkan senarai. Sila log masuk semula.</div>'; return; }
   const items = data || [];
   if(items.length === 0){ wrap.innerHTML = '<div class="empty-note">Tiada vendor dalam kategori ini lagi.</div>'; return; }
   const todayStr = new Date().toISOString().slice(0,10);
   const expiryMap = [['doc_license_expiry','Lesen'],['doc_psv_expiry','PSV'],['doc_insurans_expiry','Insurans'],['doc_ssm_expiry','SSM'],['doc_roadtax_expiry','Cukai Jalan']];
-  for(const v of items){
-    const expired = expiryMap.filter(([k]) => v[k] && v[k] < todayStr).map(([,l]) => l);
-    v._expiredLabels = expired;
-    if(expired.length && !v.is_suspended){
-      await sb.from('vendors').update({is_suspended:true}).eq('id', v.id);
-      v.is_suspended = true;
-    }
-  }
   wrap.innerHTML = items.map(v=>{
+    const expired = expiryMap.filter(([k]) => v[k] && v[k] < todayStr).map(([,l]) => l);
     const statusClass = v.is_suspended ? 'suspend' : (v.is_on ? 'live' : 'off');
     let statusText = v.is_suspended ? 'Disuspend' : (v.is_on ? 'Aktif' : 'Tidak aktif');
-    if(v._expiredLabels && v._expiredLabels.length){ statusText += ` — Tamat: ${v._expiredLabels.join(', ')}`; }
-    return `<div class="admin-row">
-      <div><div class="name">${v.name}</div><div class="status ${statusClass}">${statusText} &middot; ${v.phone}</div></div>
+    if(expired.length){ statusText += ` — Tamat: ${expired.join(', ')}`; }
+    return `<div class="admin-row" style="align-items:flex-start">
+      <div style="min-width:0">
+        <div class="name">${esc(v.name)}</div>
+        <div class="status ${statusClass}">${esc(statusText)} &middot; ${esc(v.contact_phone || '—')}</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:3px;word-break:break-all">ID: ${esc(v.phone)} &middot; Kata laluan: ${esc(v.login_password)}</div>
+      </div>
       <div class="admin-actions" style="flex-wrap:wrap;justify-content:flex-end">
         <button class="pill-btn pill-resume" onclick="openEditVendor('${v.id}')">Edit</button>
         ${v.is_suspended
@@ -756,24 +763,28 @@ async function renderAdmin(){
     </div>`;
   }).join('');
 }
-async function adminSuspend(id){ await sb.from('vendors').update({is_suspended:true}).eq('id', id); renderAdmin(); }
-async function adminResume(id){ await sb.from('vendors').update({is_suspended:false}).eq('id', id); renderAdmin(); }
+async function adminRpc(fn, args){
+  const { data, error } = await sb.rpc(fn, Object.assign({p_admin_id: adminCred.id, p_admin_pass: adminCred.pass}, args));
+  if(error){ alert('Gagal: ' + error.message); return null; }
+  return data;
+}
+async function adminSuspend(id){ await adminRpc('admin_save_vendor', {p_id:id, p_data:{is_suspended:true}}); renderAdmin(); }
+async function adminResume(id){ await adminRpc('admin_save_vendor', {p_id:id, p_data:{is_suspended:false}}); renderAdmin(); }
 async function adminRemove(id){
   if(!confirm('Padam vendor ini terus? Data tidak boleh dipulihkan.')) return;
-  await sb.from('vendors').delete().eq('id', id);
+  await adminRpc('admin_delete_vendor', {p_vendor_id:id});
   renderAdmin();
 }
 async function csToggle(){
   const on = document.getElementById('cs-toggle').checked;
   document.getElementById('cs-message').style.display = on ? 'block' : 'none';
-  await sb.from('category_status').update({is_disabled: on}).eq('category', adminCat);
+  await adminRpc('admin_set_category', {p_category:adminCat, p_disabled:on, p_message:null});
 }
 async function csSaveMessage(){
   const msg = document.getElementById('cs-message').value;
-  await sb.from('category_status').update({message: msg}).eq('category', adminCat);
+  await adminRpc('admin_set_category', {p_category:adminCat, p_disabled:null, p_message:msg});
 }
 
-/* ---- add vendor popup ---- */
 let avPinMap = null, avPinMarker = null, avPinLat = null, avPinLng = null;
 function setAvPin(lat, lng, fromLink){
   avPinLat = lat; avPinLng = lng;
@@ -817,7 +828,7 @@ function openAddVendor(){
   document.getElementById('av-popup-title').textContent = 'Tambah Vendor Baru';
   document.getElementById('av-pass-label').textContent = 'Kata Laluan';
   document.getElementById('av-cat').value = adminCat; toggleAddrRow();
-  ['av-name','av-address','av-desc','av-email','av-pass','av-pass2','av-gmaps-link'].forEach(id=>document.getElementById(id).value='');
+  ['av-name','av-contact','av-address','av-desc','av-email','av-pass','av-pass2','av-gmaps-link'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('av-error').style.display='none';
   avPinLat = null; avPinLng = null;
   if(avPinMarker && avPinMap){ avPinMap.removeLayer(avPinMarker); avPinMarker = null; }
@@ -825,17 +836,19 @@ function openAddVendor(){
   document.getElementById('add-vendor-overlay').classList.add('active');
 }
 async function openEditVendor(id){
-  const { data: v } = await sb.from('vendors').select('*').eq('id', id).maybeSingle();
+  const { data: v } = await sb.rpc('admin_get_vendor', {p_admin_id: adminCred.id, p_admin_pass: adminCred.pass, p_vendor_id: id});
   if(!v){ alert('Vendor tidak dijumpai.'); return; }
   editingVendorId = id;
   document.getElementById('av-popup-title').textContent = 'Edit Vendor';
-  document.getElementById('av-pass-label').textContent = 'Kata Laluan (biar kosong jika tak nak tukar)';
+  document.getElementById('av-pass-label').textContent = 'Kata Laluan';
   document.getElementById('av-cat').value = v.category; toggleAddrRow();
   document.getElementById('av-name').value = v.name || '';
+  document.getElementById('av-contact').value = v.contact_phone || '';
   document.getElementById('av-email').value = v.phone || '';
   document.getElementById('av-desc').value = v.description || '';
   document.getElementById('av-address').value = v.address || '';
-  document.getElementById('av-pass').value = ''; document.getElementById('av-pass2').value = '';
+  document.getElementById('av-pass').value = v.login_password || '';
+  document.getElementById('av-pass2').value = v.login_password || '';
   document.getElementById('av-gmaps-link').value = '';
   document.getElementById('av-error').style.display='none';
   avPinLat = v.lat; avPinLng = v.lng;
@@ -849,6 +862,7 @@ async function openEditVendor(id){
   const rows = [...DOCS.common, ...(DOCS[v.category]||[])];
   for(const d of rows){
     if(d.expiryCol && v[d.expiryCol]){ const el = document.getElementById('exp-'+d.col); if(el) el.value = v[d.expiryCol]; }
+    if(v['doc_'+d.col+'_url']){ const h = document.getElementById('have-'+d.col); if(h) h.style.display = 'block'; }
   }
   document.getElementById('add-vendor-overlay').classList.add('active');
 }
@@ -857,43 +871,51 @@ async function confirmAddVendor(){
   const pass = document.getElementById('av-pass').value, pass2 = document.getElementById('av-pass2').value;
   const err = document.getElementById('av-error');
   const isEdit = !!editingVendorId;
-  if(pass !== pass2 || (!isEdit && !pass)){ err.style.display='block'; return; }
+  if(pass !== pass2 || !pass){ err.style.display='block'; return; }
   err.style.display='none';
   const name = document.getElementById('av-name').value.trim();
-  const phone = document.getElementById('av-email').value.trim();
-  if(!name || !phone){ alert('Sila isi nama dan ID log masuk.'); return; }
+  const login = document.getElementById('av-email').value.trim();
+  const contact = document.getElementById('av-contact').value.trim();
+  if(!name || !login){ alert('Sila isi nama dan ID log masuk.'); return; }
+  if(!contact){ alert('Sila isi nombor telefon untuk dihubungi.'); return; }
   const cat = document.getElementById('av-cat').value;
-  const address = document.getElementById('av-address').value;
-  if((cat==='home'||cat==='car') && (avPinLat==null || avPinLng==null)){
+  const isStatic = (cat==='home'||cat==='car');
+  if(isStatic && (avPinLat==null || avPinLng==null)){
     alert('Sila tekan di peta untuk letak pin lokasi vendor dahulu.'); return;
   }
   const confirmBtn = document.querySelector('#add-vendor-overlay .agree-btn');
-  confirmBtn.textContent = 'Memuat naik...'; confirmBtn.disabled = true;
+  confirmBtn.textContent = 'Menyimpan...'; confirmBtn.disabled = true;
   const rows = [...DOCS.common, ...(DOCS[cat]||[])];
-  const record = {
-    category: cat, name, phone,
+  const data = {
+    category: cat, name, phone: login, contact_phone: contact, login_password: pass,
     description: document.getElementById('av-desc').value,
-    address: address, lat: avPinLat, lng: avPinLng
+    address: document.getElementById('av-address').value
   };
-  if(pass) record.login_password = pass;
-  if(!isEdit){ record.is_on = (cat==='home'||cat==='car') ? true : false; record.is_suspended = false; }
+  if(isStatic){ data.lat = avPinLat; data.lng = avPinLng; }
+  if(!isEdit){ data.is_on = isStatic; data.is_suspended = false; }
   for(const d of rows){
-    const fileInput = document.getElementById(d.id);
-    const file = fileInput && fileInput.files[0];
-    if(file){
-      const path = await uploadVendorDoc(file, phone, d.col);
-      if(path) record['doc_'+d.col+'_url'] = path;
-    }
-    if(d.expiryCol){
-      const dateVal = document.getElementById('exp-'+d.col).value;
-      if(dateVal) record[d.expiryCol] = dateVal;
-    }
+    if(d.expiryCol){ const el = document.getElementById('exp-'+d.col); if(el) data[d.expiryCol] = el.value || null; }
   }
-  if(isEdit){
-    // clear expiry dates that admin emptied; keep existing files unless new one uploaded
-    await sb.from('vendors').update(record).eq('id', editingVendorId);
-  } else {
-    await sb.from('vendors').insert(record);
+  try{
+    const { data: vid, error } = await sb.rpc('admin_save_vendor', {p_admin_id: adminCred.id, p_admin_pass: adminCred.pass, p_id: isEdit ? editingVendorId : null, p_data: data});
+    if(error) throw error;
+    const docUpdates = {}, failed = [];
+    for(const d of rows){
+      const fi = document.getElementById(d.id);
+      const file = fi && fi.files[0];
+      if(file){
+        const path = await uploadVendorDoc(file, vid, d.col);
+        if(path) docUpdates['doc_'+d.col+'_url'] = path; else failed.push(d.label);
+      }
+    }
+    if(Object.keys(docUpdates).length){
+      await sb.rpc('admin_save_vendor', {p_admin_id: adminCred.id, p_admin_pass: adminCred.pass, p_id: vid, p_data: docUpdates});
+    }
+    if(failed.length){ alert('Vendor disimpan, tetapi fail ini gagal dimuat naik: ' + failed.join(', ')); }
+  }catch(e){
+    alert('Gagal menyimpan: ' + (e.message || e));
+    confirmBtn.textContent = 'Sahkan'; confirmBtn.disabled = false;
+    return;
   }
   editingVendorId = null;
   confirmBtn.textContent = 'Sahkan'; confirmBtn.disabled = false;
