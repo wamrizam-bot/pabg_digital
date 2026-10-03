@@ -27,6 +27,12 @@
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --bg:#1B140D; --surface:#261D14; --surface-2:#33261a; --ink:#F5E9D8; --muted:#C2AF98; --line:#3d2e20; } }
 :root[data-theme="dark"]{ --bg:#1B140D; --surface:#261D14; --surface-2:#33261a; --ink:#F5E9D8; --muted:#C2AF98; --line:#3d2e20; }
 *{box-sizing:border-box}
+@media print{
+  body *{visibility:hidden}
+  #screen-admin-reports, #screen-admin-reports *{visibility:visible}
+  #screen-admin-reports{position:absolute;left:0;top:0;width:100%}
+  .no-print{display:none !important}
+}
 html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
 body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font-family:var(--font-body);-webkit-font-smoothing:antialiased}
 .screen{display:none;min-height:100vh;padding:20px 18px 32px;max-width:480px;margin:0 auto}
@@ -247,8 +253,11 @@ input:checked + .slider::before{transform:translateX(32px)}
 
 <!-- SCREEN: admin -->
 <div class="screen" id="screen-admin">
-  <button class="back-link" onclick="logout()">&larr; Log Keluar</button>
-  <h2 style="color:var(--navy);margin-bottom:14px">Admin &mdash; Urus Vendor</h2>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <button class="back-link" style="padding:0" onclick="logout()">&larr; Log Keluar</button>
+    <button class="back-link" style="padding:0" onclick="openReports()">Laporan &#128202;</button>
+  </div>
+  <h2 style="color:var(--navy);margin:14px 0">Admin &mdash; Urus Vendor</h2>
   <div class="cat-row" id="admin-cat-row">
     <button class="cat-btn cat-taxi sel" data-cat="taxi"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 6.4l-1.4-3.6A2 2 0 0 0 15.6 1.6H8.4a2 2 0 0 0-1.9 1.2L5.1 6.4A2.8 2.8 0 0 0 3 9.1V17a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-.8h8v.8a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2V9.1a2.8 2.8 0 0 0-2.1-2.7zM8.2 4h7.6l1 2.6H7.2zM7 14.5A1.5 1.5 0 1 1 7 11.5a1.5 1.5 0 0 1 0 3zm10 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/></svg><span>Teksi</span></button>
     <button class="cat-btn cat-home" data-cat="home"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.7 2 11h3v9h5v-6h4v6h5v-9h3z"/></svg><span>Homestay</span></button>
@@ -272,6 +281,45 @@ input:checked + .slider::before{transform:translateX(32px)}
   <div class="list-title">Senarai vendor</div>
   <div id="admin-vendor-list"></div>
   <button class="agree-btn" style="background:var(--orange-deep);margin-top:8px" onclick="openAddVendor()">+ Tambah Vendor</button>
+</div>
+
+<!-- SCREEN: admin reports -->
+<div class="screen" id="screen-admin-reports">
+  <div class="no-print" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+    <button class="back-link" style="padding:0" onclick="goTo('screen-admin')">&larr; Kembali</button>
+    <button class="back-link" style="padding:0" onclick="window.print()">Cetak / PDF &#128424;</button>
+  </div>
+  <h2 style="color:var(--navy);margin-bottom:16px">Laporan PABG Digital</h2>
+
+  <div style="display:flex;gap:10px;margin-bottom:20px">
+    <div class="toggle-card" style="flex:1;padding:14px;text-align:center">
+      <div style="font-size:11px;color:var(--muted)">Pelawat Hari Ini</div>
+      <div id="rep-visits-today" style="font-family:var(--font-head);font-size:24px;font-weight:700;color:var(--navy)">—</div>
+    </div>
+    <div class="toggle-card" style="flex:1;padding:14px;text-align:center">
+      <div style="font-size:11px;color:var(--muted)">Call Hari Ini</div>
+      <div id="rep-calls-today" style="font-family:var(--font-head);font-size:24px;font-weight:700;color:var(--orange-deep)">—</div>
+    </div>
+  </div>
+  <div style="display:flex;gap:10px;margin-bottom:24px">
+    <div class="toggle-card" style="flex:1;padding:14px;text-align:center">
+      <div style="font-size:11px;color:var(--muted)">Jumlah Pelawat (keseluruhan)</div>
+      <div id="rep-visits-total" style="font-family:var(--font-head);font-size:20px;font-weight:700;color:var(--navy)">—</div>
+    </div>
+    <div class="toggle-card" style="flex:1;padding:14px;text-align:center">
+      <div style="font-size:11px;color:var(--muted)">Jumlah Call (keseluruhan)</div>
+      <div id="rep-calls-total" style="font-family:var(--font-head);font-size:20px;font-weight:700;color:var(--orange-deep)">—</div>
+    </div>
+  </div>
+
+  <div class="list-title">Trend Bulanan (12 bulan)</div>
+  <div class="map-wrap" style="height:220px;margin-bottom:24px"><canvas id="rep-chart"></canvas></div>
+
+  <div class="list-title">Mengikut Kategori</div>
+  <div id="rep-by-category" style="margin-bottom:24px"></div>
+
+  <div class="list-title">Mengikut Vendor</div>
+  <div id="rep-by-vendor"></div>
 </div>
 
 <!-- SCREEN: vendor dashboard -->
@@ -322,6 +370,8 @@ input:checked + .slider::before{transform:translateX(32px)}
     <div class="form-row" id="av-vehicle-row" style="display:none">
       <label>Jenis Kenderaan</label>
       <select id="av-vehicle"><option value="">- Pilih -</option><option value="motorcycle">Motosikal</option><option value="4seater">Kereta 4 Tempat Duduk</option><option value="6seater">Kereta 6 Tempat Duduk</option><option value="10seater">Van 10 Tempat Duduk</option></select>
+      <label style="margin-top:12px;display:block">No. Plat Kenderaan</label>
+      <input id="av-plate" placeholder="Cth: ABC 1234">
     </div>
     <div class="form-row" id="av-address-row" style="display:none">
       <label>Alamat / Lokasi</label><input id="av-address" placeholder="Cth: Jalan Utama, Kaki Bukit">
@@ -403,6 +453,65 @@ async function uploadVendorDoc(file, vendorId, col){
 let adminCat = 'taxi', vdVendor = null, adminCred = null, vdCred = null;
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function logout(){ adminCred=null; vdCred=null; vdVendor=null; goTo('screen-start'); }
+let chartLoading = null, repChart = null;
+function loadChartJs(){
+  if(window.Chart) return Promise.resolve();
+  if(chartLoading) return chartLoading;
+  chartLoading = new Promise(resolve=>{
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js';
+    s.onload = resolve;
+    document.head.appendChild(s);
+  });
+  return chartLoading;
+}
+async function openReports(){
+  goTo('screen-admin-reports');
+  document.getElementById('rep-visits-today').textContent='…';
+  document.getElementById('rep-calls-today').textContent='…';
+  document.getElementById('rep-visits-total').textContent='…';
+  document.getElementById('rep-calls-total').textContent='…';
+  document.getElementById('rep-by-category').innerHTML='<div class="empty-note">Memuatkan...</div>';
+  document.getElementById('rep-by-vendor').innerHTML='';
+  const [sum, byCat, byVendor, monthly] = await Promise.all([
+    sb.rpc('admin_report_summary', {p_admin_id:adminCred.id, p_admin_pass:adminCred.pass}),
+    sb.rpc('admin_report_by_category', {p_admin_id:adminCred.id, p_admin_pass:adminCred.pass}),
+    sb.rpc('admin_report_by_vendor', {p_admin_id:adminCred.id, p_admin_pass:adminCred.pass}),
+    sb.rpc('admin_report_monthly', {p_admin_id:adminCred.id, p_admin_pass:adminCred.pass})
+  ]);
+  if(sum.data){
+    document.getElementById('rep-visits-today').textContent = sum.data.visits_today;
+    document.getElementById('rep-calls-today').textContent = sum.data.calls_today;
+    document.getElementById('rep-visits-total').textContent = sum.data.visits_total;
+    document.getElementById('rep-calls-total').textContent = sum.data.calls_total;
+  }
+  const catWrap = document.getElementById('rep-by-category');
+  const cats = byCat.data || [];
+  catWrap.innerHTML = cats.length ? cats.map(c=>`
+    <div class="admin-row"><div class="name" style="font-size:13px">${CATLABEL[c.category]||c.category}</div>
+    <div class="status live">${c.calls_total} call (${c.calls_today} hari ini)</div></div>`).join('')
+    : '<div class="empty-note">Tiada data lagi.</div>';
+  const venWrap = document.getElementById('rep-by-vendor');
+  const vens = byVendor.data || [];
+  venWrap.innerHTML = vens.length ? vens.map(v=>`
+    <div class="admin-row"><div><div class="name" style="font-size:13px">${esc(v.name)}</div>
+    <div class="status off">${CATLABEL[v.category]||v.category}</div></div>
+    <div class="status live" style="text-align:right">${v.calls_total} call<br>(${v.calls_today} hari ini)</div></div>`).join('')
+    : '<div class="empty-note">Tiada data lagi.</div>';
+  await loadChartJs();
+  const m = monthly.data || [];
+  const ctx = document.getElementById('rep-chart');
+  if(repChart) repChart.destroy();
+  repChart = new Chart(ctx, {
+    type:'line',
+    data:{ labels: m.map(x=>x.month),
+      datasets:[
+        {label:'Pelawat', data:m.map(x=>x.visits), borderColor:'#0C447C', tension:0.3},
+        {label:'Call', data:m.map(x=>x.calls), borderColor:'#D85A30', tension:0.3}
+      ]},
+    options:{responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'bottom'}}}
+  });
+}
 let currentCat = 'taxi', selectedVendor = null;
 
 document.getElementById('lang-row').addEventListener('click', e=>{
@@ -468,6 +577,7 @@ function agreeDisclaimer(){
   document.getElementById('disclaimer-overlay').classList.remove('active');
   goTo('screen-dashboard');
   renderList();
+  sb.from('visits').insert({}).then(()=>{});
 }
 function closeDisclaimer(){ document.getElementById('disclaimer-overlay').classList.remove('active'); }
 document.getElementById('cat-row').addEventListener('click', e=>{
@@ -524,10 +634,13 @@ async function renderList(){
       const km = haversineKm(visitorPos.lat, visitorPos.lng, v.lat, v.lng);
       distHtml = ` &middot; ~${km.toFixed(1)} km (anggaran)`;
     }
-    const vehHtml = (v.vehicle_type && t.vehicleType[v.vehicle_type]) ? ` &middot; ${t.vehicleType[v.vehicle_type]}` : '';
+    let vehParts = [];
+    if(v.plate_number) vehParts.push(esc(v.plate_number));
+    if(v.vehicle_type && t.vehicleType[v.vehicle_type]) vehParts.push(t.vehicleType[v.vehicle_type]);
+    const nameSuffix = vehParts.length ? ` (${vehParts.join(' - ')})` : '';
     return `
     <div class="vendor-card">
-      <div><div class="name">${esc(v.name)}</div><div class="status on">${t.listTitle}${vehHtml}${distHtml}</div></div>
+      <div><div class="name">${esc(v.name)}${nameSuffix}</div><div class="status on">${t.listTitle}${distHtml}</div></div>
       <button class="call-btn" aria-label="Hubungi" data-id="${esc(v.id)}" data-name="${esc(v.name)}" data-phone="${esc(v.phone)}" onclick="openCallBtn(this)">
         <svg viewBox="0 0 24 24"><path d="M6.6 10.8a15.7 15.7 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11 11 0 0 0 3.4.55 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11 11 0 0 0 .55 3.4 1 1 0 0 1-.25 1z"/></svg>
       </button>
@@ -633,6 +746,7 @@ async function vendorLogin(){
   const pw = document.getElementById('v-pass').value;
   if(!id || !pw){ alert('Sila isi ID dan kata laluan.'); return; }
   const { data } = await sb.rpc('app_login', {p_id: id, p_pass: pw});
+  if(data && data.error === 'locked'){ alert('Terlalu banyak percubaan gagal. Sila cuba lagi selepas ' + data.retry_after_minutes + ' minit.'); return; }
   if(!data){ alert('ID atau kata laluan salah.'); return; }
   document.getElementById('v-pass').value = '';
   if(data.role === 'admin'){ adminCred = {id, pass: pw}; goTo('screen-admin'); renderAdmin(); return; }
@@ -779,7 +893,7 @@ async function renderAdmin(){
       <div style="min-width:0">
         <div class="name">${esc(v.name)}</div>
         <div class="status ${statusClass}">${esc(statusText)} &middot; ${esc(v.contact_phone || '—')}</div>
-        <div style="font-size:11px;color:var(--muted);margin-top:3px;word-break:break-all">ID: ${esc(v.phone)} &middot; Kata laluan: ${esc(v.login_password)}</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:3px;word-break:break-all">ID: ${esc(v.phone)} &middot; kata laluan tersembunyi (guna Edit untuk set baru)</div>
       </div>
       <div class="admin-actions" style="flex-wrap:wrap;justify-content:flex-end">
         <button class="pill-btn pill-resume" onclick="openEditVendor('${v.id}')">Edit</button>
@@ -873,7 +987,7 @@ function openAddVendor(){
   document.getElementById('av-pass-label').textContent = 'Kata Laluan';
   document.getElementById('av-cat').value = adminCat; toggleAddrRow();
   ['av-name','av-contact','av-address','av-desc','av-email','av-pass','av-pass2','av-gmaps-link'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('av-vehicle').value = '';
+  document.getElementById('av-vehicle').value = ''; document.getElementById('av-plate').value = '';
   document.getElementById('av-error').style.display='none';
   avPinLat = null; avPinLng = null;
   if(avPinMarker && avPinMap){ avPinMap.removeLayer(avPinMarker); avPinMarker = null; }
@@ -885,16 +999,16 @@ async function openEditVendor(id){
   if(!v){ alert('Vendor tidak dijumpai.'); return; }
   editingVendorId = id;
   document.getElementById('av-popup-title').textContent = 'Edit Vendor';
-  document.getElementById('av-pass-label').textContent = 'Kata Laluan';
+  document.getElementById('av-pass-label').textContent = 'Kata Laluan (biar kosong jika tak nak tukar)';
   document.getElementById('av-cat').value = v.category; toggleAddrRow();
   document.getElementById('av-name').value = v.name || '';
   document.getElementById('av-contact').value = v.contact_phone || '';
   document.getElementById('av-email').value = v.phone || '';
   document.getElementById('av-desc').value = v.description || '';
   document.getElementById('av-address').value = v.address || '';
-  document.getElementById('av-vehicle').value = v.vehicle_type || '';
-  document.getElementById('av-pass').value = v.login_password || '';
-  document.getElementById('av-pass2').value = v.login_password || '';
+  document.getElementById('av-vehicle').value = v.vehicle_type || ''; document.getElementById('av-plate').value = v.plate_number || '';
+  document.getElementById('av-pass').value = '';
+  document.getElementById('av-pass2').value = '';
   document.getElementById('av-gmaps-link').value = '';
   document.getElementById('av-error').style.display='none';
   avPinLat = v.lat; avPinLng = v.lng;
@@ -937,7 +1051,7 @@ async function confirmAddVendor(){
     address: document.getElementById('av-address').value
   };
   if(isStatic){ data.lat = avPinLat; data.lng = avPinLng; }
-  if(cat==='taxi'||cat==='driver'){ data.vehicle_type = document.getElementById('av-vehicle').value || null; }
+  if(cat==='taxi'||cat==='driver'){ data.vehicle_type = document.getElementById('av-vehicle').value || null; data.plate_number = document.getElementById('av-plate').value.trim() || null; }
   if(!isEdit){ data.is_on = isStatic; data.is_suspended = false; }
   for(const d of rows){
     if(d.expiryCol){ const el = document.getElementById('exp-'+d.col); if(el) data[d.expiryCol] = el.value || null; }
