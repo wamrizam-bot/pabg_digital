@@ -275,7 +275,14 @@ input:checked + .slider::before{transform:translateX(32px)}
         <span class="slider"></span>
       </label>
     </div>
-    <textarea id="cs-message" rows="2" style="width:100%;border:1.5px solid var(--line);border-radius:12px;padding:9px 11px;font-family:var(--font-body);font-size:13px;background:var(--surface);color:var(--ink);display:none" onblur="csSaveMessage()"></textarea>
+    <div id="cs-messages" style="display:none">
+      <label style="font-size:11px;color:var(--muted)">Mesej (Bahasa Melayu)</label>
+      <textarea id="cs-message-bm" rows="2" style="width:100%;border:1.5px solid var(--line);border-radius:12px;padding:9px 11px;font-family:var(--font-body);font-size:13px;background:var(--surface);color:var(--ink);margin-bottom:8px" onblur="csSaveMessages()"></textarea>
+      <label style="font-size:11px;color:var(--muted)">Message (English)</label>
+      <textarea id="cs-message-en" rows="2" style="width:100%;border:1.5px solid var(--line);border-radius:12px;padding:9px 11px;font-family:var(--font-body);font-size:13px;background:var(--surface);color:var(--ink);margin-bottom:8px" onblur="csSaveMessages()"></textarea>
+      <label style="font-size:11px;color:var(--muted)">&#3586;&#3657;&#3629;&#3588;&#3623;&#3634;&#3617; (&#3652;&#3607;&#3618;)</label>
+      <textarea id="cs-message-th" rows="2" style="width:100%;border:1.5px solid var(--line);border-radius:12px;padding:9px 11px;font-family:var(--font-body);font-size:13px;background:var(--surface);color:var(--ink)" onblur="csSaveMessages()"></textarea>
+    </div>
   </div>
 
   <div class="list-title">Senarai vendor</div>
@@ -315,10 +322,15 @@ input:checked + .slider::before{transform:translateX(32px)}
   <div class="list-title">Trend Bulanan (12 bulan)</div>
   <div class="map-wrap" style="height:220px;margin-bottom:24px"><canvas id="rep-chart"></canvas></div>
 
-  <div class="list-title">Mengikut Kategori</div>
+  <div class="form-row no-print">
+    <label>Pilih Bulan</label>
+    <select id="rep-month" onchange="loadMonthlyTables()"></select>
+  </div>
+
+  <div class="list-title" id="rep-cat-title">Mengikut Kategori</div>
   <div id="rep-by-category" style="margin-bottom:24px"></div>
 
-  <div class="list-title">Mengikut Vendor</div>
+  <div class="list-title" id="rep-ven-title">Mengikut Vendor</div>
   <div id="rep-by-vendor"></div>
 </div>
 
@@ -465,18 +477,54 @@ function loadChartJs(){
   });
   return chartLoading;
 }
+const MONTH_NAMES_BM = ['Januari','Februari','Mac','April','Mei','Jun','Julai','Ogos','September','Oktober','November','Disember'];
+function buildMonthOptions(){
+  const sel = document.getElementById('rep-month');
+  if(sel.options.length) return;
+  let opts = '<option value="">Keseluruhan (semua bulan)</option>';
+  const now = new Date();
+  for(let i=0;i<12;i++){
+    const d = new Date(now.getFullYear(), now.getMonth()-i, 1);
+    const val = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0');
+    opts += `<option value="${val}">${MONTH_NAMES_BM[d.getMonth()]} ${d.getFullYear()}</option>`;
+  }
+  sel.innerHTML = opts;
+}
+async function loadMonthlyTables(){
+  const monthVal = document.getElementById('rep-month').value || null;
+  const monthLabel = monthVal ? document.getElementById('rep-month').selectedOptions[0].textContent : 'Keseluruhan';
+  document.getElementById('rep-cat-title').textContent = `Mengikut Kategori (${monthLabel})`;
+  document.getElementById('rep-ven-title').textContent = `Mengikut Vendor (${monthLabel})`;
+  document.getElementById('rep-by-category').innerHTML='<div class="empty-note">Memuatkan...</div>';
+  document.getElementById('rep-by-vendor').innerHTML='';
+  const [byCat, byVendor] = await Promise.all([
+    sb.rpc('admin_report_by_category', {p_admin_id:adminCred.id, p_admin_pass:adminCred.pass, p_month:monthVal}),
+    sb.rpc('admin_report_by_vendor', {p_admin_id:adminCred.id, p_admin_pass:adminCred.pass, p_month:monthVal})
+  ]);
+  const callLabel = monthVal ? 'call bulan ini' : 'call keseluruhan';
+  const catWrap = document.getElementById('rep-by-category');
+  const cats = byCat.data || [];
+  catWrap.innerHTML = cats.length ? cats.map(c=>`
+    <div class="admin-row"><div class="name" style="font-size:13px">${CATLABEL[c.category]||c.category}</div>
+    <div class="status live">${c.calls_total} ${callLabel}</div></div>`).join('')
+    : '<div class="empty-note">Tiada data lagi.</div>';
+  const venWrap = document.getElementById('rep-by-vendor');
+  const vens = byVendor.data || [];
+  venWrap.innerHTML = vens.length ? vens.map(v=>`
+    <div class="admin-row"><div><div class="name" style="font-size:13px">${esc(v.name)}</div>
+    <div class="status off">${CATLABEL[v.category]||v.category}</div></div>
+    <div class="status live" style="text-align:right">${v.calls_total} ${callLabel}</div></div>`).join('')
+    : '<div class="empty-note">Tiada data lagi.</div>';
+}
 async function openReports(){
   goTo('screen-admin-reports');
   document.getElementById('rep-visits-today').textContent='…';
   document.getElementById('rep-calls-today').textContent='…';
   document.getElementById('rep-visits-total').textContent='…';
   document.getElementById('rep-calls-total').textContent='…';
-  document.getElementById('rep-by-category').innerHTML='<div class="empty-note">Memuatkan...</div>';
-  document.getElementById('rep-by-vendor').innerHTML='';
-  const [sum, byCat, byVendor, monthly] = await Promise.all([
+  buildMonthOptions();
+  const [sum, monthly] = await Promise.all([
     sb.rpc('admin_report_summary', {p_admin_id:adminCred.id, p_admin_pass:adminCred.pass}),
-    sb.rpc('admin_report_by_category', {p_admin_id:adminCred.id, p_admin_pass:adminCred.pass}),
-    sb.rpc('admin_report_by_vendor', {p_admin_id:adminCred.id, p_admin_pass:adminCred.pass}),
     sb.rpc('admin_report_monthly', {p_admin_id:adminCred.id, p_admin_pass:adminCred.pass})
   ]);
   if(sum.data){
@@ -485,19 +533,7 @@ async function openReports(){
     document.getElementById('rep-visits-total').textContent = sum.data.visits_total;
     document.getElementById('rep-calls-total').textContent = sum.data.calls_total;
   }
-  const catWrap = document.getElementById('rep-by-category');
-  const cats = byCat.data || [];
-  catWrap.innerHTML = cats.length ? cats.map(c=>`
-    <div class="admin-row"><div class="name" style="font-size:13px">${CATLABEL[c.category]||c.category}</div>
-    <div class="status live">${c.calls_total} call (${c.calls_today} hari ini)</div></div>`).join('')
-    : '<div class="empty-note">Tiada data lagi.</div>';
-  const venWrap = document.getElementById('rep-by-vendor');
-  const vens = byVendor.data || [];
-  venWrap.innerHTML = vens.length ? vens.map(v=>`
-    <div class="admin-row"><div><div class="name" style="font-size:13px">${esc(v.name)}</div>
-    <div class="status off">${CATLABEL[v.category]||v.category}</div></div>
-    <div class="status live" style="text-align:right">${v.calls_total} call<br>(${v.calls_today} hari ini)</div></div>`).join('')
-    : '<div class="empty-note">Tiada data lagi.</div>';
+  await loadMonthlyTables();
   await loadChartJs();
   const m = monthly.data || [];
   const ctx = document.getElementById('rep-chart');
@@ -609,7 +645,8 @@ async function renderList(){
   const disabledMsg = document.getElementById('cat-disabled-msg');
   const activeArea = document.getElementById('cat-active-area');
   if(cs.data && cs.data.is_disabled){
-    disabledMsg.textContent = cs.data.message;
+    const msgKey = lang === 'en' ? 'message_en' : lang === 'th' ? 'message_th' : 'message_bm';
+    disabledMsg.textContent = cs.data[msgKey] || cs.data.message_bm || '';
     disabledMsg.style.display = 'block';
     activeArea.style.display = 'none';
     return;
@@ -869,12 +906,13 @@ document.getElementById('admin-cat-row').addEventListener('click', e=>{
 });
 async function renderAdmin(){
   const cs = await sb.from('category_status').select('*').eq('category', adminCat).maybeSingle();
-  const csData = cs.data || {is_disabled:false, message:''};
+  const csData = cs.data || {is_disabled:false, message_bm:'', message_en:'', message_th:''};
   document.getElementById('cs-title').textContent = `Status Perkhidmatan ${CATLABEL[adminCat]}`;
   document.getElementById('cs-toggle').checked = csData.is_disabled;
-  const msgBox = document.getElementById('cs-message');
-  msgBox.value = csData.message || '';
-  msgBox.style.display = csData.is_disabled ? 'block' : 'none';
+  document.getElementById('cs-message-bm').value = csData.message_bm || '';
+  document.getElementById('cs-message-en').value = csData.message_en || '';
+  document.getElementById('cs-message-th').value = csData.message_th || '';
+  document.getElementById('cs-messages').style.display = csData.is_disabled ? 'block' : 'none';
 
   const wrap = document.getElementById('admin-vendor-list');
   wrap.innerHTML = '<div class="empty-note">...</div>';
@@ -919,12 +957,16 @@ async function adminRemove(id){
 }
 async function csToggle(){
   const on = document.getElementById('cs-toggle').checked;
-  document.getElementById('cs-message').style.display = on ? 'block' : 'none';
-  await adminRpc('admin_set_category', {p_category:adminCat, p_disabled:on, p_message:null});
+  document.getElementById('cs-messages').style.display = on ? 'block' : 'none';
+  await adminRpc('admin_set_category', {p_category:adminCat, p_disabled:on, p_message_bm:null, p_message_en:null, p_message_th:null});
 }
-async function csSaveMessage(){
-  const msg = document.getElementById('cs-message').value;
-  await adminRpc('admin_set_category', {p_category:adminCat, p_disabled:null, p_message:msg});
+async function csSaveMessages(){
+  await adminRpc('admin_set_category', {
+    p_category:adminCat, p_disabled:null,
+    p_message_bm: document.getElementById('cs-message-bm').value,
+    p_message_en: document.getElementById('cs-message-en').value,
+    p_message_th: document.getElementById('cs-message-th').value
+  });
 }
 
 let avPinMap = null, avPinMarker = null, avPinLat = null, avPinLng = null;
